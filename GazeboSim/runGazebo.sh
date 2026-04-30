@@ -11,4 +11,4 @@ docker run -it \
     --volume="$HOME/.Xauthority:/root/.Xauthority:rw" \
     --volume="$(pwd)/worlds:/root/worlds:rw" \
     gazebo:latest \
-    gazebo "$@"
+    gazebo /root/worlds/"$@"
