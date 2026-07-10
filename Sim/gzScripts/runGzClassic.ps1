@@ -2,9 +2,13 @@
 
 $ErrorActionPreference = 'Stop'
 
+# Resolve the .. into clean, absolute Windows paths so Docker doesn't crash
+$ModelsDir = [System.IO.Path]::GetFullPath("$PSScriptRoot\..\models")
+$WorldsDir = [System.IO.Path]::GetFullPath("$PSScriptRoot\..\worlds")
+
 # 1. Ensure local directories exist on the host
-if (!(Test-Path "../my_models")) { New-Item -ItemType Directory -Path "../my_models" | Out-Null }
-if (!(Test-Path "../my_worlds")) { New-Item -ItemType Directory -Path "../my_worlds" | Out-Null }
+if (!(Test-Path $ModelsDir)) { New-Item -ItemType Directory -Path $ModelsDir | Out-Null }
+if (!(Test-Path $WorldsDir)) { New-Item -ItemType Directory -Path $WorldsDir | Out-Null }
 
 # 2. Handle default argument
 if ($args.Count -eq 0) {
@@ -29,7 +33,7 @@ docker run -it --rm `
     --env="DISPLAY=host.docker.internal:0" `
     --env="QT_X11_NO_MITSHM=1" `
     --env="NVIDIA_DRIVER_CAPABILITIES=all" `
-    --volume="${PWD}/../my_models:/workspace/my_models:ro" `
-    --volume="${PWD}/../my_worlds:/workspace/my_worlds:ro" `
+    --volume="${ModelsDir}:/workspace/my_models:ro" `
+    --volume="${WorldsDir}:/workspace/my_worlds:ro" `
     gzclassic `
     bash -c $BashCommand

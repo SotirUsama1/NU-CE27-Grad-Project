@@ -32,8 +32,12 @@ echo [3/3] Generating runGzClassic.ps1...
 powershell -NoProfile -Command "$text = @'^
 $ErrorActionPreference = ''Stop''^
 
-if (!(Test-Path ''../my_models'')) { New-Item -ItemType Directory -Path ''../my_models'' | Out-Null }^
-if (!(Test-Path ''../my_worlds'')) { New-Item -ItemType Directory -Path ''../my_worlds'' | Out-Null }^
+# Resolve the .. into clean, absolute Windows paths so Docker doesn''t crash
+$ModelsDir = [System.IO.Path]::GetFullPath(\"$PSScriptRoot\..\models\")^
+$WorldsDir = [System.IO.Path]::GetFullPath(\"$PSScriptRoot\..\worlds\")^
+
+if (!(Test-Path $ModelsDir)) { New-Item -ItemType Directory -Path $ModelsDir | Out-Null }^
+if (!(Test-Path $WorldsDir)) { New-Item -ItemType Directory -Path $WorldsDir | Out-Null }^
 
 if ($args.Count -eq 0) {^
     Write-Host ''[INFO] Defaulting to empty world.'' -ForegroundColor Cyan^
@@ -49,8 +53,8 @@ docker run -it --rm `^
     --env=\"DISPLAY=host.docker.internal:0\" `^
     --env=\"QT_X11_NO_MITSHM=1\" `^
     --env=\"NVIDIA_DRIVER_CAPABILITIES=all\" `^
-    --volume=\"${PWD}/../my_models:/workspace/my_models:ro\" `^
-    --volume=\"${PWD}/../my_worlds:/workspace/my_worlds:ro\" `^
+    --volume=\"${ModelsDir}:/workspace/my_models:ro\" `^
+    --volume=\"${WorldsDir}:/workspace/my_worlds:ro\" `^
     gzclassic `^
     bash -c $BashCmd^
 '; $text = $text.Replace('$$', '`$'); Set-Content -Path 'runGzClassic.ps1' -Value $text"

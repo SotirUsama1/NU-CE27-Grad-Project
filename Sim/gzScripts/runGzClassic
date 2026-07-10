@@ -3,9 +3,11 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+
 # 1. Ensure local directories exist on the host to prevent Docker from creating them as root
-mkdir -p ./my_models
-mkdir -p ./my_worlds
+mkdir -p ${SCRIPT_DIR}/../models
+mkdir -p ${SCRIPT_DIR}/../worlds
 
 # 2. Automatically permit local Docker containers to connect to the X server display
 if command -v xhost &> /dev/null; then
@@ -37,8 +39,8 @@ docker run -it --rm \
     --env="NVIDIA_DRIVER_CAPABILITIES=all" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     --volume="${HOME}/.Xauthority:/root/.Xauthority:rw" \
-    --volume="$(pwd)/../my_models:/workspace/my_models:ro" \
-    --volume="$(pwd)/../my_worlds:/workspace/my_worlds:ro" \
+    --volume="${SCRIPT_DIR}/../models:/workspace/my_models:ro" \
+    --volume="${SCRIPT_DIR}/../worlds:/workspace/my_worlds:ro" \
     gzclassic \
     bash -c 'source /usr/share/gazebo/setup.sh && \
              export GAZEBO_MODEL_PATH="$GAZEBO_MODEL_PATH:/workspace/my_models" && \
