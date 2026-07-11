@@ -30,7 +30,7 @@ echo.
 :: 3. Generate the PowerShell Run Script
 echo [3/3] Generating runGzClassic.ps1...
 
-:: Use pure Batch to write the file to avoid PowerShell parsing errors
+:: Use pure Batch to write the file to the current batch script directory (%~dp0)
 (
 echo # runGzClassic.ps1
 echo $ErrorActionPreference = 'Stop'
@@ -55,28 +55,35 @@ echo Write-Host "[INFO] Ensure VcXsrv is running with 'Disable access control' c
 echo Write-Host "[INFO] Launching Gazebo Classic Docker Container on Windows..." -ForegroundColor Cyan
 echo Write-Host "[INFO] Passing arguments to gazebo: $SET_COMMAND" -ForegroundColor Cyan
 echo.
-echo # Strip interactive TTY flags if running in headless CI ^(GitHub Actions^)
-echo $DockerFlags = "--rm"
-echo if ^(!$env:GITHUB_ACTIONS^) {
-echo     $DockerFlags = "-it --rm"
-echo }
-echo.
 echo # 3. Construct the bash execution string
 echo $BashCommand = "source /usr/share/gazebo/setup.sh && export GAZEBO_MODEL_PATH=`$GAZEBO_MODEL_PATH:/workspace/my_models && export GAZEBO_RESOURCE_PATH=`$GAZEBO_RESOURCE_PATH:/workspace/my_worlds && exec gazebo --verbose $SET_COMMAND"
 echo.
 echo # 4. Execute the Docker command
-echo docker run $DockerFlags `
-echo     --gpus all `
-echo     --env="DISPLAY=host.docker.internal:0" `
-echo     --env="QT_X11_NO_MITSHM=1" `
-echo     --env="NVIDIA_DRIVER_CAPABILITIES=all" `
-echo     --volume="${ModelsDir}:/workspace/my_models:ro" `
-echo     --volume="${WorldsDir}:/workspace/my_worlds:ro" `
-echo     sotirusama/gzclassic:latest `
-echo     bash -c $BashCommand
-) > runGzClassic.ps1
+echo # Strip interactive TTY flags if running in headless CI ^(GitHub Actions^)
+echo if ^($env:GITHUB_ACTIONS^) {
+echo     docker run --rm `
+echo         --gpus all `
+echo         --env="DISPLAY=host.docker.internal:0" `
+echo         --env="QT_X11_NO_MITSHM=1" `
+echo         --env="NVIDIA_DRIVER_CAPABILITIES=all" `
+echo         --volume="${ModelsDir}:/workspace/my_models:ro" `
+echo         --volume="${WorldsDir}:/workspace/my_worlds:ro" `
+echo         sotirusama/gzclassic:latest `
+echo         bash -c $BashCommand
+echo } else {
+echo     docker run -it --rm `
+echo         --gpus all `
+echo         --env="DISPLAY=host.docker.internal:0" `
+echo         --env="QT_X11_NO_MITSHM=1" `
+echo         --env="NVIDIA_DRIVER_CAPABILITIES=all" `
+echo         --volume="${ModelsDir}:/workspace/my_models:ro" `
+echo         --volume="${WorldsDir}:/workspace/my_worlds:ro" `
+echo         sotirusama/gzclassic:latest `
+echo         bash -c $BashCommand
+echo }
+) > "%~dp0runGzClassic.ps1"
 
-echo [OK] Created runGzClassic.ps1 in the current directory.
+echo [OK] Created runGzClassic.ps1 in %~dp0
 echo.
 echo =================================================
 echo   Setup Complete! Next Steps:
