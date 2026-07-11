@@ -55,11 +55,17 @@ echo Write-Host "[INFO] Ensure VcXsrv is running with 'Disable access control' c
 echo Write-Host "[INFO] Launching Gazebo Classic Docker Container on Windows..." -ForegroundColor Cyan
 echo Write-Host "[INFO] Passing arguments to gazebo: $SET_COMMAND" -ForegroundColor Cyan
 echo.
+echo # Strip interactive TTY flags if running in headless CI ^(GitHub Actions^)
+echo $DockerFlags = "--rm"
+echo if ^(!$env:GITHUB_ACTIONS^) {
+echo     $DockerFlags = "-it --rm"
+echo }
+echo.
 echo # 3. Construct the bash execution string
 echo $BashCommand = "source /usr/share/gazebo/setup.sh && export GAZEBO_MODEL_PATH=`$GAZEBO_MODEL_PATH:/workspace/my_models && export GAZEBO_RESOURCE_PATH=`$GAZEBO_RESOURCE_PATH:/workspace/my_worlds && exec gazebo --verbose $SET_COMMAND"
 echo.
 echo # 4. Execute the Docker command
-echo docker run -it --rm `
+echo docker run $DockerFlags `
 echo     --gpus all `
 echo     --env="DISPLAY=host.docker.internal:0" `
 echo     --env="QT_X11_NO_MITSHM=1" `
