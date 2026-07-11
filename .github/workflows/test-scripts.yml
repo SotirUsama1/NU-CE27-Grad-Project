@@ -1,0 +1,19 @@
+name: Test Setup Scripts
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test Batch Setup
+        run: ./gzScripts/setup.bat
+        
+  test-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test Bash Run Script (Syntax Only)
+        run: bash -n ./gzScripts/runGzClassic

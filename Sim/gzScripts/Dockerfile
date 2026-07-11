@@ -1,12 +1,18 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install prerequisites
+# 1. Set up locale (Strictly required for ROS 2)
+RUN apt-get update && apt-get install -y locales \
+    && locale-gen en_US en_US.UTF-8 \
+    && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+
+# 2. Install prerequisites and X11 graphics libraries
 RUN apt-get update && apt-get install -y \
     curl \
+    gnupg2 \
     lsb-release \
-    gnupg \
     libglvnd0 \
     libgl1 \
     libglx0 \
@@ -14,16 +20,18 @@ RUN apt-get update && apt-get install -y \
     libxext6 \
     && rm -rf /var/lib/apt/lists/*
 
-# Fetch the OSRF repository key
-RUN curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+# 3. Add the ROS 2 apt repository
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
 
-# Add the Gazebo stable repository for Ubuntu Focal (20.04)
-RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable focal main" | tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
-
-# Install Gazebo Classic 11
+# 4. Install ROS 2 Humble, Gazebo 11, and the ROS-Gazebo Bridge
 RUN apt-get update && apt-get install -y \
-    gazebo11 \
+    ros-humble-desktop \
+    ros-humble-gazebo-ros-pkgs \
     && rm -rf /var/lib/apt/lists/*
 
-# Default command to run Gazebo Classic
+# 5. Automatically source ROS 2 and Gazebo for interactive bash sessions
+RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
+RUN echo "source /usr/share/gazebo/setup.sh" >> /root/.bashrc
+
 CMD ["gazebo"]
