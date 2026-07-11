@@ -8,12 +8,18 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Test Batch Setup
-        run: ./gzScripts/setup.bat
+        run: .\gzScripts\setup.bat
+        shell: cmd
+        
+      - name: Test PowerShell Run Script
+        run: .\runGzClassic.ps1 worlds/empty.world
+        shell: powershell
         
   test-ubuntu:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Test Bash Run Script (Syntax Only)
-        run: bash -n ./gzScripts/runGzClassic
+        run: bash -n ./Sim/gzScripts/runGzClassic
