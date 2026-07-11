@@ -35,5 +35,5 @@ docker run -it --rm `
     --env="NVIDIA_DRIVER_CAPABILITIES=all" `
     --volume="${ModelsDir}:/workspace/my_models:ro" `
     --volume="${WorldsDir}:/workspace/my_worlds:ro" `
-    gzclassic `
+    sotirusama/gzclassic:latest `
     bash -c $BashCommand
