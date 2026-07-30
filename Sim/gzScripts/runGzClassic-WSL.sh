@@ -46,8 +46,8 @@ docker run -it --rm \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     --volume="/mnt/wslg:/mnt/wslg" \
     --volume="/usr/lib/wsl:/usr/lib/wsl" \
-    --volume="${SCRIPT_DIR}/../models:/workspace/my_models:ro" \
-    --volume="${SCRIPT_DIR}/../worlds:/workspace/my_worlds:ro" \
+    --volume="${SCRIPT_DIR}/../models:/workspace/my_models:rw" \
+    --volume="${SCRIPT_DIR}/../worlds:/workspace/my_worlds:rw" \
     sotirusama/gzclassic:latest \
     bash -c 'source /usr/share/gazebo/setup.sh && \
              export GAZEBO_MODEL_PATH="$GAZEBO_MODEL_PATH:/workspace/my_models" && \
