@@ -43,11 +43,13 @@ docker run -it --rm \
     --env="LD_LIBRARY_PATH=/usr/lib/wsl/lib" \
     --env="MESA_D3D12_DEFAULT_ADAPTER_NAME=NVIDIA" \
     --env="QT_X11_NO_MITSHM=1" \
+    --env="__GL_SYNC_TO_VBLANK=0" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     --volume="/mnt/wslg:/mnt/wslg" \
     --volume="/usr/lib/wsl:/usr/lib/wsl" \
     --volume="${SCRIPT_DIR}/../models:/workspace/my_models:rw" \
     --volume="${SCRIPT_DIR}/../worlds:/workspace/my_worlds:rw" \
+    --volume="${HOME}/.gazebo:/root/.gazebo:rw" \
     sotirusama/gzclassic:latest \
     bash -c 'source /usr/share/gazebo/setup.sh && \
              export GAZEBO_MODEL_PATH="$GAZEBO_MODEL_PATH:/workspace/my_models" && \
