@@ -38,14 +38,14 @@ jobs:
           tags: |
             type=raw,value=latest
             type=sha,format=short
-            # Uses the manual input if present (workflow_dispatch); otherwise generates tag from semver release/git tag
             type=raw,value=${{ inputs.version }},enable=${{ github.event_name == 'workflow_dispatch' }}
             type=semver,pattern={{version}},enable=${{ github.event_name == 'push' }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./Sim/gzScripts/
+          context: .
+          file: Sim/gzScripts/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
