@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sdf version="1.6">
+  <!--
+    Grad_warehouse — NU-CE27 custom layout from AWS RoboMaker props.
+
+    Footprint: 2x GroundB/WallB tiles along +Y  (~14 m x 42 m).
+    Zones (approximate):
+      RECEIVING  : south module, y ~ -10 .. -6
+      STORAGE_A  : south module, east shelves (x ~ +4.7)
+      STORAGE_B  : south module, west shelves (x ~ -5.8)
+      STORAGE_C  : north module, east/west shelves
+      PACKING    : north module, center desks
+      OFFICE     : north module, north desks
+    Mid wall between modules is a zone divider (AWS WallB).
+  -->
+  <world name="grad_warehouse">
+    <gravity>0 0 -9.8</gravity>
+    <physics name="default_physics" default="0" type="ode">
+      <max_step_size>0.002</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>500</real_time_update_rate>
+    </physics>
+
+    <!-- ========== SHELL: south module ========== -->
+    <model name="shell_ground_south">
+      <include>
+        <uri>model://aws_robomaker_warehouse_GroundB_01</uri>
+      </include>
+      <pose>0.0000 0.0000 -0.0900 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="shell_wall_south">
+      <include>
+        <uri>model://aws_robomaker_warehouse_WallB_01</uri>
+      </include>
+      <pose>0.0000 0.0000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="shell_ground_north">
+      <include>
+        <uri>model://aws_robomaker_warehouse_GroundB_01</uri>
+      </include>
+      <pose>0.0000 21.0000 -0.0900 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="shell_wall_north">
+      <include>
+        <uri>model://aws_robomaker_warehouse_WallB_01</uri>
+      </include>
+      <pose>0.0000 21.0000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+
+    <!-- ========== STORAGE_B (south / west) ========== -->
+    <model name="storageB_shelfF_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfF_01</uri>
+      </include>
+      <pose>-5.8000 -6.0000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageB_shelfF_02">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfF_01</uri>
+      </include>
+      <pose>-5.8000 -2.0000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageB_shelfF_03">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfF_01</uri>
+      </include>
+      <pose>-5.8000 2.0000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageB_shelfF_04">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfF_01</uri>
+      </include>
+      <pose>-5.8000 6.0000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+
+    <!-- ========== STORAGE_A (south / east) ========== -->
+    <model name="storageA_shelfE_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfE_01</uri>
+      </include>
+      <pose>4.7300 6.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageA_shelfD_02">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfD_01</uri>
+      </include>
+      <pose>4.7300 4.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageA_shelfE_03">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfE_01</uri>
+      </include>
+      <pose>4.7300 2.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageA_shelfD_04">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfD_01</uri>
+      </include>
+      <pose>4.7300 0.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageA_shelfE_05">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfE_01</uri>
+      </include>
+      <pose>4.7300 -1.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageA_shelfD_06">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfD_01</uri>
+      </include>
+      <pose>4.7300 -3.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageA_shelfE_07">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfE_01</uri>
+      </include>
+      <pose>4.7300 -5.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageA_shelfD_08">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfD_01</uri>
+      </include>
+      <pose>4.7300 -7.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+
+    <!-- ========== RECEIVING (south end) ========== -->
+    <model name="receiving_palletjack_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_PalletJackB_01</uri>
+      </include>
+      <pose>-0.3000 -9.2000 0.0200 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="receiving_bucket_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_Bucket_01</uri>
+      </include>
+      <pose>0.5000 -8.4000 0.0000 0.0000 0.0000 -1.5700</pose>
+    </model>
+    <model name="receiving_bucket_02">
+      <include>
+        <uri>model://aws_robomaker_warehouse_Bucket_01</uri>
+      </include>
+      <pose>1.2000 -8.4000 0.0000 0.0000 0.0000 -1.5700</pose>
+    </model>
+    <model name="receiving_clutter_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringD_01</uri>
+      </include>
+      <pose>-1.8000 -7.5000 -0.3200 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="receiving_trash_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_TrashCanC_01</uri>
+      </include>
+      <pose>2.0000 -9.0000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+
+    <!-- ========== STORAGE_A clutter (east bay) ========== -->
+    <model name="storageA_clutterA_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringA_01</uri>
+      </include>
+      <pose>5.7000 8.2000 -0.0200 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageA_clutterA_02">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringA_01</uri>
+      </include>
+      <pose>3.4000 8.2000 -0.0200 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageA_clutterC_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringC_01</uri>
+      </include>
+      <pose>5.5000 3.8000 -0.0200 0.0000 0.0000 -1.5800</pose>
+    </model>
+    <model name="storageA_clutterC_02">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringC_01</uri>
+      </include>
+      <pose>3.3000 3.8000 -0.0200 0.0000 0.0000 1.5600</pose>
+    </model>
+    <model name="storageA_clutterC_03">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringC_01</uri>
+      </include>
+      <pose>5.4000 6.1000 0.0000 0.0000 0.0000 3.1500</pose>
+    </model>
+    <model name="storageA_clutterC_04">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringC_01</uri>
+      </include>
+      <pose>3.2000 6.1000 0.0000 0.0000 0.0000 3.1500</pose>
+    </model>
+
+    <!-- ========== STORAGE_B clutter (west bay) ========== -->
+    <model name="storageB_clutterC_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringC_01</uri>
+      </include>
+      <pose>-1.5500 2.3000 -0.0200 0.0000 0.0000 -3.1300</pose>
+    </model>
+    <model name="storageB_clutterA_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringA_01</uri>
+      </include>
+      <pose>-1.5000 5.2000 -0.0200 0.0000 0.0000 -1.5800</pose>
+    </model>
+    <model name="storageB_bucket_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_Bucket_01</uri>
+      </include>
+      <pose>-1.8000 -6.4000 0.0000 0.0000 0.0000 -1.5700</pose>
+    </model>
+
+    <!-- ========== STORAGE_C (north module) ========== -->
+    <model name="storageC_shelfF_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfF_01</uri>
+      </include>
+      <pose>-5.8000 15.0000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageC_shelfF_02">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfF_01</uri>
+      </include>
+      <pose>-5.8000 19.0000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageC_shelfF_03">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfF_01</uri>
+      </include>
+      <pose>-5.8000 23.0000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageC_shelfF_04">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfF_01</uri>
+      </include>
+      <pose>-5.8000 27.0000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageC_shelfE_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfE_01</uri>
+      </include>
+      <pose>4.7300 27.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageC_shelfD_02">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfD_01</uri>
+      </include>
+      <pose>4.7300 25.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageC_shelfE_03">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfE_01</uri>
+      </include>
+      <pose>4.7300 23.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageC_shelfD_04">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfD_01</uri>
+      </include>
+      <pose>4.7300 21.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageC_shelfE_05">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfE_01</uri>
+      </include>
+      <pose>4.7300 19.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageC_shelfD_06">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfD_01</uri>
+      </include>
+      <pose>4.7300 17.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageC_shelfE_07">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfE_01</uri>
+      </include>
+      <pose>4.7300 15.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageC_shelfD_08">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ShelfD_01</uri>
+      </include>
+      <pose>4.7300 13.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageC_clutterA_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringA_01</uri>
+      </include>
+      <pose>5.7000 29.2000 -0.0200 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageC_clutterA_02">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringA_01</uri>
+      </include>
+      <pose>3.4000 29.2000 -0.0200 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="storageC_clutterC_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringC_01</uri>
+      </include>
+      <pose>5.5000 24.8000 -0.0200 0.0000 0.0000 -1.5800</pose>
+    </model>
+    <model name="storageC_clutterC_02">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringC_01</uri>
+      </include>
+      <pose>3.3000 24.8000 -0.0200 0.0000 0.0000 1.5600</pose>
+    </model>
+    <model name="storageC_clutterC_03">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringC_01</uri>
+      </include>
+      <pose>-1.5500 23.3000 -0.0200 0.0000 0.0000 -3.1300</pose>
+    </model>
+    <model name="storageC_bucket_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_Bucket_01</uri>
+      </include>
+      <pose>0.4500 30.2000 0.0000 0.0000 0.0000 -1.5700</pose>
+    </model>
+    <model name="storageC_bucket_02">
+      <include>
+        <uri>model://aws_robomaker_warehouse_Bucket_01</uri>
+      </include>
+      <pose>0.4500 29.2000 0.0000 0.0000 0.0000 -1.5700</pose>
+    </model>
+
+    <!-- ========== PACKING (north / center) ========== -->
+    <model name="packing_desk_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_DeskC_01</uri>
+      </include>
+      <pose>-0.0600 24.0000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="packing_desk_02">
+      <include>
+        <uri>model://aws_robomaker_warehouse_DeskC_01</uri>
+      </include>
+      <pose>-0.0600 21.5000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="packing_clutter_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_ClutteringD_01</uri>
+      </include>
+      <pose>-1.6000 19.0000 -0.3200 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="packing_trash_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_TrashCanC_01</uri>
+      </include>
+      <pose>-1.6000 26.0000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+
+    <!-- ========== OFFICE (north end) ========== -->
+    <model name="office_desk_01">
+      <include>
+        <uri>model://aws_robomaker_warehouse_DeskC_01</uri>
+      </include>
+      <pose>-0.0600 27.2000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="office_desk_02">
+      <include>
+        <uri>model://aws_robomaker_warehouse_DeskC_01</uri>
+      </include>
+      <pose>-0.0600 29.0000 0.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+
+    <!-- ========== LIGHTING ========== -->
+    <model name="lamp_south">
+      <include>
+        <uri>model://aws_robomaker_warehouse_Lamp_01</uri>
+      </include>
+      <pose>0.0000 0.0000 -4.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <model name="lamp_north">
+      <include>
+        <uri>model://aws_robomaker_warehouse_Lamp_01</uri>
+      </include>
+      <pose>0.0000 21.0000 -4.0000 0.0000 0.0000 0.0000</pose>
+    </model>
+    <light name="ceil_light_south" type="point">
+      <pose>0.00 0.00 9.00 0 0 0</pose>
+      <diffuse>0.55 0.55 0.55 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>80</range>
+        <constant>0.3</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <direction>0.1 0.1 -1</direction>
+    </light>
+    <light name="ceil_light_mid" type="point">
+      <pose>0.00 10.50 9.00 0 0 0</pose>
+      <diffuse>0.55 0.55 0.55 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>80</range>
+        <constant>0.3</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <direction>0.1 0.1 -1</direction>
+    </light>
+    <light name="ceil_light_north" type="point">
+      <pose>0.00 21.00 9.00 0 0 0</pose>
+      <diffuse>0.55 0.55 0.55 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>80</range>
+        <constant>0.3</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <direction>0.1 0.1 -1</direction>
+    </light>
+
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>-8 10 28 0 0.85 -0.9</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+
+  </world>
+</sdf>
