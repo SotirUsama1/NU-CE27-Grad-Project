@@ -12,12 +12,14 @@ RUN apt-get update \
  && locale-gen en_US.UTF-8 \
  && curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key \
       -o /usr/share/keyrings/ros-archive-keyring.gpg \
- && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main" \
+ && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] https://packages.ros.org/ros2/ubuntu jammy main" \
       > /etc/apt/sources.list.d/ros2.list \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
     ros-humble-ros-base \
     ros-humble-gazebo-ros-pkgs \
+    ros-humble-rqt \
+    ros-humble-turtlesim \
     ros-humble-navigation2 \
     ros-humble-nav2-bringup \
     ros-humble-turtlebot3 \
