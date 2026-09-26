@@ -37,4 +37,6 @@ RUN apt-get -o Acquire::Retries=5 update \
  && apt-get autoremove -y \
  && rm -rf /var/lib/apt/lists/*
 
-CMD ["gazebo"]
+WORKDIR /main
+
+CMD ["bash"]

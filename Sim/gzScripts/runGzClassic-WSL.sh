@@ -20,17 +20,21 @@ if ! grep -qi microsoft /proc/version 2>/dev/null; then
     echo "          are WSL-specific and will likely fail or no-op elsewhere."
 fi
 
-# 4. Handle default argument if none are supplied to the script
-if [ $# -eq 0 ]; then
-    echo "[INFO] No simulation arguments provided. Defaulting to an empty world."
-    SET_COMMAND="worlds/empty.world"
+# 3. A first argument of "bash" opens a shell in the configured container.
+if [ "${1-}" = "bash" ]; then
+    CONTAINER_MODE="bash"
+    shift
+    echo "[INFO] Opening a bash shell in the Gazebo Classic container..."
 else
-    # Forward all arguments passed to this script directly to the inner command
-    SET_COMMAND="$@"
+    CONTAINER_MODE="gazebo"
+    if [ $# -eq 0 ]; then
+        echo "[INFO] No simulation arguments provided. Defaulting to an empty world."
+        set -- worlds/empty.world
+    fi
+    echo "[INFO] Launching Gazebo Classic Docker Container..."
+    echo "[INFO] Passing arguments to gazebo: $*"
 fi
 
-echo "[INFO] Launching Gazebo Classic Docker Container (WSLg + NVIDIA GPU passthrough)..."
-echo "[INFO] Passing arguments to gazebo: $SET_COMMAND"
 
 # 5. Execute the Docker command
 docker run -it --rm \
@@ -49,7 +53,13 @@ docker run -it --rm \
     --volume="${SCRIPT_DIR}/../models:/main/models:rw" \
     --volume="${SCRIPT_DIR}/../worlds:/main/worlds:rw" \
     sotirusama/gzclassic:latest \
-    bash -c 'source /usr/share/gazebo/setup.sh && \
-             export GAZEBO_MODEL_PATH="$GAZEBO_MODEL_PATH:/main/models" && \
-             export GAZEBO_RESOURCE_PATH="$GAZEBO_RESOURCE_PATH:/main/worlds" && \
-             exec gazebo --verbose "$@"' -- ${SET_COMMAND}
+    bash -c 'source /usr/share/gazebo/setup.sh &&
+             source /opt/ros/humble/setup.bash &&
+             export GAZEBO_MODEL_PATH="$GAZEBO_MODEL_PATH:/main/models" &&
+             export GAZEBO_RESOURCE_PATH="$GAZEBO_RESOURCE_PATH:/main/worlds" &&
+             if [ "$1" = "bash" ]; then
+                 exec bash -i
+             else
+                 shift
+                 exec gazebo --verbose "$@"
+             fi' -- "$CONTAINER_MODE" "$@"
