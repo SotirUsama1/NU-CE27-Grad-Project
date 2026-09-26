@@ -36,5 +36,5 @@ docker run -it --rm \
     sotirusama/gzclassic:latest \
     bash -c 'source /usr/share/gazebo/setup.sh && \
              export GAZEBO_MODEL_PATH="$GAZEBO_MODEL_PATH:/workspace/models" && \
-            export GAZEBO_RESOURCE_PATH="$GAZEBO_RESOURCE_PATH:/workspace" && \
+             export GAZEBO_RESOURCE_PATH="$GAZEBO_RESOURCE_PATH:/workspace" && \
              exec gazebo --verbose "$@"' -- ${SET_COMMAND}
