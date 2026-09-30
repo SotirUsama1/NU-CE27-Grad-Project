@@ -33,7 +33,19 @@ RUN apt-get -o Acquire::Retries=5 update \
     ros-humble-turtlebot3-teleop \
     ros-humble-slam-toolbox \
     ros-humble-cartographer-ros \
- && apt-get purge -y curl \
+        ros-humble-gazebo-ros2-control \
+    ros-humble-ros2-control \
+    ros-humble-ros2-controllers \
+    ros-humble-ur \
+    ros-humble-teleop-twist-keyboard \
+    ros-humble-teleop-twist-joy \
+    ros-humble-twist-mux \
+    ros-humble-robot-localization \
+    ros-humble-interactive-marker-twist-server \
+    ros-humble-imu-filter-madgwick \
+    python3-colcon-common-extensions \
+    python3-rosdep \
+    git \
  && apt-get autoremove -y \
  && rm -rf /var/lib/apt/lists/*
 
