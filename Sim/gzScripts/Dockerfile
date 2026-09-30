@@ -56,6 +56,9 @@ RUN git clone --depth 1 -b foxy-devel   https://github.com/jackal/jackal.git \
  && git clone --depth 1 -b foxy-devel   https://github.com/jackal/jackal_simulator.git \
  && git clone --depth 1 -b humble-devel https://github.com/husky/husky.git \
  && git clone --depth 1 -b humble       https://github.com/UniversalRobots/Universal_Robots_ROS2_Gazebo_Simulation.git \
+  && grep -rl "spawner.py" jackal jackal_simulator --include=*.py | xargs -r sed -i 's/spawner\.py/spawner/g' \
+ && find jackal/jackal_description/urdf -type f \( -name '*.xacro' -o -name '*.urdf' -o -name '*.gazebo' \) -exec perl -0pi -e 's/<!--.*?-->//gs' {} + \
+ && sed -i "s#'/usr/share/gazebo-11/models/:'#':/usr/share/gazebo-11/models/:'#" jackal_simulator/jackal_gazebo/launch/gazebo.launch.py husky/husky_gazebo/launch/gazebo.launch.py \
  && cd /opt/ros2_robots \
  && apt-get -o Acquire::Retries=5 update \
  && rosdep init && rosdep update \
