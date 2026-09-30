@@ -46,8 +46,26 @@ RUN apt-get -o Acquire::Retries=5 update \
     python3-colcon-common-extensions \
     python3-rosdep \
     git \
+    build-essential \
  && apt-get autoremove -y \
  && rm -rf /var/lib/apt/lists/*
+
+# Build Jackal, Husky and the UR Gazebo Classic simulation from source
+WORKDIR /opt/ros2_robots/src
+RUN git clone --depth 1 -b foxy-devel   https://github.com/jackal/jackal.git \
+ && git clone --depth 1 -b foxy-devel   https://github.com/jackal/jackal_simulator.git \
+ && git clone --depth 1 -b humble-devel https://github.com/husky/husky.git \
+ && git clone --depth 1 -b humble       https://github.com/UniversalRobots/Universal_Robots_ROS2_Gazebo_Simulation.git \
+ && cd /opt/ros2_robots \
+ && apt-get -o Acquire::Retries=5 update \
+ && rosdep init && rosdep update \
+ && . /opt/ros/humble/setup.sh \
+ && rosdep install --from-paths src --ignore-src -r -y \
+ && colcon build \
+ && rm -rf build log /var/lib/apt/lists/*
+
+RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc \
+ && echo "source /opt/ros2_robots/install/setup.bash" >> /root/.bashrc
 
 WORKDIR /main
 
