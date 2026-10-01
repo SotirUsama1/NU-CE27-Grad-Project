@@ -25,8 +25,8 @@ if [ "${1-}" = "bash" ]; then
 else
     CONTAINER_MODE="gazebo"
     if [ $# -eq 0 ]; then
-        echo "[INFO] No simulation arguments provided. Defaulting to an empty world."
-        set -- worlds/empty.world
+        echo "[INFO] No simulation arguments provided. Defaulting to Our_Structured_Warehouse."
+        set -- worlds/Our_Structured_Warehouse/Our_Structured_Warehouse.world
     fi
     echo "[INFO] Launching Gazebo Classic Docker Container..."
     echo "[INFO] Passing arguments to gazebo: $*"
