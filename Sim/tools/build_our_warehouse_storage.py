@@ -59,10 +59,10 @@ SOUTH_WALL_Y = -9.769
 TILE = 20.1026
 C0 = (-0.040107, 0.052292)
 ZONES = [  # (letter, module, i, j, yaw, contents, colour, fill, levels)
-    ('A', 'SW', 0, 0, 0.0, 'small', (30, 110, 220), 0.25, 5),
-    ('B', 'SE', 1, 0, math.pi / 2, 'long', (40, 160, 70), 0.25, 5),
-    ('C', 'NE', 1, 1, math.pi, 'large', (210, 50, 40), 0.45, 4),
-    ('D', 'NW', 0, 1, -math.pi / 2, 'mixed', (140, 60, 180), 0.3, 4),
+    ('A', 'SW', 0, 0, 0.0, 'small', (30, 110, 220), 0.12, 5),
+    ('B', 'SE', 1, 0, math.pi / 2, 'long', (40, 160, 70), 0.12, 5),
+    ('C', 'NE', 1, 1, math.pi, 'large', (210, 50, 40), 0.22, 4),
+    ('D', 'NW', 0, 1, -math.pi / 2, 'mixed', (140, 60, 180), 0.15, 4),
 ]
 ZONE_TITLES = {'small': 'SMALL BOXES', 'long': 'LONG BOXES', 'large': 'HEAVY BOXES', 'mixed': 'MIXED STORAGE'}
 MIXED_LARGE_SHARE = 0.3
@@ -876,6 +876,11 @@ def clean_world(text):
     text = re.sub(r"    <model name='workcell_bin[^']*'> ?\n.*?\n    </model>\n", '', text, flags=re.S)
     for name in ('control_panel',) + REMOVED_POLES:
         text = re.sub(rf"\s*<collision name='{name}'>.*?</collision>", '', text, flags=re.S)
+    if '<iters>' not in text:
+        text = text.replace('</real_time_update_rate>\n    </physics>',
+                            '</real_time_update_rate>\n'
+                            '      <ode><solver><type>quick</type><iters>20</iters></solver></ode>\n'
+                            '    </physics>', 1)
     return text.replace('<shadows>1</shadows>', '<shadows>0</shadows>')
 
 

@@ -21,8 +21,12 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # 3. Add the ROS 2 apt repository
+# If packages.ros.org answers apt with 403 on your network, build with a mirror:
+#   --build-arg ROS_MIRROR=https://mirrors.tuna.tsinghua.edu.cn/ros2/ubuntu
+ARG ROS_MIRROR=http://packages.ros.org/ros2/ubuntu
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
-RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] ${ROS_MIRROR} $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null \
+    && printf 'Acquire::Retries "10";\n' > /etc/apt/apt.conf.d/80-retries
 
 # 4. Install ROS 2 Humble, Gazebo 11, and the ROS-Gazebo Bridge
 RUN apt-get update && apt-get install -y \

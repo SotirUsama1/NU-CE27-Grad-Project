@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.10)
+project(custom_robot_plugin)
+
+find_package(ament_cmake REQUIRED)
+find_package(gazebo REQUIRED)
+find_package(gazebo_ros REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
+
+include_directories(${GAZEBO_INCLUDE_DIRS})
+link_directories(${GAZEBO_LIBRARY_DIRS})
+
+add_library(custom_robot SHARED custom_robot_plugin.cc)
+ament_target_dependencies(custom_robot gazebo_ros rclcpp geometry_msgs nav_msgs std_msgs tf2_ros)
+target_link_libraries(custom_robot ${GAZEBO_LIBRARIES})
