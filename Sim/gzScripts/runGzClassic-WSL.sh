@@ -36,9 +36,30 @@ else
 fi
 
 
+CYCLONEDDS_CONFIG="${CYCLONEDDS_CONFIG:-${SCRIPT_DIR}/cyclonedds.xml}"
+ROS_DOMAIN_ID="${ROS_DOMAIN_ID:-17}"
+
+CYCLONEDDS_DOCKER_ARGS=()
+if [[ -n ${CYCLONEDDS_CONFIG:-} ]]; then
+    if [[ ! -r ${CYCLONEDDS_CONFIG} ]]; then
+        echo "[ERROR] CYCLONEDDS_CONFIG does not point to a readable file: ${CYCLONEDDS_CONFIG}" >&2
+        exit 1
+    fi
+    CYCLONEDDS_CONFIG_PATH="$(realpath "${CYCLONEDDS_CONFIG}")"
+    CYCLONEDDS_DOCKER_ARGS+=(--mount "type=bind,src=${CYCLONEDDS_CONFIG_PATH},dst=/etc/cyclonedds/cyclonedds.xml,readonly")
+    CYCLONEDDS_URI_DOCKER_ARGS=(--env=CYCLONEDDS_URI=file:///etc/cyclonedds/cyclonedds.xml)
+else
+    CYCLONEDDS_URI_DOCKER_ARGS=(--env=CYCLONEDDS_URI)
+fi
+
 # 5. Execute the Docker command
 docker run -it --rm \
+    "${CYCLONEDDS_DOCKER_ARGS[@]}" \
     --gpus all \
+    --env="RMW_IMPLEMENTATION=${RMW_IMPLEMENTATION:-rmw_cyclonedds_cpp}" \
+    --env="ROS_DOMAIN_ID=${ROS_DOMAIN_ID}" \
+    --env="ROS_LOCALHOST_ONLY=${ROS_LOCALHOST_ONLY:-0}" \
+    "${CYCLONEDDS_URI_DOCKER_ARGS[@]}" \
     --device=/dev/dxg \
     --env="DISPLAY=${DISPLAY}" \
     --env="WAYLAND_DISPLAY=${WAYLAND_DISPLAY}" \

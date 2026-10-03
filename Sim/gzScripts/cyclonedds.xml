@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CycloneDDS xmlns="https://cdds.io/config">
+  <Domain Id="any">
+    <General>
+      <!-- Select the network interface automatically. Set name="eth0" (or the
+           interface used by your host/container) to pin Cyclone DDS to one NIC. -->
+      <Interfaces>
+        <NetworkInterface autodetermine="true" />
+      </Interfaces>
+      <AllowMulticast>true</AllowMulticast>
+    </General>
+
+    <Discovery>
+      <!-- For networks where multicast discovery is unavailable, add one Peer
+           element per remote ROS 2 host and replace the example address:
+      <Peers>
+        <Peer address="192.168.1.100" />
+      </Peers>
+      -->
+    </Discovery>
+  </Domain>
+</CycloneDDS>
