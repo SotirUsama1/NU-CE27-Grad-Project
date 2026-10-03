@@ -23,20 +23,6 @@ RUN apt-get -o Acquire::Retries=5 update \
     ros-humble-ros-base \
     ros-humble-gazebo-ros-pkgs \
     ros-humble-rqt \
-    ros-humble-turtlesim \
-    ros-humble-navigation2 \
-    ros-humble-nav2-bringup \
-    ros-humble-turtlebot3 \
-    ros-humble-turtlebot3-msgs \
-    ros-humble-turtlebot3-gazebo \
-    ros-humble-turtlebot3-description \
-    ros-humble-turtlebot3-teleop \
-    ros-humble-slam-toolbox \
-    ros-humble-cartographer-ros \
- && apt-get purge -y curl \
- && apt-get autoremove -y \
- && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /main
+    ros-humble-turtlesim
 
 CMD ["bash"]
