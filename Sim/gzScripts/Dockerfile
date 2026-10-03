@@ -23,6 +23,8 @@ RUN apt-get -o Acquire::Retries=5 update \
     ros-humble-ros-base \
     ros-humble-gazebo-ros-pkgs \
     ros-humble-rqt \
+    ros-humble-rviz2 \
+    ros-humble-xacro \
     ros-humble-turtlesim \
     ros-humble-navigation2 \
     ros-humble-nav2-bringup \
@@ -33,7 +35,7 @@ RUN apt-get -o Acquire::Retries=5 update \
     ros-humble-turtlebot3-teleop \
     ros-humble-slam-toolbox \
     ros-humble-cartographer-ros \
-        ros-humble-gazebo-ros2-control \
+    ros-humble-gazebo-ros2-control \
     ros-humble-ros2-control \
     ros-humble-ros2-controllers \
     ros-humble-ur \
@@ -45,6 +47,10 @@ RUN apt-get -o Acquire::Retries=5 update \
     ros-humble-imu-filter-madgwick \
     python3-colcon-common-extensions \
     python3-rosdep \
+    python3-pil \
+    python3-yaml \
+    python3-numpy \
+    python3-pip \
     git \
     build-essential \
  && apt-get autoremove -y \

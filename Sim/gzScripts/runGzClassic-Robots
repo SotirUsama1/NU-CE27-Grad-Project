@@ -8,6 +8,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 # 1. Ensure local directories exist on the host to prevent Docker from creating them as root
 mkdir -p ${SCRIPT_DIR}/../models
 mkdir -p ${SCRIPT_DIR}/../worlds
+mkdir -p ${SCRIPT_DIR}/../ros_ws/src
+mkdir -p ${SCRIPT_DIR}/../../maps
+mkdir -p ${SCRIPT_DIR}/../../scripts
 
 # 2. Automatically permit local Docker containers to connect to the X server display
 if command -v xhost &> /dev/null; then
@@ -21,7 +24,7 @@ fi
 if [ "${1-}" = "bash" ]; then
     CONTAINER_MODE="bash"
     shift
-    echo "[INFO] Opening a bash shell in the Gazebo Classic container..."
+    echo "[INFO] Opening a bash shell in the Gazebo Classic container (builds Sim/ros_ws first)..."
 else
     CONTAINER_MODE="gazebo"
     if [ $# -eq 0 ]; then
@@ -43,6 +46,11 @@ docker run -it --rm \
     --volume="${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority:rw" \
     --volume="${SCRIPT_DIR}/../models:/main/models:rw" \
     --volume="${SCRIPT_DIR}/../worlds:/main/worlds:rw" \
+    --volume="${SCRIPT_DIR}/../ros_ws:/main/ros_ws:rw" \
+    --volume="${SCRIPT_DIR}/../../maps:/main/maps:rw" \
+    --volume="${SCRIPT_DIR}/../../scripts:/main/scripts:rw" \
+    --env="HOST_UID=$(id -u)" \
+    --env="HOST_GID=$(id -g)" \
     sotirusama/gzclassic:devvv \
     bash -c 'source /usr/share/gazebo/setup.sh &&
              source /opt/ros/humble/setup.bash &&
@@ -50,6 +58,17 @@ docker run -it --rm \
              export GAZEBO_MODEL_PATH="$GAZEBO_MODEL_PATH:/main/models" &&
              export GAZEBO_RESOURCE_PATH="$GAZEBO_RESOURCE_PATH:/main/worlds" &&
              if [ "$1" = "bash" ]; then
+                 # Build the project packages in Sim/ros_ws. --symlink-install links the
+                 # launch/config/urdf files, so edits apply on the next launch without a rebuild.
+                 cd /main/ros_ws &&
+                 if colcon build --symlink-install; then
+                     echo "source /main/ros_ws/install/setup.bash" >> /root/.bashrc
+                 else
+                     echo "[WARNING] colcon build of /main/ros_ws failed; project packages are not available."
+                 fi
+                 # Give the build output back to the host user instead of root
+                 chown -hR "$HOST_UID:$HOST_GID" build install log 2>/dev/null
+                 cd /main &&
                  exec bash -i
              else
                  shift

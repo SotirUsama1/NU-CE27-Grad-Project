@@ -28,16 +28,26 @@ From the repository root:
 ./Sim/gzScripts/runGzClassic-Robots bash
 ```
 
-This opens a shell inside the container, with `Sim/models` and `Sim/worlds` mounted at `/main/models` and `/main/worlds`.
+This opens a shell inside the container, with `Sim/models`, `Sim/worlds` and `Sim/ros_ws` mounted at `/main/models`, `/main/worlds` and `/main/ros_ws`.
+
+It first builds the project's ROS packages in `Sim/ros_ws/src` with `colcon build --symlink-install`. Edits to their launch, config and URDF files apply on the next launch; restart the container after adding a new file or package. The `build`, `install` and `log` folders it creates are ignored by git.
 
 ### 2. Launch a robot
 
 Run only one simulation at a time; they all use the same Gazebo port.
 
-**Husky** in the warehouse
+**Husky** in the warehouse, set up for mapping and navigation
 ```bash
-ros2 launch husky_gazebo gazebo.launch.py world_path:=Our_Structured_Warehouse/Our_Structured_Warehouse.world
+ros2 launch warehouse_husky husky.launch.py world_path:=Our_Structured_Warehouse/Our_Structured_Warehouse.world
 ```
+
+This is the project's Husky (`Sim/ros_ws/src/warehouse_husky`), built on Clearpath's:
+
+- a 2D lidar on `/scan`
+- the `odom` → `base_link` transform from the wheel odometry
+- Nav2 can drive it on `/cmd_vel_nav`; keyboard teleop on `/cmd_vel` overrides it
+
+Extra arguments: `gui:=false` runs without the Gazebo window, and `x:=`, `y:=`, `yaw:=` set the spawn pose. Clearpath's stock Husky (no lidar) is still available with `ros2 launch husky_gazebo gazebo.launch.py world_path:=...`.
 
 **Jackal** in the warehouse
 ```bash
