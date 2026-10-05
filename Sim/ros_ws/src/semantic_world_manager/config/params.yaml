@@ -1,0 +1,8 @@
+/**:
+  ros__parameters:
+    semantic_db_path: /main/maps/Our_Structured_Warehouse_semantic.json
+    target_frame: map
+    world_to_map_transform: [0.0, 0.0, 0.0]
+    model_states_topic: /gazebo/model_states
+    api_host: 0.0.0.0
+    api_port: 8000
