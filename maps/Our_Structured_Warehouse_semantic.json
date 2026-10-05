@@ -1,0 +1,70 @@
+{
+  "workcell_SW": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "our_workcell",
+    "frame_id": "world",
+    "position": {
+      "x": -0.040107,
+      "y": 0.052292,
+      "z": 0.0
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 22.1222,
+      "length_y": 21.4763,
+      "height_z": 7.6654
+    },
+    "dimension_source": "visual_dae"
+  },
+  "workcell_SE": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "our_workcell",
+    "frame_id": "world",
+    "position": {
+      "x": 20.0625,
+      "y": 0.052292,
+      "z": 0.0
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 22.1222,
+      "length_y": 21.4763,
+      "height_z": 7.6654
+    },
+    "dimension_source": "visual_dae"
+  },
+  "workcell_NE": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "our_workcell",
+    "frame_id": "world",
+    "position": {
+      "x": 20.0625,
+      "y": 20.1549,
+      "z": 0.0
+    },
+    "rotation_yaw": 3.14159,
+    "physical_dimensions": {
+      "width_x": 22.1222,
+      "length_y": 21.4763,
+      "height_z": 7.6654
+    },
+    "dimension_source": "visual_dae"
+  },
+  "workcell_NW": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "our_workcell",
+    "frame_id": "world",
+    "position": {
+      "x": -0.040107,
+      "y": 20.1549,
+      "z": 0.0
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 22.1222,
+      "length_y": 21.4763,
+      "height_z": 7.6654
+    },
+    "dimension_source": "visual_dae"
+  }
+}
