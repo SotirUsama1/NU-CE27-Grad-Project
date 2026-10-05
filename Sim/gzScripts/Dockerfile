@@ -33,7 +33,9 @@ RUN apt-get -o Acquire::Retries=5 update \
     ros-humble-turtlebot3-teleop \
     ros-humble-slam-toolbox \
     ros-humble-cartographer-ros \
-        ros-humble-gazebo-ros2-control \
+    ros-humble-rviz2 \
+    ros-humble-xacro \
+    ros-humble-gazebo-ros2-control \
     ros-humble-ros2-control \
     ros-humble-ros2-controllers \
     ros-humble-ur \
