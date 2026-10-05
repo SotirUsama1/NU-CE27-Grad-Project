@@ -21,9 +21,9 @@ def test_seed_from_phase1_semantic_database():
     core.seed_from_file(database_path)
 
     summary = core.summary()
-    assert summary["total_objects"] == 7
-    assert summary["categories"] == {"workcell": 1, "workcell_bin": 6}
-    assert core.get_entity("workcell_bin")["size"] == [0.6684, 0.6684, 0.7909]
+    assert summary["total_objects"] == 4
+    assert summary["categories"] == {"our_workcell": 4}
+    assert core.get_entity("workcell_SW")["size"] == [22.1222, 21.4763, 7.6654]
 
 
 def test_update_transitions_seeded_entity_to_live():

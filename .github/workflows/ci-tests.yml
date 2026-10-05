@@ -24,6 +24,7 @@ jobs:
         run: |
           source /opt/ros/humble/setup.bash
           source /opt/ros2_robots/install/setup.bash
+          rm -rf Sim/ros_ws/build Sim/ros_ws/install Sim/ros_ws/log
           cd Sim/ros_ws
           colcon build --symlink-install
 
@@ -37,6 +38,5 @@ jobs:
         shell: bash
         run: |
           source /opt/ros/humble/setup.bash
-          source Sim/ros_ws/install/setup.bash
+          export PYTHONPATH="$GITHUB_WORKSPACE/Sim/ros_ws/src/semantic_world_manager:$PYTHONPATH"
           python3 -m pytest Sim/ros_ws/src/semantic_world_manager/test -v
-

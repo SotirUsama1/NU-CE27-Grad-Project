@@ -81,6 +81,7 @@ RUN git clone --depth 1 -b foxy-devel   https://github.com/jackal/jackal.git \
 RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc \
  && echo "source /opt/ros2_robots/install/setup.bash" >> /root/.bashrc
 
+ 
 WORKDIR /main
 
 CMD ["bash"]
