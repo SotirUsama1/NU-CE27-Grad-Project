@@ -43,12 +43,21 @@ RUN apt-get -o Acquire::Retries=5 update \
     ros-humble-robot-localization \
     ros-humble-interactive-marker-twist-server \
     ros-humble-imu-filter-madgwick \
+    ros-humble-tf-transformations \
+    python3-transforms3d \
     python3-colcon-common-extensions \
     python3-rosdep \
+    python3-pip \
     git \
     build-essential \
  && apt-get autoremove -y \
  && rm -rf /var/lib/apt/lists/*
+
+# Python deps for the 2.5D semantic mapping & validation pipeline + Phase 2 State API
+RUN python3 -m pip install --no-cache-dir \
+    "numpy>=1.22.4" \
+    "pytest>=7.0.0,<8.0.0" Pillow PyYAML trimesh pycollada \
+    fastapi "uvicorn[standard]" pydantic httpx transforms3d
 
 # Build Jackal, Husky and the UR Gazebo Classic simulation from source
 WORKDIR /opt/ros2_robots/src

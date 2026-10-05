@@ -45,6 +45,9 @@ docker run -it --rm \
     --volume="${SCRIPT_DIR}/../models:/main/models:rw" \
     --volume="${SCRIPT_DIR}/../worlds:/main/worlds:rw" \
     --volume="${SCRIPT_DIR}/../ros_ws:/main/ros_ws:rw" \
+    --volume="${SCRIPT_DIR}/../../maps:/main/maps:rw" \
+    --volume="${SCRIPT_DIR}/../../scripts:/main/scripts:rw" \
+    --env="WORKSPACE_ROOT=/main" \
     --env="HOST_UID=$(id -u)" \
     --env="HOST_GID=$(id -g)" \
     sotirusama/gzclassic:devvv \
