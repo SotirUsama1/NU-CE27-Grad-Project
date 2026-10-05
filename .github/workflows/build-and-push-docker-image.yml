@@ -27,14 +27,14 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ vars.DOCKERHUB_USERNAME }}
+          username: sotirusama
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Extract metadata (tags, labels)
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.IMAGE_NAME }}
+          images: sotirusama/gzclassic
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
             type=ref,event=branch
