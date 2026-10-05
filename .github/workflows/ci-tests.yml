@@ -1,0 +1,42 @@
+name: CI Tests (2.5D Mapping & Semantic State Manager)
+
+on:
+  push:
+    branches: [ main, dev, devvv, fet-006-testing ]
+  pull_request:
+    branches: [ main, dev, devvv ]
+  workflow_dispatch:
+
+jobs:
+  test-in-container:
+    name: Run Test Suites inside Docker Image
+    runs-on: ubuntu-latest
+    container:
+      image: sotirusama/gzclassic:devvv
+      options: --user root
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build ROS 2 workspace
+        shell: bash
+        run: |
+          source /opt/ros/humble/setup.bash
+          source /opt/ros2_robots/install/setup.bash
+          cd Sim/ros_ws
+          colcon build --symlink-install
+
+      - name: Run Phase 1 Map Alignment Tests
+        shell: bash
+        run: |
+          source /opt/ros/humble/setup.bash
+          python3 -m pytest tests/test_map_alignment.py -v
+
+      - name: Run Phase 2 Semantic World Manager Tests
+        shell: bash
+        run: |
+          source /opt/ros/humble/setup.bash
+          source Sim/ros_ws/install/setup.bash
+          python3 -m pytest Sim/ros_ws/src/semantic_world_manager/test -v
+
