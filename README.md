@@ -32,6 +32,12 @@ This opens a shell inside the container, with `Sim/models`, `Sim/worlds` and `Si
 
 It first builds the project's ROS packages in `Sim/ros_ws/src` with `colcon build --symlink-install`. Edits to their launch, config and URDF files apply on the next launch; restart the container after adding a new file or package. The `build`, `install` and `log` folders it creates are ignored by git.
 
+When the Dockerfile changes, rebuild the local image before starting the container:
+
+```bash
+docker build -t sotirusama/gzclassic:devvv -f Sim/gzScripts/Dockerfile .
+```
+
 ### 2. Launch a robot
 
 Run only one simulation at a time; they all use the same Gazebo port.
@@ -86,3 +92,44 @@ ros2 launch ur_robot_driver test_joint_trajectory_controller.launch.py
 ### 4. Stop
 
 Press `Ctrl+C` in the launch terminal. Do not use `Ctrl+P` `P` (detach): it leaves the simulation half-stopped.
+
+## Generating Maps for the Environment (2.5D Mapping)
+
+The project uses a 2.5D mapping architecture: a 2D physical SLAM map (X/Y) fused with a 3D Semantic JSON Database (X/Y/Z and object bounds). If you modify `Our_Structured_Warehouse` or want to map a new world, follow these steps to regenerate both maps.
+
+### 1. Extract the Semantic 3D Database (JSON)
+On your host machine, parse the 3D `.world` file to automatically generate the bounding boxes, heights (Z), and labels for all semantic objects:
+```bash
+python3 scripts/generate_semantic_db.py --world Our_Structured_Warehouse
+```
+*This creates `maps/Our_Structured_Warehouse_semantic.json`.*
+
+### 2. Generate the 2D Physical Map (SLAM)
+Open 4 separate terminals inside your container:
+
+**Terminal 1 (Gazebo):**
+```bash
+ros2 launch warehouse_husky husky.launch.py world_path:=Our_Structured_Warehouse/Our_Structured_Warehouse.world
+```
+
+**Terminal 2 (SLAM Toolbox):**
+```bash
+ros2 launch slam_toolbox online_async_launch.py params_file:=/main/ros_ws/src/warehouse_husky/config/mapper_params_online_async.yaml use_sim_time:=true
+```
+
+**Terminal 3 (Semantic State Manager):**
+```bash
+ros2 launch semantic_world_manager semantic_manager.launch.py
+```
+
+**Terminal 4 (Keyboard Teleop):**
+*(Keep this window focused to drive the robot around)*
+```bash
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+```
+
+**Save the Map:** Once the map looks complete, open a 5th terminal and save it:
+```bash
+ros2 run nav2_map_server map_saver_cli -f /main/maps/our_structured_warehouse_map
+```
+*This saves `our_structured_warehouse_map.pgm` and `.yaml` to the `maps/` directory.*
