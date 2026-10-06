@@ -7,6 +7,7 @@ on:
       - dev
       - devvv
       - 'fet-**'
+      - 'fix_**'
     paths:
       - 'Sim/gzScripts/Dockerfile'
       - 'requirements-test.txt'

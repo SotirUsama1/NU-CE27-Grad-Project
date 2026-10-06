@@ -63,7 +63,6 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ${{ github.workspace }}
 
     steps:
       - name: Checkout repository
@@ -71,6 +70,7 @@ jobs:
 
       - name: Install ROS system dependencies
         run: |
+          cd "$GITHUB_WORKSPACE"
           source /opt/ros/humble/setup.bash
           source /opt/ros2_robots/install/setup.bash
           if ! rosdep check --from-paths Sim/ros_ws/src --ignore-src --rosdistro humble \
@@ -85,6 +85,7 @@ jobs:
 
       - name: Install and verify Python dependencies
         run: |
+          cd "$GITHUB_WORKSPACE"
           python3 -m pip install --no-cache-dir -r requirements-test.txt -r requirements-sim.txt
           python3 -m pip check
 
@@ -97,6 +98,7 @@ jobs:
 
       - name: Audit installed dependencies and launch files
         run: |
+          cd "$GITHUB_WORKSPACE"
           source /opt/ros/humble/setup.bash
           source /opt/ros2_robots/install/setup.bash
           source Sim/ros_ws/install/setup.bash
@@ -114,6 +116,7 @@ jobs:
           WORKSPACE_ROOT: ${{ github.workspace }}
           ROS_LOCALHOST_ONLY: '1'
         run: |
+          cd "$GITHUB_WORKSPACE"
           source /opt/ros/humble/setup.bash
           source /opt/ros2_robots/install/setup.bash
           source Sim/ros_ws/install/setup.bash
