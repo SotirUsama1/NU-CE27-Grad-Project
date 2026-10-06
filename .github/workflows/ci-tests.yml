@@ -75,17 +75,22 @@ jobs:
           source /opt/ros2_robots/install/setup.bash
           if ! rosdep check --from-paths Sim/ros_ws/src --ignore-src --rosdistro humble \
             || ! ros2 pkg prefix tf_transformations \
-            || ! ros2 pkg prefix cv_bridge; then
+            || ! ros2 pkg prefix cv_bridge \
+            || ! python3 -m pip --version >/dev/null 2>&1; then
             apt-get -o Acquire::Retries=5 update
             rosdep update --rosdistro humble
             rosdep install --from-paths Sim/ros_ws/src --ignore-src --rosdistro humble -y
-            apt-get -o Acquire::Retries=5 install -y ros-humble-tf-transformations ros-humble-cv-bridge
+            apt-get -o Acquire::Retries=5 install -y ros-humble-tf-transformations ros-humble-cv-bridge python3-pip
           fi
           rosdep check --from-paths Sim/ros_ws/src --ignore-src --rosdistro humble
 
       - name: Install and verify Python dependencies
         run: |
           cd "$GITHUB_WORKSPACE"
+          if ! python3 -m pip --version >/dev/null 2>&1; then
+            apt-get -o Acquire::Retries=5 update
+            apt-get -o Acquire::Retries=5 install -y python3-pip
+          fi
           python3 -m pip install --no-cache-dir -r requirements-test.txt -r requirements-sim.txt
           python3 -m pip check
 
