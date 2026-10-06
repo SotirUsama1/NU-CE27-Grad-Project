@@ -61,12 +61,12 @@ ros2 launch ur_simulation_gazebo ur_sim_control.launch.py ur_type:=ur5e
 
 `world_path` is required: without it the robot opens in an empty world. It is looked up inside `Sim/worlds`, so other worlds work the same way, for example `world_path:=Grad_warehouse/Grad_warehouse.world` or `world_path:=worlds/empty.world` for an empty world.
 
-### 3. Drive the robot
+### 3. Drive the robot manually (Teleoperation)
 
-Open a second shell in the same container from a new host terminal. Find the container name with `docker ps`, then:
+Open a second shell in the same container from a new host terminal:
 
 ```bash
-docker exec -it <container_name> bash
+docker exec -it $(docker ps -q | head -n 1) bash
 ```
 
 **Husky or Jackal:**
@@ -83,6 +83,60 @@ Keep this terminal focused while pressing keys: `i` forward, `j` / `l` turn, `k`
 ros2 launch ur_robot_driver test_joint_trajectory_controller.launch.py
 ```
 
-### 4. Stop
+---
+
+### 4. Autonomous Navigation with Nav2 & RViz2
+
+The warehouse includes a pre-generated 2D occupancy grid map (`maps/our_structured_warehouse_map.yaml` + `.pgm`) and a 3D semantic database (`maps/Our_Structured_Warehouse_semantic.json`).
+
+#### Step A: Launch Nav2 Bringup with the Warehouse Map
+In a new host terminal connected to the container (`docker exec -it $(docker ps -q | head -n 1) bash`):
+
+```bash
+ros2 launch nav2_bringup bringup_launch.py \
+    map:=/main/maps/our_structured_warehouse_map.yaml \
+    use_sim_time:=true
+```
+
+*(This loads the map server, AMCL localization, global/local costmaps, and path planners).*
+
+#### Step B: Launch RViz2 (Nav2 Graphical Interface)
+In another terminal connected to the container (`docker exec -it $(docker ps -q | head -n 1) bash`):
+
+```bash
+rviz2 -d /opt/ros/humble/share/nav2_bringup/rviz/nav2_default_view.rviz --ros-args -p use_sim_time:=true
+```
+
+#### Step C: Operating Nav2 in RViz2
+1. **Set Initial Robot Pose:**
+   * In the top toolbar, click **`2D Pose Estimate`**.
+   * Click and drag on the map near the robot's spawn point (`0, 0`), pointing in the direction the robot faces.
+   * AMCL will snap the laser scan dots (in red) directly onto the warehouse walls and racks.
+2. **Activate Navigation:**
+   * In the bottom-left **Navigation 2** panel, ensure **`Localization`** is green (`active`).
+   * If **`Navigation`** is `inactive`, click the **`Startup`** (or **`Reset`**) button.
+3. **Send an Autonomous Goal:**
+   * In the top toolbar, click **`Nav2 Goal`** (or **`2D Goal Pose`**).
+   * Click on any open white floor in an aisle to set the destination.
+   * Nav2 will calculate a global path and autonomously steer the Husky to the target while dodging obstacles.
+
+---
+
+### 5. Regenerating Maps (Optional)
+
+If the warehouse world or models are modified, you can regenerate the maps directly:
+
+* **2D Occupancy Grid Map (`.pgm` + `.yaml`):**
+  ```bash
+  python3 scripts/generate_occupancy_grid.py
+  ```
+* **3D Semantic Database (`.json` with all 626 objects, box heights, and racks):**
+  ```bash
+  python3 scripts/generate_semantic_db.py
+  ```
+
+---
+
+### 6. Stop
 
 Press `Ctrl+C` in the launch terminal. Do not use `Ctrl+P` `P` (detach): it leaves the simulation half-stopped.
