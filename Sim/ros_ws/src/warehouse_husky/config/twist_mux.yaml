@@ -1,0 +1,27 @@
+# Velocity command sources for the Husky. Higher priority wins while it is publishing.
+# Same as husky_control/config/twist_mux.yaml, plus Nav2 on cmd_vel_nav, and keyboard (cmd_vel)
+# raised above Nav2 so a person driving always overrides it.
+twist_mux:
+  ros__parameters:
+    topics:
+      joy:
+        topic   : joy_teleop/cmd_vel
+        timeout : 0.5
+        priority: 10
+      interactive_marker:
+        topic   : twist_marker_server/cmd_vel
+        timeout : 0.5
+        priority: 8
+      keyboard:
+        topic   : cmd_vel
+        timeout : 0.5
+        priority: 7
+      navigation:
+        topic   : cmd_vel_nav
+        timeout : 0.5
+        priority: 5
+    locks:
+      e_stop:
+        topic   : e_stop
+        timeout : 0.0
+        priority: 255

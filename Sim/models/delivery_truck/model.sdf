@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="delivery_truck">
+    <static>true</static>
+    <link name="link">
+      <collision name="floor">
+        <pose>2.6 0 0.55 0 0 0</pose>
+        <geometry><box><size>5.2 2.4 0.1</size></box></geometry>
+      </collision>
+      <collision name="wall_left">
+        <pose>2.6 1.17 1.75 0 0 0</pose>
+        <geometry><box><size>5.2 0.06 2.3</size></box></geometry>
+      </collision>
+      <collision name="wall_right">
+        <pose>2.6 -1.17 1.75 0 0 0</pose>
+        <geometry><box><size>5.2 0.06 2.3</size></box></geometry>
+      </collision>
+      <collision name="wall_front">
+        <pose>5.17 0 1.75 0 0 0</pose>
+        <geometry><box><size>0.06 2.4 2.3</size></box></geometry>
+      </collision>
+      <collision name="roof">
+        <pose>2.6 0 2.93 0 0 0</pose>
+        <geometry><box><size>5.2 2.4 0.06</size></box></geometry>
+      </collision>
+      <collision name="chassis">
+        <pose>3.4 0 0.42 0 0 0</pose>
+        <geometry><box><size>7.1 1 0.16</size></box></geometry>
+      </collision>
+      <collision name="bumper">
+        <pose>-0.12 0 0.38 0 0 0</pose>
+        <geometry><box><size>0.12 2.2 0.16</size></box></geometry>
+      </collision>
+      <collision name="cab">
+        <pose>6.25 0 1.5 0 0 0</pose>
+        <geometry><box><size>1.9 2.3 2</size></box></geometry>
+      </collision>
+      <collision name="cab_bumper">
+        <pose>7.25 0 0.55 0 0 0</pose>
+        <geometry><box><size>0.14 2.3 0.3</size></box></geometry>
+      </collision>
+      <collision name="wheel_0.80_-1">
+        <pose>0.8 -0.9 0.28 0 0 0</pose>
+        <geometry><box><size>0.56 0.28 0.56</size></box></geometry>
+      </collision>
+      <collision name="wheel_0.80_1">
+        <pose>0.8 0.9 0.28 0 0 0</pose>
+        <geometry><box><size>0.56 0.28 0.56</size></box></geometry>
+      </collision>
+      <collision name="wheel_1.45_-1">
+        <pose>1.45 -0.9 0.28 0 0 0</pose>
+        <geometry><box><size>0.56 0.28 0.56</size></box></geometry>
+      </collision>
+      <collision name="wheel_1.45_1">
+        <pose>1.45 0.9 0.28 0 0 0</pose>
+        <geometry><box><size>0.56 0.28 0.56</size></box></geometry>
+      </collision>
+      <collision name="wheel_6.50_-1">
+        <pose>6.5 -0.9 0.28 0 0 0</pose>
+        <geometry><box><size>0.56 0.28 0.56</size></box></geometry>
+      </collision>
+      <collision name="wheel_6.50_1">
+        <pose>6.5 0.9 0.28 0 0 0</pose>
+        <geometry><box><size>0.56 0.28 0.56</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <cast_shadows>false</cast_shadows>
+        <geometry><mesh><uri>model://delivery_truck/meshes/mesh.dae</uri></mesh></geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>
