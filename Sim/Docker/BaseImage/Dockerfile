@@ -25,4 +25,7 @@ RUN apt-get -o Acquire::Retries=5 update \
     ros-humble-rqt \
     ros-humble-turtlesim
 
+RUN echo "source /usr/share/gazebo/setup.sh" >> /root/.bashrc && \
+    echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
+
 CMD ["bash"]
