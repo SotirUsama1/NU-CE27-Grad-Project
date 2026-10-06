@@ -6,7 +6,7 @@ ENV LC_ALL=en_US.UTF-8
 
 # packages.ros.org currently presents a mismatched TLS certificate on GitHub-hosted
 # runners. This ROS-documented HTTPS mirror can be overridden at build time.
-ARG ROS_APT_REPOSITORY=https://mirrors.tuna.tsinghua.edu.cn/ros2/ubuntu
+ARG ROS_APT_REPOSITORY=http://packages.ros.org/ros2/ubuntu
 
 RUN apt-get -o Acquire::Retries=5 update \
  && apt-get -o Acquire::Retries=5 install -y --no-install-recommends \

@@ -4,16 +4,21 @@ on:
   push:
     branches:
       - main
+      - dev
+      - devvv
+      - 'fet-**'
     paths:
       - 'Sim/gzScripts/Dockerfile'
       - 'requirements-test.txt'
       - 'requirements-sim.txt'
       - 'Sim/ros_ws/src/semantic_world_manager/requirements.txt'
+      - '.github/workflows/build-and-push-docker-image.yml'
   workflow_dispatch:
     inputs:
       version:
-        description: 'Image version (e.g., v1.0.0 or 1.2.3.4)'
-        required: true
+        description: 'Image version (e.g., devvv, latest, or v1.0.0)'
+        required: false
+        default: 'devvv'
         type: string
 
 jobs:
@@ -42,7 +47,7 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
             type=ref,event=branch
             type=sha,format=short
-            type=raw,value=${{ inputs.version }},enable=${{ github.event_name == 'workflow_dispatch' }}
+            type=raw,value=${{ inputs.version }},enable=${{ github.event_name == 'workflow_dispatch' && inputs.version != '' }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v7
