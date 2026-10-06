@@ -9,15 +9,9 @@ Proves mathematical and geometric consistency between:
 import json
 import math
 import os
-try:
-    import pytest
-except ImportError:
-    class DummyPytest:
-        def fixture(self, func):
-            return func
-    pytest = DummyPytest()
-import yaml
 from PIL import Image
+import pytest
+import yaml
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SEMANTIC_JSON = os.path.join(PROJECT_ROOT, "maps", "Our_Structured_Warehouse_semantic.json")
@@ -164,7 +158,7 @@ def test_coordinate_bounds_and_occupancy(semantic_db, map_meta, map_image):
             # Bounding coordinates are confirmed to be within valid map boundaries.
             continue
         else:
-            # Discrete obstacle (bins/racks): check 3x3 pixel neighborhood
+            # Discrete obstacle (bins): check 3x3 pixel neighborhood
             neighborhood_vals = []
             for nx in range(max(0, pixel_x - 1), min(width, pixel_x + 2)):
                 for ny in range(max(0, pixel_y - 1), min(height, pixel_y + 2)):
@@ -202,7 +196,7 @@ def test_no_physical_overlap(semantic_db):
             if a.get("model_type") != b.get("model_type"):
                 continue  # Bins intentionally sit inside the workcell
             if "workcell" in a.get("model_type", "").lower() or "workcell" in name_a.lower():
-                continue  # Modular workcells are adjacent connected rooms sharing dividing walls
+                continue  # Modular workcell rooms are adjacent and share boundary walls
 
             ax, ay = a["position"]["x"], a["position"]["y"]
             bx, by = b["position"]["x"], b["position"]["y"]

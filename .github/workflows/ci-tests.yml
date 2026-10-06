@@ -19,6 +19,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install Python test dependencies
+        shell: bash
+        run: |
+          python3 -m pip install --no-cache-dir Pillow PyYAML numpy "pytest>=7.0.0,<8.0.0" fastapi "uvicorn[standard]" pydantic httpx transforms3d trimesh pycollada
+
       - name: Build ROS 2 workspace
         shell: bash
         run: |
