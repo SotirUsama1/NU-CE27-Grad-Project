@@ -1,25 +1,39 @@
-name: Test Setup Scripts
+name: Check Scripts
+
 on:
   push:
+    branches: ['**']
+  pull_request:
   workflow_dispatch:
 
-jobs:
-  test-windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
+permissions:
+  contents: read
 
-      - name: Test Batch Setup
-        run: .\Sim\gzScripts\setup.bat
-        shell: cmd
-        
-      - name: Test PowerShell Run Script
-        run: .\Sim\gzScripts\runGzClassic.ps1 worlds/empty.world
-        shell: powershell
-        
-  test-ubuntu:
-    runs-on: ubuntu-latest
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  syntax:
+    name: Bash and Python syntax
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - name: Test Bash Run Script (Syntax Only)
-        run: bash -n ./Sim/gzScripts/runGzClassic
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.10'
+
+      - name: Check Bash syntax
+        shell: bash
+        run: |
+          for script in Sim/gzScripts/runGzClassic-* scripts/*.sh; do
+            echo "Checking $script"
+            bash -n "$script"
+          done
+
+      - name: Check Python syntax
+        run: python -m compileall -q scripts tests Sim/ros_ws/src

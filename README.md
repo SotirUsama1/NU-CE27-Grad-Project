@@ -1,5 +1,42 @@
 # NU-CE27-Grad-Project
 
+## Automated checks (GitHub Actions)
+
+Every branch push and pull request runs these checks. They can also be started
+manually from the repository's **Actions** tab:
+
+- **CI Tests / Python tests (3.10)** installs `requirements-test.txt` and runs the
+  mapping, coordinate, memory, and HTTP API tests without ROS or Gazebo. The JUnit
+  report is available as the `python-test-results` artifact for 14 days.
+- **CI Tests / ROS 2 Humble build** builds both project packages inside
+  `sotirusama/gzclassic:devvv`, checks that ROS can find them, and imports the
+  installed world-state node. Build logs are retained for 14 days. This job needs
+  the Docker Hub image to be publicly pullable and include the ROS and Python
+  runtime dependencies from `Sim/gzScripts/Dockerfile`.
+- **Check Scripts** checks the Bash launchers and map-saving script with `bash -n`
+  and compiles the Python sources to check syntax. It does not launch a GUI or
+  require a GPU.
+
+The mapping tests use a synthetic occupancy grid when a saved SLAM map is absent;
+these checks do not validate a running Gazebo simulation.
+
+To run the Python tests locally from the repository root:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-test.txt
+PYTHONPATH="$PWD/Sim/ros_ws/src/semantic_world_manager" \
+  python -m pytest tests Sim/ros_ws/src/semantic_world_manager/test -v
+```
+
+The separate **Build and Push Docker Image** workflow publishes
+`sotirusama/gzclassic` when its Dockerfile changes on `main`, or when manually
+started with a version. It requires the repository Actions secret
+`DOCKERHUB_TOKEN` for the `sotirusama` account. The existing publishing workflow
+does not update the `devvv` image tag automatically on a `main` push; use `devvv`
+as the manual version when intentionally refreshing the image used by CI.
+
 ## Running the robots in simulation
 
 The Docker image `sotirusama/gzclassic:devvv` ships ROS 2 Humble, Gazebo Classic 11 and these robots, built and ready to launch:

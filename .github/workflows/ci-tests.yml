@@ -1,47 +1,90 @@
-name: CI Tests (2.5D Mapping & Semantic State Manager)
+name: CI Tests
 
 on:
   push:
-    branches: [ main, dev, devvv, fet-006-testing ]
+    branches: ['**']
   pull_request:
-    branches: [ main, dev, devvv ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  test-in-container:
-    name: Run Test Suites inside Docker Image
-    runs-on: ubuntu-latest
-    container:
-      image: sotirusama/gzclassic:devvv
-      options: --user root
+  python-tests:
+    name: Python tests (3.10)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    env:
+      PYTHONPATH: ${{ github.workspace }}/Sim/ros_ws/src/semantic_world_manager
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
-      - name: Install Python test dependencies
-        shell: bash
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.10'
+          cache: pip
+          cache-dependency-path: requirements-test.txt
+
+      - name: Install test dependencies
+        run: python -m pip install -r requirements-test.txt
+
+      - name: Run mapping and semantic world manager tests
         run: |
-          python3 -m pip install --no-cache-dir Pillow PyYAML numpy "pytest>=7.0.0,<8.0.0" fastapi "uvicorn[standard]" pydantic httpx transforms3d trimesh pycollada
+          python -m pytest tests Sim/ros_ws/src/semantic_world_manager/test \
+            -v --junitxml=test-results/pytest.xml
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: python-test-results
+          path: test-results/pytest.xml
+          if-no-files-found: ignore
+          retention-days: 14
+
+  ros-build:
+    name: ROS 2 Humble build
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    container:
+      image: sotirusama/gzclassic:devvv
+      options: --user root
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
 
       - name: Build ROS 2 workspace
-        shell: bash
+        working-directory: Sim/ros_ws
         run: |
           source /opt/ros/humble/setup.bash
           source /opt/ros2_robots/install/setup.bash
-          rm -rf Sim/ros_ws/build Sim/ros_ws/install Sim/ros_ws/log
-          cd Sim/ros_ws
-          colcon build --symlink-install
+          colcon build --symlink-install --event-handlers console_direct+
 
-      - name: Run Phase 1 Map Alignment Tests
-        shell: bash
+      - name: Verify installed ROS packages
         run: |
           source /opt/ros/humble/setup.bash
-          python3 -m pytest tests/test_map_alignment.py -v
+          source /opt/ros2_robots/install/setup.bash
+          source Sim/ros_ws/install/setup.bash
+          ros2 pkg prefix warehouse_husky
+          ros2 pkg prefix semantic_world_manager
+          python3 -c "import semantic_world_manager.world_state_node"
 
-      - name: Run Phase 2 Semantic World Manager Tests
-        shell: bash
-        run: |
-          source /opt/ros/humble/setup.bash
-          export PYTHONPATH="$GITHUB_WORKSPACE/Sim/ros_ws/src/semantic_world_manager:$PYTHONPATH"
-          python3 -m pytest Sim/ros_ws/src/semantic_world_manager/test -v
+      - name: Upload ROS build logs
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ros-build-logs
+          path: Sim/ros_ws/log/
+          if-no-files-found: ignore
+          retention-days: 14

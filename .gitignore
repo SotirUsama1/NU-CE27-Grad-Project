@@ -3,3 +3,6 @@ Sim/ros_ws/build/
 Sim/ros_ws/install/
 Sim/ros_ws/log/
 __pycache__/
+.venv/
+.pytest_cache/
+test-results/
