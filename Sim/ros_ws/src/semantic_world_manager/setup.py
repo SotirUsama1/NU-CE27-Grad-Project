@@ -1,7 +1,11 @@
 from glob import glob
+from pathlib import Path
 from setuptools import find_packages, setup
 
 package_name = "semantic_world_manager"
+runtime_requirements = (
+    Path(__file__).resolve().with_name("requirements.txt").read_text(encoding="utf-8").splitlines()
+)
 
 setup(
     name=package_name,
@@ -13,7 +17,7 @@ setup(
         ("share/" + package_name + "/launch", glob("launch/*.launch.py")),
         ("share/" + package_name + "/config", glob("config/*.yaml")),
     ],
-    install_requires=["setuptools"],
+    install_requires=["setuptools"] + runtime_requirements,
     zip_safe=True,
     maintainer="MohamedAbubakr22",
     maintainer_email="mohamedabubakr450@gmail.com",

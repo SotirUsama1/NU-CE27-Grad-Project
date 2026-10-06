@@ -9,10 +9,12 @@ manually from the repository's **Actions** tab:
   mapping, coordinate, memory, and HTTP API tests without ROS or Gazebo. The JUnit
   report is available as the `python-test-results` artifact for 14 days.
 - **CI Tests / ROS 2 Humble build** builds both project packages inside
-  `sotirusama/gzclassic:devvv`, checks that ROS can find them, and imports the
-  installed world-state node. Build logs are retained for 14 days. This job needs
-  the Docker Hub image to be publicly pullable and include the ROS and Python
-  runtime dependencies from `Sim/gzScripts/Dockerfile`.
+  `sotirusama/gzclassic:devvv`. It installs missing ROS system dependencies and the
+  declared Python dependencies, checks imports and shared libraries, loads both
+  launch files, expands the Husky model, and starts the installed semantic node
+  to query its real HTTP server. Build logs and the runtime test report are
+  retained for 14 days. The Docker Hub image must be publicly pullable and provide
+  ROS Humble, Gazebo Classic, rosdep, and the upstream robot workspace.
 - **Check Scripts** checks the Bash launchers and map-saving script with `bash -n`
   and compiles the Python sources to check syntax. It does not launch a GUI or
   require a GPU.
@@ -31,11 +33,46 @@ PYTHONPATH="$PWD/Sim/ros_ws/src/semantic_world_manager" \
 ```
 
 The separate **Build and Push Docker Image** workflow publishes
-`sotirusama/gzclassic` when its Dockerfile changes on `main`, or when manually
+`sotirusama/gzclassic` when its Dockerfile or dependency files change on `main`, or when manually
 started with a version. It requires the repository Actions secret
 `DOCKERHUB_TOKEN` for the `sotirusama` account. The existing publishing workflow
 does not update the `devvv` image tag automatically on a `main` push; use `devvv`
 as the manual version when intentionally refreshing the image used by CI.
+
+### Dependency declarations and audit
+
+- `Sim/ros_ws/src/semantic_world_manager/requirements.txt` declares FastAPI,
+  Pydantic, and Uvicorn. The Python package metadata, test requirements, simulation
+  requirements, Docker build, and CI all use this same file.
+- `requirements-test.txt` adds pytest, HTTPX, Pillow, and PyYAML. The ROS runtime
+  test is skipped in the plain Python job and runs in the ROS job.
+- `requirements-sim.txt` adds the mesh and transformation libraries. NumPy is
+  kept below 2 for Humble's compiled `cv_bridge`; transforms3d must be at least
+  0.4.2 because Ubuntu 22.04's 0.3.1 uses removed NumPy APIs.
+- Each ROS package's `package.xml` declares its ROS/system dependencies, which
+  are checked with rosdep. The newer API Python dependencies are installed with
+  pip; Jammy's apt API packages do not satisfy the declared versions.
+
+To audit an existing simulation container, mount the complete repository at
+`/workspace`, build the ROS workspace, and run from `/workspace`:
+
+```bash
+source /opt/ros/humble/setup.bash
+source /opt/ros2_robots/install/setup.bash
+rosdep install --from-paths Sim/ros_ws/src --ignore-src --rosdistro humble -y
+python3 -m pip install -r requirements-test.txt -r requirements-sim.txt
+python3 -m pip check
+rosdep check --from-paths Sim/ros_ws/src --ignore-src --rosdistro humble
+source Sim/ros_ws/install/setup.bash
+python3 scripts/check_dependencies.py
+WORKSPACE_ROOT="$PWD" ROS_LOCALHOST_ONLY=1 \
+  python3 -m pytest tests/test_ros_runtime.py -v
+```
+
+These commands assume the repository is mounted with its `Sim/` directory intact;
+mount it at `/workspace` as CI does when reproducing the audit. The standard
+launcher mounts individual directories instead. Rebuild its image after changes
+to any dependency file so interactive runs receive the same fixes.
 
 ## Running the robots in simulation
 

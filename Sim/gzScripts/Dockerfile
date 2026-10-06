@@ -46,6 +46,7 @@ RUN apt-get -o Acquire::Retries=5 update \
     ros-humble-interactive-marker-twist-server \
     ros-humble-imu-filter-madgwick \
     ros-humble-tf-transformations \
+    ros-humble-cv-bridge \
     python3-transforms3d \
     python3-colcon-common-extensions \
     python3-rosdep \
@@ -55,11 +56,13 @@ RUN apt-get -o Acquire::Retries=5 update \
  && apt-get autoremove -y \
  && rm -rf /var/lib/apt/lists/*
 
-# Python deps for the 2.5D semantic mapping & validation pipeline + Phase 2 State API
+# Share dependency declarations with CI and the installable ROS Python package.
+COPY requirements-test.txt requirements-sim.txt /opt/project-deps/
+COPY Sim/ros_ws/src/semantic_world_manager/requirements.txt /opt/project-deps/Sim/ros_ws/src/semantic_world_manager/requirements.txt
 RUN python3 -m pip install --no-cache-dir \
-    "numpy>=1.22.4" \
-    "pytest>=7.0.0,<8.0.0" Pillow PyYAML trimesh pycollada \
-    fastapi "uvicorn[standard]" pydantic httpx transforms3d
+    -r /opt/project-deps/requirements-test.txt \
+    -r /opt/project-deps/requirements-sim.txt \
+ && python3 -m pip check
 
 # Build Jackal, Husky and the UR Gazebo Classic simulation from source
 WORKDIR /opt/ros2_robots/src

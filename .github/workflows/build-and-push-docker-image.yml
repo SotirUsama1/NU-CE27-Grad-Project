@@ -6,6 +6,9 @@ on:
       - main
     paths:
       - 'Sim/gzScripts/Dockerfile'
+      - 'requirements-test.txt'
+      - 'requirements-sim.txt'
+      - 'Sim/ros_ws/src/semantic_world_manager/requirements.txt'
   workflow_dispatch:
     inputs:
       version:

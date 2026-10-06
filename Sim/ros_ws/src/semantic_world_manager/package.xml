@@ -6,7 +6,10 @@
   <maintainer email="mohamedabubakr450@gmail.com">MohamedAbubakr22</maintainer>
   <license>Apache-2.0</license>
 
-  <buildtool_depend>ament_python</buildtool_depend>
+  <buildtool_depend>python3-setuptools</buildtool_depend>
+
+  <!-- Python API dependencies are installed with pip from requirements.txt.
+       Ubuntu Jammy's apt versions do not satisfy the required Pydantic 2 API stack. -->
 
   <exec_depend>ament_index_python</exec_depend>
   <exec_depend>gazebo_msgs</exec_depend>

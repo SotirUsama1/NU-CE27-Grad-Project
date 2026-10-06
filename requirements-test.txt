@@ -1,7 +1,6 @@
-# Dependencies for the Python test suites; ROS is only needed for the build job.
-fastapi>=0.100,<1
+# Include the same API runtime dependencies used by Docker and the ROS package.
+-r Sim/ros_ws/src/semantic_world_manager/requirements.txt
 httpx>=0.27,<1
 Pillow>=9,<13
-pydantic>=2,<3
 pytest>=7,<8
 PyYAML>=5.4,<7

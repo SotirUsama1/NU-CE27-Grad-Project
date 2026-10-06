@@ -1,0 +1,8 @@
+# Python dependencies for the ROS/Gazebo image and ROS CI job.
+-r Sim/ros_ws/src/semantic_world_manager/requirements.txt
+# Humble's cv_bridge binary was compiled against NumPy 1.x.
+numpy>=1.22.4,<2
+# Ubuntu 22.04 ships transforms3d 0.3.1, which uses removed NumPy APIs.
+transforms3d>=0.4.2,<1
+trimesh>=4,<6
+pycollada>=0.8,<1

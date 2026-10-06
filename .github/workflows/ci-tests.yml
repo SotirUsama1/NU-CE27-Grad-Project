@@ -30,10 +30,14 @@ jobs:
         with:
           python-version: '3.10'
           cache: pip
-          cache-dependency-path: requirements-test.txt
+          cache-dependency-path: |
+            requirements-test.txt
+            Sim/ros_ws/src/semantic_world_manager/requirements.txt
 
       - name: Install test dependencies
-        run: python -m pip install -r requirements-test.txt
+        run: |
+          python -m pip install -r requirements-test.txt
+          python -m pip check
 
       - name: Run mapping and semantic world manager tests
         run: |
@@ -52,7 +56,7 @@ jobs:
   ros-build:
     name: ROS 2 Humble build
     runs-on: ubuntu-22.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     container:
       image: sotirusama/gzclassic:devvv
       options: --user root
@@ -64,6 +68,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
+      - name: Install ROS system dependencies
+        run: |
+          source /opt/ros/humble/setup.bash
+          source /opt/ros2_robots/install/setup.bash
+          if ! rosdep check --from-paths Sim/ros_ws/src --ignore-src --rosdistro humble \
+            || ! ros2 pkg prefix tf_transformations \
+            || ! ros2 pkg prefix cv_bridge; then
+            apt-get -o Acquire::Retries=5 update
+            rosdep update --rosdistro humble
+            rosdep install --from-paths Sim/ros_ws/src --ignore-src --rosdistro humble -y
+            apt-get -o Acquire::Retries=5 install -y ros-humble-tf-transformations ros-humble-cv-bridge
+          fi
+          rosdep check --from-paths Sim/ros_ws/src --ignore-src --rosdistro humble
+
+      - name: Install and verify Python dependencies
+        run: |
+          python3 -m pip install --no-cache-dir -r requirements-test.txt -r requirements-sim.txt
+          python3 -m pip check
+
       - name: Build ROS 2 workspace
         working-directory: Sim/ros_ws
         run: |
@@ -71,14 +94,29 @@ jobs:
           source /opt/ros2_robots/install/setup.bash
           colcon build --symlink-install --event-handlers console_direct+
 
-      - name: Verify installed ROS packages
+      - name: Audit installed dependencies and launch files
         run: |
           source /opt/ros/humble/setup.bash
           source /opt/ros2_robots/install/setup.bash
           source Sim/ros_ws/install/setup.bash
-          ros2 pkg prefix warehouse_husky
-          ros2 pkg prefix semantic_world_manager
-          python3 -c "import semantic_world_manager.world_state_node"
+          python3 scripts/check_dependencies.py
+          ros2 launch semantic_world_manager semantic_manager.launch.py --show-args
+          ros2 launch warehouse_husky husky.launch.py --show-args
+          xacro "$(ros2 pkg prefix --share husky_description)/urdf/husky.urdf.xacro" \
+            is_sim:=true \
+            urdf_extras:="$(ros2 pkg prefix --share warehouse_husky)/urdf/husky_lidar.urdf.xacro" \
+            gazebo_controllers:="$(ros2 pkg prefix --share warehouse_husky)/config/control.yaml" \
+            > /tmp/husky.urdf
+
+      - name: Smoke test the ROS node and HTTP server
+        env:
+          WORKSPACE_ROOT: ${{ github.workspace }}
+          ROS_LOCALHOST_ONLY: '1'
+        run: |
+          source /opt/ros/humble/setup.bash
+          source /opt/ros2_robots/install/setup.bash
+          source Sim/ros_ws/install/setup.bash
+          python3 -m pytest tests/test_ros_runtime.py -v --junitxml=Sim/ros_ws/log/runtime-tests.xml
 
       - name: Upload ROS build logs
         if: always()
