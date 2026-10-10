@@ -43,6 +43,7 @@ RUN apt-get -o Acquire::Retries=5 update \
     ros-humble-robot-localization \
     ros-humble-interactive-marker-twist-server \
     ros-humble-imu-filter-madgwick \
+    python3-pil \
     python3-colcon-common-extensions \
     python3-rosdep \
     git \

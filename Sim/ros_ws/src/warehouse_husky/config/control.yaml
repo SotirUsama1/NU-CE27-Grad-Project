@@ -2,6 +2,8 @@
 # Same as husky_control/config/control.yaml, except:
 #   update_rate 10 -> 50 Hz  (smoother control for Nav2)
 #   enable_odom_tf true      (the upstream EKF never publishes odom -> base_link in simulation)
+#   wheel_separation_multiplier 1.0 -> 1.58  (skid steering: the wheels slip when turning, so wheel
+#                            odometry reported 152 deg for a real 96 deg turn in Gazebo)
 controller_manager:
   ros__parameters:
     update_rate: 50  # Hz
@@ -22,7 +24,7 @@ husky_velocity_controller:
     wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
     wheel_radius: 0.1651
 
-    wheel_separation_multiplier: 1.0
+    wheel_separation_multiplier: 1.58
     left_wheel_radius_multiplier: 1.0
     right_wheel_radius_multiplier: 1.0
 

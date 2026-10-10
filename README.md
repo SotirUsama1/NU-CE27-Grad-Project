@@ -83,6 +83,23 @@ Keep this terminal focused while pressing keys: `i` forward, `j` / `l` turn, `k`
 ros2 launch ur_robot_driver test_joint_trajectory_controller.launch.py
 ```
 
-### 4. Stop
+### 4. The warehouse map (Husky)
+
+Nav2 needs a map of the warehouse. It is already in the repository, in `Sim/ros_ws/src/warehouse_navigation/maps` (`warehouse.pgm` is the image, `warehouse.yaml` its scale and origin), so there is nothing to do unless the world changes.
+
+The map is generated from `Our_Structured_Warehouse.world` rather than built with SLAM: every obstacle in the world is a collision box, so the script draws walls, pallets, pillars, the dock and the truck from their exact positions, and each rack as one solid block. Labelled boxes are left out because they move.
+
+**After changing the world**, regenerate the map inside the container and commit both files:
+
+```bash
+python3 /main/ros_ws/src/warehouse_navigation/scripts/generate_map.py
+chown $(stat -c %u:%g /main/ros_ws/src) /main/ros_ws/src/warehouse_navigation/maps/warehouse.*
+```
+
+`chown` gives the files back to your host user instead of root. If the script fails with `No module named 'PIL'`, your image is older than the Pillow addition: run `docker pull sotirusama/gzclassic:devvv`.
+
+SLAM mapping (`ros2 launch warehouse_navigation slam.launch.py` while driving) is still available, but it does not work well in this warehouse: the lidar sees through the racks, and the identical aisles make it lose track.
+
+### 5. Stop
 
 Press `Ctrl+C` in the launch terminal. Do not use `Ctrl+P` `P` (detach): it leaves the simulation half-stopped.
