@@ -64,7 +64,7 @@ docker run -it --rm \
     --volume="${HOME}/.Xauthority:/root/.Xauthority:rw" \
     --volume="${SCRIPT_DIR}/../models:/main/models:rw" \
     --volume="${SCRIPT_DIR}/../worlds:/main/worlds:rw" \
-    sotirusama/gzclassic:latest \
+    sotirusama/gzclassic:cyclonedds \
     bash -c 'source /usr/share/gazebo/setup.sh &&
              source /opt/ros/humble/setup.bash &&
              export GAZEBO_MODEL_PATH="$GAZEBO_MODEL_PATH:/main/models" &&

@@ -38,16 +38,8 @@ RUN echo "Refreshing ROS application packages (${DYNAMIC_PACKAGES_CACHEBUST})" \
  && apt-get -o Acquire::Retries=5 install -y --no-install-recommends \
     ros-humble-gazebo-ros-pkgs \
     ros-humble-rqt \
+    ros-humble-demo-nodes-cpp \
     ros-humble-turtlesim \
-    ros-humble-navigation2 \
-    ros-humble-nav2-bringup \
-    ros-humble-turtlebot3 \
-    ros-humble-turtlebot3-msgs \
-    ros-humble-turtlebot3-gazebo \
-    ros-humble-turtlebot3-description \
-    ros-humble-turtlebot3-teleop \
-    ros-humble-slam-toolbox \
-    ros-humble-cartographer-ros \
  && rm -rf /var/lib/apt/lists/*
 WORKDIR /main
 
