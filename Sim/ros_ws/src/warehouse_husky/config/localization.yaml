@@ -1,0 +1,35 @@
+# EKF (robot_localization) for the warehouse Husky: publishes odom -> base_link and /odometry/filtered.
+# Same idea as husky_control/config/localization.yaml, but on the topics this Husky publishes:
+#   wheels (/husky_velocity_controller/odom): forward and sideways speed only. The Husky is skid steer,
+#     so its wheels slip when it turns and their rotation estimate is ~1.4x too large in Gazebo.
+#   IMU (/imu/data_raw): heading and turn rate, which do not slip.
+ekf_node:
+  ros__parameters:
+    use_sim_time: true
+    frequency: 50.0
+    two_d_mode: true
+    publish_tf: true
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: odom
+
+    odom0: /husky_velocity_controller/odom
+    #             x      y      z      roll   pitch  yaw
+    #             vx     vy     vz     vroll  vpitch vyaw
+    #             ax     ay     az
+    odom0_config: [false, false, false,
+                   false, false, false,
+                   true,  true,  false,
+                   false, false, false,
+                   false, false, false]
+    odom0_differential: false
+    odom0_queue_size: 10
+
+    imu0: /imu/data_raw
+    imu0_config: [false, false, false,
+                  false, false, true,
+                  false, false, false,
+                  false, false, true,
+                  false, false, false]
+    imu0_differential: true
+    imu0_queue_size: 10

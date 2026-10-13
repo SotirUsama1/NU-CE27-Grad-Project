@@ -1,7 +1,9 @@
 # Husky controllers for the warehouse simulation.
 # Same as husky_control/config/control.yaml, except:
 #   update_rate 10 -> 50 Hz  (smoother control for Nav2)
-#   enable_odom_tf true      (the upstream EKF never publishes odom -> base_link in simulation)
+#   wheel_separation_multiplier 1.0 -> 1.4  (skid steer: the wheels slip when turning; with 1.4 the
+#                                           robot turns in place at about the commanded rate)
+# odom -> base_link comes from the EKF (config/localization.yaml), which takes the heading from the IMU.
 controller_manager:
   ros__parameters:
     update_rate: 50  # Hz
@@ -22,7 +24,7 @@ husky_velocity_controller:
     wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
     wheel_radius: 0.1651
 
-    wheel_separation_multiplier: 1.0
+    wheel_separation_multiplier: 1.4
     left_wheel_radius_multiplier: 1.0
     right_wheel_radius_multiplier: 1.0
 
@@ -33,7 +35,7 @@ husky_velocity_controller:
     twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
 
     open_loop: false
-    enable_odom_tf: true
+    enable_odom_tf: false
 
     cmd_vel_timeout: 0.5
     use_stamped_vel: false

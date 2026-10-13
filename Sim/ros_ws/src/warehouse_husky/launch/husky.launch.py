@@ -2,14 +2,14 @@
 
 Compared with husky_gazebo/launch/gazebo.launch.py it:
   * adds a 2D lidar from urdf/husky_lidar.urdf.xacro (topic /scan)
-  * publishes odom -> base_link from the wheel controller (config/control.yaml); the upstream EKF
-    is left out because it listens on the wrong odometry topic and never publishes that transform
+  * publishes odom -> base_link from an EKF (config/localization.yaml) that fuses wheel speed with
+    the IMU heading; the upstream EKF listens on topics this Husky does not publish (odom, imu/data)
   * runs every node on simulation time
-  * routes Nav2 (/cmd_vel_nav) through twist_mux, below keyboard teleop (/cmd_vel)
+  * routes Nav2 (/cmd_vel) through twist_mux, below keyboard teleop (/cmd_vel_teleop)
 
 Usage (inside the container):
   ros2 launch warehouse_husky husky.launch.py world_path:=Our_Structured_Warehouse/Our_Structured_Warehouse.world
-  ros2 launch warehouse_husky husky.launch.py world_path:=... gui:=false x:=2.0 y:=0.0 yaw:=0.0
+  ros2 launch warehouse_husky husky.launch.py world_path:=... gui:=false x:=-1.5 y:=2.0 yaw:=0.0
 """
 import os
 
@@ -29,6 +29,7 @@ def generate_launch_description():
     pkg_share = get_package_share_directory('warehouse_husky')
     control_config = os.path.join(pkg_share, 'config', 'control.yaml')
     twist_mux_config = os.path.join(pkg_share, 'config', 'twist_mux.yaml')
+    localization_config = os.path.join(pkg_share, 'config', 'localization.yaml')
 
     robot_description = ParameterValue(Command([
         FindExecutable(name='xacro'), ' ',
@@ -84,7 +85,16 @@ def generate_launch_description():
         output='screen',
     )
 
-    # cmd_vel sources (keyboard on /cmd_vel, Nav2 on /cmd_vel_nav) -> wheel controller
+    # Wheel speed + IMU heading -> odom -> base_link and /odometry/filtered
+    ekf = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_node',
+        parameters=[localization_config],
+        output='screen',
+    )
+
+    # cmd_vel sources (keyboard on /cmd_vel_teleop, Nav2 on /cmd_vel) -> wheel controller
     twist_mux = Node(
         package='twist_mux',
         executable='twist_mux',
@@ -97,8 +107,10 @@ def generate_launch_description():
         DeclareLaunchArgument('world_path', default_value='',
                               description='World file, relative to Sim/worlds or absolute; empty world if unset'),
         DeclareLaunchArgument('gui', default_value='true', description='Open the Gazebo window'),
-        DeclareLaunchArgument('x', default_value='0.0'),
-        DeclareLaunchArgument('y', default_value='0.0'),
+        # Default spawn in open floor (2 m from the racks): at the world origin the front of the Husky
+        # is 0.3 m from a rack, too tight for Nav2 to plan a turn
+        DeclareLaunchArgument('x', default_value='-1.5'),
+        DeclareLaunchArgument('y', default_value='2.0'),
         DeclareLaunchArgument('yaw', default_value='0.0'),
         gz_model_path,
         gzserver,
@@ -108,5 +120,6 @@ def generate_launch_description():
         spawn_joint_state_broadcaster,
         RegisterEventHandler(OnProcessExit(target_action=spawn_joint_state_broadcaster,
                                            on_exit=[spawn_velocity_controller])),
+        ekf,
         twist_mux,
     ])

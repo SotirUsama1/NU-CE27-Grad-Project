@@ -42,6 +42,7 @@ docker run -it --rm \
     --env="DISPLAY=${DISPLAY}" \
     --env="QT_X11_NO_MITSHM=1" \
     --env="NVIDIA_DRIVER_CAPABILITIES=all" \
+    --env="ROS_LOCALHOST_ONLY=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     --volume="${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority:rw" \
     --volume="${SCRIPT_DIR}/../models:/main/models:rw" \
