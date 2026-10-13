@@ -87,6 +87,25 @@ ros2 launch ur_robot_driver test_joint_trajectory_controller.launch.py
 
 Nav2 needs a map of the warehouse. It is already in the repository, in `Sim/ros_ws/src/warehouse_navigation/maps` (`warehouse.pgm` is the image, `warehouse.yaml` its scale and origin), so there is nothing to do unless the world changes.
 
+**Open the map image** on your computer (not in the container), from the repository root:
+
+```bash
+xdg-open Sim/ros_ws/src/warehouse_navigation/maps/warehouse.pgm
+```
+
+Black is an obstacle, white is free floor. If no viewer opens, install one with `sudo apt install eog`.
+
+**View the map** with the Husky and its lidar on top:
+
+1. Terminal 1: launch the Husky in the warehouse (step 2).
+2. Terminal 2 (`docker exec -it <container_name> bash`):
+   ```bash
+   ros2 launch warehouse_navigation view_map.launch.py
+   ```
+   RViz opens with the map (black = obstacle, white = free), the robot, and the lidar scan in red. The red points should sit on the black walls, pallets and rack edges. If you spawned the Husky somewhere else, pass the same pose here, for example `x:=2.0 y:=1.0 yaw:=1.57`.
+
+The robot is placed on the map at its spawn pose and then follows its wheel odometry, so it drifts slowly as it drives; Nav2's localization (AMCL) will correct this.
+
 The map is generated from `Our_Structured_Warehouse.world` rather than built with SLAM: every obstacle in the world is a collision box, so the script draws walls, pallets, pillars, the dock and the truck from their exact positions, and each rack as one solid block. Labelled boxes are left out because they move.
 
 **After changing the world**, regenerate the map inside the container and commit both files:
