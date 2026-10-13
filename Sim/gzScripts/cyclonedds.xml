@@ -11,12 +11,9 @@
     </General>
 
     <Discovery>
-      <!-- For networks where multicast discovery is unavailable, add one Peer
-           element per remote ROS 2 host and replace the example address:
       <Peers>
-        <Peer address="192.168.1.100" />
+        <Peer address="xxx.xxx.xxx.xxx" />
       </Peers>
-      -->
     </Discovery>
   </Domain>
 </CycloneDDS>
