@@ -1,0 +1,157 @@
+# Nav2 settings for the Husky in Our_Structured_Warehouse.
+# Built up stage by stage: localization (map_server, amcl), costmaps; planner and controller follow.
+
+map_server:
+  ros__parameters:
+    use_sim_time: true
+    yaml_filename: ""   # set by the launch file to maps/warehouse.yaml
+
+amcl:
+  ros__parameters:
+    use_sim_time: true
+
+    # Frames and topics
+    global_frame_id: map
+    odom_frame_id: odom
+    base_frame_id: base_link
+    scan_topic: scan
+    map_topic: map
+
+    # Start pose: the Husky's spawn pose (launch arguments x, y, yaw override it)
+    set_initial_pose: true
+    initial_pose:
+      x: 0.0
+      y: 0.0
+      z: 0.0
+      yaw: 0.0
+
+    # Motion model: how much the wheel odometry is trusted (higher alpha = more noise expected).
+    # 0.3 instead of the usual 0.2: the skid-steer Husky slips when turning.
+    robot_model_type: nav2_amcl::DifferentialMotionModel
+    alpha1: 0.3   # rotation noise from rotation
+    alpha2: 0.3   # rotation noise from translation
+    alpha3: 0.3   # translation noise from translation
+    alpha4: 0.3   # translation noise from rotation
+    alpha5: 0.3   # unused by the differential model
+
+    # Particles: each one is a guess of the robot's pose
+    min_particles: 500
+    max_particles: 2000
+    pf_err: 0.05
+    pf_z: 0.99
+    resample_interval: 1
+    recovery_alpha_fast: 0.0
+    recovery_alpha_slow: 0.0
+
+    # Only update after the robot moves this much, so a still robot does not drift
+    update_min_d: 0.20    # m
+    update_min_a: 0.20    # rad
+
+    # Laser model: matches the Husky lidar (720 samples, 0.3 to 25 m, 360 degrees).
+    # The simulated lidar is clean and the map is exact, so the scan is trusted more than usual
+    # (z_hit 0.9 / z_rand 0.1 instead of the usual 0.5 / 0.5).
+    laser_model_type: likelihood_field
+    laser_min_range: 0.3
+    laser_max_range: 25.0
+    max_beams: 180        # beams used per scan (of 720)
+    laser_likelihood_max_dist: 2.0
+    sigma_hit: 0.15
+    z_hit: 0.9
+    z_rand: 0.1
+    z_max: 0.05
+    z_short: 0.05
+    lambda_short: 0.1
+    do_beamskip: false
+
+    # Output: publish map -> odom
+    tf_broadcast: true
+    transform_tolerance: 1.0
+    save_pose_rate: 0.5
+
+# ---------------------------------------------------------------------------------------------
+# Costmaps: grids that say how dangerous each cell is for the robot's centre
+#   0 = free, 1-252 = near an obstacle (cost falls with distance), 253 = robot would touch, 254 = obstacle
+# The global costmap covers the whole map (used to plan the route); the local costmap is a small
+# window that moves with the robot (used to follow the route and dodge new obstacles).
+# Husky footprint: body 0.99 m long, wheels 0.69 m wide; base_link is the centre.
+# ---------------------------------------------------------------------------------------------
+
+global_costmap:
+  global_costmap:
+    ros__parameters:
+      use_sim_time: true
+      global_frame: map
+      robot_base_frame: base_link
+      footprint: "[[0.50, 0.345], [0.50, -0.345], [-0.50, -0.345], [-0.50, 0.345]]"
+      resolution: 0.05            # m per cell, same as the map
+      track_unknown_space: false  # the generated map has no unknown cells
+      update_frequency: 1.0       # Hz
+      publish_frequency: 1.0      # Hz
+      transform_tolerance: 0.5
+      always_send_full_costmap: true
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+
+      # Walls, racks, pallets: copied from /map
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: true
+
+      # Anything the lidar sees that is not on the map (a fallen box, another robot)
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: true
+        observation_sources: scan
+        scan:
+          topic: /scan
+          data_type: "LaserScan"
+          marking: true             # add obstacles where the beams hit
+          clearing: true            # remove obstacles the beams now pass through
+          max_obstacle_height: 2.0
+          obstacle_max_range: 5.0   # m, only mark hits closer than this
+          raytrace_max_range: 6.0   # m, clear free space up to this distance
+
+      # Safety zone around every obstacle
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        inflation_radius: 0.70      # m, cost spreads this far from an obstacle
+        cost_scaling_factor: 3.0    # higher = cost drops faster with distance
+
+local_costmap:
+  local_costmap:
+    ros__parameters:
+      use_sim_time: true
+      global_frame: odom          # smooth odometry frame: the window does not jump when AMCL corrects
+      robot_base_frame: base_link
+      footprint: "[[0.50, 0.345], [0.50, -0.345], [-0.50, -0.345], [-0.50, 0.345]]"
+      rolling_window: true        # the window moves with the robot
+      width: 6                    # m
+      height: 6                   # m
+      resolution: 0.05
+      update_frequency: 5.0       # Hz, faster than global: new obstacles must show up quickly
+      publish_frequency: 2.0      # Hz
+      transform_tolerance: 0.5
+      always_send_full_costmap: true
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+
+      # Also copied from /map: some pallets are lower than the lidar, so only the map knows them
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: true
+
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: true
+        observation_sources: scan
+        scan:
+          topic: /scan
+          data_type: "LaserScan"
+          marking: true
+          clearing: true
+          max_obstacle_height: 2.0
+          obstacle_max_range: 2.5   # m, the window reaches 3 m from the robot
+          raytrace_max_range: 3.0
+
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        inflation_radius: 0.70
+        cost_scaling_factor: 3.0

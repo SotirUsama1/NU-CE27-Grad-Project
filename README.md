@@ -119,6 +119,35 @@ chown $(stat -c %u:%g /main/ros_ws/src) /main/ros_ws/src/warehouse_navigation/ma
 
 SLAM mapping (`ros2 launch warehouse_navigation slam.launch.py` while driving) is still available, but it does not work well in this warehouse: the lidar sees through the racks, and the identical aisles make it lose track.
 
-### 5. Stop
+### 5. Localization (Husky)
+
+AMCL keeps track of where the robot is on the map: it compares the lidar scan with the map and corrects the wheel odometry as the robot drives.
+
+1. Terminal 1: launch the Husky in the warehouse (step 2).
+2. Terminal 2:
+   ```bash
+   ros2 launch warehouse_navigation localization.launch.py
+   ```
+3. Terminal 3: drive with the keyboard (step 3).
+
+RViz shows the map, the robot, the lidar scan in red and AMCL's guesses as green arrows. While the robot drives, the green arrows should stay in a tight cluster under the robot and the red points on the black obstacles.
+
+If you spawned the Husky somewhere else, pass the same pose, for example `x:=2.0 y:=1.0 yaw:=1.57`. If the robot is drawn in the wrong place, click **2D Pose Estimate** in RViz's toolbar, then click its real position on the map and drag in the direction it faces.
+
+Run either this or `view_map.launch.py`, not both: they both place the robot on the map.
+
+### 6. Costmaps (Husky)
+
+A costmap marks how dangerous each spot is for the robot's centre: obstacles are lethal, and a safety zone around them (0.7 m) gets a cost that falls with distance. The **global costmap** covers the whole map and is used to plan routes; the **local costmap** is a 6 x 6 m window around the robot, updated from the lidar, used to follow the route and avoid new obstacles.
+
+Instead of `localization.launch.py` (it is included), run in terminal 2:
+
+```bash
+ros2 launch warehouse_navigation costmaps.launch.py
+```
+
+RViz now also shows the costmaps (red/purple = obstacle, blue to cyan = safety zone) and the robot's footprint as a cyan rectangle. Drive the robot with the keyboard: the local costmap moves with it. A box added in Gazebo in front of the robot appears in the costmaps, and disappears again after it is removed.
+
+### 7. Stop
 
 Press `Ctrl+C` in the launch terminal. Do not use `Ctrl+P` `P` (detach): it leaves the simulation half-stopped.
