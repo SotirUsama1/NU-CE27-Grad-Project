@@ -9,6 +9,7 @@ ekf_node:
     frequency: 50.0
     two_d_mode: true
     publish_tf: true
+    transform_time_offset: 0.1
     odom_frame: odom
     base_link_frame: base_link
     world_frame: odom
@@ -17,9 +18,11 @@ ekf_node:
     #             x      y      z      roll   pitch  yaw
     #             vx     vy     vz     vroll  vpitch vyaw
     #             ax     ay     az
+    # Only vx from wheel odom; vy is unreliable on skid-steer (wheels
+    # slip laterally during turns, injecting position drift into the EKF).
     odom0_config: [false, false, false,
                    false, false, false,
-                   true,  true,  false,
+                   true,  false, false,
                    false, false, false,
                    false, false, false]
     odom0_differential: false
@@ -31,5 +34,5 @@ ekf_node:
                   false, false, false,
                   false, false, true,
                   false, false, false]
-    imu0_differential: true
+    imu0_differential: false
     imu0_queue_size: 10

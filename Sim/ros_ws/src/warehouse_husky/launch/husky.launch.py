@@ -104,6 +104,10 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        # Apply the same loopback-only UDP transport as Nav2.
+        SetEnvironmentVariable('ROS_LOCALHOST_ONLY', '0'),
+        SetEnvironmentVariable('FASTRTPS_DEFAULT_PROFILES_FILE',
+                               os.path.join(pkg_share, 'config', 'fastdds_udp.xml')),
         DeclareLaunchArgument('world_path', default_value='',
                               description='World file, relative to Sim/worlds or absolute; empty world if unset'),
         DeclareLaunchArgument('gui', default_value='true', description='Open the Gazebo window'),

@@ -13,9 +13,9 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 
@@ -32,6 +32,7 @@ def generate_launch_description():
             'map': scan_map,  # map_server + AMCL
             'params_file': os.path.join(pkg_share, 'config', 'nav2_params.yaml'),
             'use_sim_time': 'true',
+            'use_composition': 'False',
         }.items(),
     )
 
@@ -48,11 +49,16 @@ def generate_launch_description():
         package='nav2_lifecycle_manager',
         executable='lifecycle_manager',
         name='lifecycle_manager_map_nav',
-        parameters=[{'node_names': ['map_server_nav'], 'autostart': True, 'use_sim_time': True}],
+        parameters=[{'node_names': ['map_server_nav'], 'autostart': True, 'use_sim_time': True, 'bond_timeout': 20.0}],
         output='screen',
     )
 
     return LaunchDescription([
+        # The profile restricts UDP to loopback. Humble's ROS_LOCALHOST_ONLY=1
+        # would add SHM back and defeat the transport workaround.
+        SetEnvironmentVariable('ROS_LOCALHOST_ONLY', '0'),
+        SetEnvironmentVariable('FASTRTPS_DEFAULT_PROFILES_FILE',
+                               os.path.join(pkg_share, 'config', 'fastdds_udp.xml')),
         DeclareLaunchArgument('scan_map', default_value='/main/maps/our_structured_warehouse_map_scan.yaml',
                               description='Map of what the lidar sees, for AMCL'),
         DeclareLaunchArgument('nav_map', default_value='/main/maps/our_structured_warehouse_map.yaml',

@@ -30,7 +30,7 @@ From the repository root:
 
 This opens a shell inside the container, with `Sim/models`, `Sim/worlds` and `Sim/ros_ws` mounted at `/main/models`, `/main/worlds` and `/main/ros_ws`.
 
-ROS 2 traffic stays on this computer (`ROS_LOCALHOST_ONLY=1`). Without it, a teammate's simulation on the same network joins your ROS graph: two Gazebos publish `/clock`, time jumps back and forth, and RViz and Nav2 misbehave.
+ROS 2 traffic stays on this computer through the loopback-only UDP profile in `warehouse_husky/config/fastdds_udp.xml`. The container applies it to simulation, Nav2, RViz and command-line tools. `ROS_LOCALHOST_ONLY=0` is intentional: Humble's Fast DDS integration adds shared-memory transport back when this variable is `1`, overriding the intended UDP-only setup. The XML interface whitelist (`127.0.0.1`) keeps teammates' simulations off this ROS graph.
 
 It first builds the project's ROS packages in `Sim/ros_ws/src` with `colcon build --symlink-install`. Edits to their launch, config and URDF files apply on the next launch; restart the container after adding a new file or package. The `build`, `install` and `log` folders it creates are ignored by git.
 
@@ -109,9 +109,14 @@ ros2 launch warehouse_husky nav2.launch.py
 
 *(This loads the map server, AMCL localization, global/local costmaps, and path planners).*
 
+The container and launch files select loopback-only UDP transport for Fast DDS using `config/fastdds_udp.xml`. Shared-memory communication stalled AMCL transforms even while its lifecycle state remained active. Restart the container after changing transport settings so every ROS process uses the same configuration. If you added this XML file to an existing workspace, rebuild `warehouse_husky` first. Keep just one RViz instance open to avoid unnecessary rendering load.
+
 This runs Nav2's `bringup_launch.py` with the Husky's settings ([nav2_params.yaml](Sim/ros_ws/src/warehouse_husky/config/nav2_params.yaml)) and both maps. Nav2's own default parameters are for a TurtleBot3 and would read odometry from `/odom`, which the Husky does not publish. The Husky file also sets the Husky's size and speed, and starts AMCL at the Husky's default spawn pose `(-1.5, 2.0)`, 2 m from the racks. If you spawn the robot elsewhere (`x:=`, `y:=`, `yaw:=`), set the initial pose in RViz as in Step C, and keep clear of the racks: Nav2 cannot plan a turn within about 0.4 m of one.
 
 #### Step B: Launch RViz2 (Nav2 Graphical Interface)
+
+AMCL uses 120 laser samples per scan and 500–2,000 particles. Updates occur after 0.1 m of translation or 0.1 rad of rotation. Check scan alignment while driving and turning before using longer routes; an active lifecycle state alone does not establish localization accuracy. DWB's minimum translation and rotation speeds are configured together to avoid turn commands too weak to overcome Husky's skid friction.
+
 In another terminal connected to the container (`docker exec -it $(docker ps -q | head -n 1) bash`):
 
 ```bash
