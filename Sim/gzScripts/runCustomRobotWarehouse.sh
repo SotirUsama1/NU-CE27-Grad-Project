@@ -10,17 +10,28 @@ WORLD="${1:-worlds/Custom_Robot_Warehouse/Custom_Robot_Warehouse.world}"
 
 xhost +local:docker >/dev/null 2>&1
 
+if nvidia-smi >/dev/null 2>&1; then
+    GPU_ARGS=(--gpus all
+              --env="NVIDIA_VISIBLE_DEVICES=all"
+              --env="NVIDIA_DRIVER_CAPABILITIES=all"
+              --env="__NV_PRIME_RENDER_OFFLOAD=1"
+              --env="__GLX_VENDOR_LIBRARY_NAME=nvidia")
+    echo "[INFO] Rendering on the NVIDIA GPU"
+elif [ -d /dev/dri ]; then
+    GPU_ARGS=(--device=/dev/dri)
+    echo "[WARNING] NVIDIA driver not available, rendering on the integrated GPU"
+else
+    GPU_ARGS=()
+    echo "[WARNING] No GPU available, using software rendering (slow)"
+fi
+
 echo "[INFO] Launching ${WORLD} with ROS 2 (container name: warehouse_sim)"
 
 docker run -it --rm \
     --name warehouse_sim \
-    --gpus all \
+    "${GPU_ARGS[@]}" \
     --env="DISPLAY=${DISPLAY}" \
     --env="QT_X11_NO_MITSHM=1" \
-    --env="NVIDIA_VISIBLE_DEVICES=all" \
-    --env="NVIDIA_DRIVER_CAPABILITIES=all" \
-    --env="__NV_PRIME_RENDER_OFFLOAD=1" \
-    --env="__GLX_VENDOR_LIBRARY_NAME=nvidia" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     --volume="${HOME}/.Xauthority:/root/.Xauthority:rw" \
     --volume="${SCRIPT_DIR}/../models:/workspace/models:rw" \

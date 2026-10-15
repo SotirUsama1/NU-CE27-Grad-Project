@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="mir_250">
+  <!-- MiR 250 + UR arm (mir_description) with a suction tool on the wrist.
+       Same as mir_description/urdf/mir.urdf.xacro, plus
+         - a rigid carton gripper plate (suction_pad) with six cups, its face 8 cm in front of
+           ur_tool0
+         - vacuum_gripper (src/vacuum_gripper.cpp), which holds boxes by suction force and
+           friction only
+         - ground-truth pose (libgazebo_ros_p3d) on /mir_ur/ground_truth
+       Comments end up in robot_description, which gazebo_ros2_control parses as YAML,
+       so they must not contain a colon followed by a space. -->
+
+  <xacro:include filename="$(find mir_description)/urdf/include/mir_250_v1.urdf.xacro" />
+  <xacro:arg name="controllers" default="$(find mir_ur_warehouse)/config/controllers.yaml" />
+
+  <xacro:mir_250 prefix="" ns=""/>
+
+  <!-- Suction tool bolted to the flange, a 7 cm body (vacuum generator) and the plate. Both are
+       merged into ur_wrist_3_link when the URDF becomes SDF, so the plate is rigid. -->
+  <link name="suction_body">
+    <visual>
+      <origin xyz="0 0 0.035" rpy="0 0 0" />
+      <geometry><cylinder radius="0.035" length="0.07" /></geometry>
+      <material name="suction_grey"><color rgba="0.3 0.3 0.3 1" /></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.035" rpy="0 0 0" />
+      <geometry><cylinder radius="0.035" length="0.07" /></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0.035" rpy="0 0 0" />
+      <mass value="1.0" />
+      <inertia ixx="7.1e-4" iyy="7.1e-4" izz="6.1e-4" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <joint name="suction_body_joint" type="fixed">
+    <parent link="ur_tool0" />
+    <child link="suction_body" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+
+  <!-- Gripper plate, 30 x 18 cm, long side along x. The six 60 mm cups (3 x 2, pitch 10 cm) sit
+       flush with its face; their positions are repeated in the vacuum_gripper cups below. -->
+  <xacro:macro name="cup_visual" params="x y">
+    <visual>
+      <origin xyz="${x} ${y} 0.0095" rpy="0 0 0" />
+      <geometry><cylinder radius="0.03" length="0.002" /></geometry>
+      <material name="suction_black"><color rgba="0.05 0.05 0.05 1" /></material>
+    </visual>
+  </xacro:macro>
+  <link name="suction_pad">
+    <visual>
+      <origin xyz="0 0 0.005" rpy="0 0 0" />
+      <geometry><box size="0.30 0.18 0.008" /></geometry>
+      <material name="suction_grey"><color rgba="0.3 0.3 0.3 1" /></material>
+    </visual>
+    <xacro:cup_visual x="-0.1" y="-0.05" />
+    <xacro:cup_visual x="0.0" y="-0.05" />
+    <xacro:cup_visual x="0.1" y="-0.05" />
+    <xacro:cup_visual x="-0.1" y="0.05" />
+    <xacro:cup_visual x="0.0" y="0.05" />
+    <xacro:cup_visual x="0.1" y="0.05" />
+    <collision>
+      <origin xyz="0 0 0.005" rpy="0 0 0" />
+      <geometry><box size="0.30 0.18 0.01" /></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0.005" rpy="0 0 0" />
+      <mass value="0.3" />
+      <inertia ixx="8.1e-4" iyy="2.25e-3" izz="3.06e-3" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+  </link>
+  <joint name="suction_pad_joint" type="fixed">
+    <parent link="suction_body" />
+    <child link="suction_pad" />
+    <origin xyz="0 0 0.07" rpy="0 0 0" />
+  </joint>
+  <!-- The plate only takes compression; the cup lips (vacuum_gripper) carry all shear. -->
+  <gazebo reference="suction_pad">
+    <mu1>0.0</mu1>
+    <mu2>0.0</mu2>
+    <maxContacts>8</maxContacts>
+  </gazebo>
+
+  <ros2_control name="GazeboSystem" type="system">
+    <hardware>
+      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    </hardware>
+    <joint name="left_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-1</param>
+        <param name="max">1</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+    <joint name="right_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-1</param>
+        <param name="max">1</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+
+  <gazebo>
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+      <parameters>$(arg controllers)</parameters>
+    </plugin>
+
+    <!-- Six 60 mm bellows cups on a vacuum generator reaching 40 kPa on cardboard, about 113 N
+         per cup and 680 N in total. Rubber on cardboard friction 0.6, lip 5 N/mm.
+         SI units (angles in rad). See src/vacuum_gripper.cpp. -->
+    <plugin name="vacuum_gripper" filename="libvacuum_gripper.so">
+      <pad_link>ur_wrist_3_link</pad_link>
+      <pad_offset>0.08</pad_offset>
+      <cups>-0.1 -0.05  0.0 -0.05  0.1 -0.05  -0.1 0.05  0.0 0.05  0.1 0.05</cups>
+      <cup_radius>0.03</cup_radius>
+      <max_vacuum>40000</max_vacuum>
+      <seal_gap>0.005</seal_gap>
+      <full_seal_angle>0.09</full_seal_angle>
+      <max_seal_angle>0.26</max_seal_angle>
+      <evacuation_time>0.15</evacuation_time>
+      <release_time>0.25</release_time>
+      <switch_ratio>0.6</switch_ratio>
+      <friction>0.6</friction>
+      <lip_stiffness>5000</lip_stiffness>
+      <lip_damping>50</lip_damping>
+    </plugin>
+
+    <plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
+      <ros>
+        <namespace>/mir_ur</namespace>
+        <remapping>odom:=ground_truth</remapping>
+      </ros>
+      <body_name>base_footprint</body_name>
+      <frame_name>world</frame_name>
+      <update_rate>50</update_rate>
+    </plugin>
+  </gazebo>
+
+</robot>

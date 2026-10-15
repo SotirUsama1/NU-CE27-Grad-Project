@@ -1,0 +1,12 @@
+[submodule "Sim/ros2_ws/src/UR-MiR-mobile-manipulator"]
+	path = Sim/ros2_ws/src/UR-MiR-mobile-manipulator
+	url = https://github.com/Spartan-Velanjeri/UR-MiR-mobile-manipulator.git
+	branch = main
+[submodule "Sim/ros2_ws/src/ira_laser_tools"]
+	path = Sim/ros2_ws/src/ira_laser_tools
+	url = https://github.com/relffok/ira_laser_tools.git
+	branch = galactic-devel
+[submodule "Sim/ros2_ws/src/twist_stamper"]
+	path = Sim/ros2_ws/src/twist_stamper
+	url = https://github.com/joshnewans/twist_stamper.git
+	branch = main
