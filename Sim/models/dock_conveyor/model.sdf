@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="dock_conveyor">
+    <static>true</static>
+    <link name="link">
+      <collision name="belt">
+        <pose>0 0 0.6 0 0 0</pose>
+        <geometry><box><size>6.45 0.9 0.06</size></box></geometry>
+      </collision>
+      <collision name="rail_-1">
+        <pose>0 -0.49 0.58 0 0 0</pose>
+        <geometry><box><size>6.45 0.08 0.3</size></box></geometry>
+      </collision>
+      <collision name="rail_1">
+        <pose>0 0.49 0.58 0 0 0</pose>
+        <geometry><box><size>6.45 0.08 0.3</size></box></geometry>
+      </collision>
+      <collision name="leg_0_-1">
+        <pose>-2.925 -0.43 0.215 0 0 0</pose>
+        <geometry><box><size>0.06 0.06 0.43</size></box></geometry>
+      </collision>
+      <collision name="leg_0_1">
+        <pose>-2.925 0.43 0.215 0 0 0</pose>
+        <geometry><box><size>0.06 0.06 0.43</size></box></geometry>
+      </collision>
+      <collision name="leg_1_-1">
+        <pose>-1.625 -0.43 0.215 0 0 0</pose>
+        <geometry><box><size>0.06 0.06 0.43</size></box></geometry>
+      </collision>
+      <collision name="leg_1_1">
+        <pose>-1.625 0.43 0.215 0 0 0</pose>
+        <geometry><box><size>0.06 0.06 0.43</size></box></geometry>
+      </collision>
+      <collision name="leg_2_-1">
+        <pose>-0.125 -0.43 0.215 0 0 0</pose>
+        <geometry><box><size>0.06 0.06 0.43</size></box></geometry>
+      </collision>
+      <collision name="leg_2_1">
+        <pose>-0.125 0.43 0.215 0 0 0</pose>
+        <geometry><box><size>0.06 0.06 0.43</size></box></geometry>
+      </collision>
+      <collision name="leg_3_-1">
+        <pose>1.575 -0.43 0.215 0 0 0</pose>
+        <geometry><box><size>0.06 0.06 0.43</size></box></geometry>
+      </collision>
+      <collision name="leg_3_1">
+        <pose>1.575 0.43 0.215 0 0 0</pose>
+        <geometry><box><size>0.06 0.06 0.43</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <cast_shadows>false</cast_shadows>
+        <geometry><mesh><uri>model://dock_conveyor/meshes/mesh.dae</uri></mesh></geometry>
+      </visual>
+    </link>
+    <plugin name="conveyor_belt" filename="/workspace/models/dock_conveyor/plugins/libconveyor_belt.so">
+      <belt_length>6.45</belt_length>
+      <belt_width>0.9</belt_width>
+      <belt_top>0.63</belt_top>
+      <reach>0.6</reach>
+      <speed>0.3</speed>
+      <overrun>0.3</overrun>
+    </plugin>
+  </model>
+</sdf>

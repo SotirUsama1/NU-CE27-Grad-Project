@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="warehouse_rack_4lvl_6bay">
+    <static>true</static>
+    <link name="link">
+      <collision name="shelf_0">
+        <pose>0 0 0.09 0 0 0</pose>
+        <geometry><box><size>0.83 5.8 0.02</size></box></geometry>
+      </collision>
+      <collision name="shelf_1">
+        <pose>0 0 0.67 0 0 0</pose>
+        <geometry><box><size>0.83 5.8 0.02</size></box></geometry>
+      </collision>
+      <collision name="shelf_2">
+        <pose>0 0 1.25 0 0 0</pose>
+        <geometry><box><size>0.83 5.8 0.02</size></box></geometry>
+      </collision>
+      <collision name="shelf_3">
+        <pose>0 0 1.83 0 0 0</pose>
+        <geometry><box><size>0.83 5.8 0.02</size></box></geometry>
+      </collision>
+      <collision name="post_0_0">
+        <pose>-0.38 -2.865 1 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 2</size></box></geometry>
+      </collision>
+      <collision name="post_0_1">
+        <pose>0.38 -2.865 1 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 2</size></box></geometry>
+      </collision>
+      <collision name="post_1_0">
+        <pose>-0.38 -1.9333 1 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 2</size></box></geometry>
+      </collision>
+      <collision name="post_1_1">
+        <pose>0.38 -1.9333 1 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 2</size></box></geometry>
+      </collision>
+      <collision name="post_2_0">
+        <pose>-0.38 -0.96667 1 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 2</size></box></geometry>
+      </collision>
+      <collision name="post_2_1">
+        <pose>0.38 -0.96667 1 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 2</size></box></geometry>
+      </collision>
+      <collision name="post_3_0">
+        <pose>-0.38 0 1 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 2</size></box></geometry>
+      </collision>
+      <collision name="post_3_1">
+        <pose>0.38 0 1 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 2</size></box></geometry>
+      </collision>
+      <collision name="post_4_0">
+        <pose>-0.38 0.96667 1 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 2</size></box></geometry>
+      </collision>
+      <collision name="post_4_1">
+        <pose>0.38 0.96667 1 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 2</size></box></geometry>
+      </collision>
+      <collision name="post_5_0">
+        <pose>-0.38 1.9333 1 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 2</size></box></geometry>
+      </collision>
+      <collision name="post_5_1">
+        <pose>0.38 1.9333 1 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 2</size></box></geometry>
+      </collision>
+      <collision name="post_6_0">
+        <pose>-0.38 2.865 1 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 2</size></box></geometry>
+      </collision>
+      <collision name="post_6_1">
+        <pose>0.38 2.865 1 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 2</size></box></geometry>
+      </collision>
+      <visual name="visual">
+        <cast_shadows>false</cast_shadows>
+        <geometry><mesh><uri>model://warehouse_rack_4lvl_6bay/meshes/mesh.dae</uri></mesh></geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

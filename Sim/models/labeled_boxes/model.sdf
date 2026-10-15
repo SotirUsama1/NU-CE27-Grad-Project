@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+    <model name='labeled_box'>
+      <pose>0 0 0.15 0 0 0</pose>
+      <link name='link'>
+        <inertial>
+          <mass>2.0</mass>
+          <inertia><ixx>0.05667</ixx><iyy>0.04167</iyy><izz>0.06833</izz><ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+        </inertial>
+        <collision name='collision'>
+          <geometry><box><size>0.4 0.5 0.3</size></box></geometry>
+          <surface><friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction></surface>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry><box><size>0.4 0.5 0.3</size></box></geometry>
+          <material><script>
+            <uri>model://labeled_boxes/materials/scripts</uri>
+            <uri>model://labeled_boxes/materials/textures</uri>
+            <name>LabeledBox/A-001</name>
+          </script></material>
+        </visual>
+      </link>
+    </model>
+</sdf>
