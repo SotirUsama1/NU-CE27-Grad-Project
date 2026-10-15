@@ -5,6 +5,7 @@ ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 ENV ROS_LOCALHOST_ONLY=0
+ENV ROS_DOMAIN_ID=17
 
 # packages.ros.org currently presents a mismatched TLS certificate on GitHub-hosted
 # runners. This ROS-documented HTTPS mirror can be overridden at build time.
@@ -36,7 +37,6 @@ ARG DYNAMIC_PACKAGES_CACHEBUST=0
 RUN echo "Refreshing ROS application packages (${DYNAMIC_PACKAGES_CACHEBUST})" \
  && apt-get -o Acquire::Retries=5 update \
  && apt-get -o Acquire::Retries=5 install -y --no-install-recommends \
-    ros-humble-gazebo-ros-pkgs \
     ros-humble-rqt \
     ros-humble-demo-nodes-cpp \
     ros-humble-turtlesim \
