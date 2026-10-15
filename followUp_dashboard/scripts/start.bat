@@ -1,7 +1,7 @@
 @echo off
 rem Double-click this file to start the dashboard. Close this window to stop it.
 title Graduation Project Dashboard
-cd /d "%~dp0"
+cd /d "%~dp0.."
 
 where node >nul 2>nul
 if errorlevel 1 (

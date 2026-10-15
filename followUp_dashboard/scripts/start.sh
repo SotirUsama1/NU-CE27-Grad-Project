@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
-# macOS / Linux: run "./start.sh" in this folder to start the dashboard.
-# Press Ctrl+C to stop it.
-cd "$(dirname "$0")" || exit 1
+
+cd "$(dirname "$0")/.." || exit 1
 
 if ! command -v node >/dev/null 2>&1; then
   echo "Node.js is not installed. See README.md, step 1."

@@ -5,13 +5,13 @@ WORKDIR /app
 ENV NODE_ENV=production \
     PORT=8080
 
-COPY package.json ./
+COPY ../package.json ./
 # Installs the optional AWS SDK so AWS_SECRET_NAME works inside AWS
 RUN npm install --omit=dev --no-audit --no-fund
 
-COPY server.js ./
-COPY src ./src
-COPY public ./public
+COPY ../server.js ./
+COPY ../src ./src
+COPY ../public ./public
 
 USER node
 EXPOSE 8080
