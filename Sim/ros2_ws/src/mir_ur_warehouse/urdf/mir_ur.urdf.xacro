@@ -13,6 +13,12 @@
   <xacro:include filename="$(find mir_description)/urdf/include/mir_250_v1.urdf.xacro" />
   <xacro:arg name="controllers" default="$(find mir_ur_warehouse)/config/controllers.yaml" />
 
+  <!-- No wrist RealSense. It rendered colour, depth, two infrared streams and a point cloud at
+       up to 60 Hz, which halved the simulation speed, and nothing uses it. Redefining its macro
+       empty removes it from mir_250. -->
+  <xacro:macro name="sensor_d435i" params="parent *origin name use_nominal_extrinsics">
+  </xacro:macro>
+
   <xacro:mir_250 prefix="" ns=""/>
 
   <!-- Suction tool bolted to the flange, a 7 cm body (vacuum generator) and the plate. Both are

@@ -404,6 +404,8 @@ def generate_semantic_db(world_name, output_path):
             }
             if label:
                 entry["label"] = label
+                # Static boxes are scenery; only interactive ones can be pushed or picked.
+                entry["interactive"] = model.findtext("static", "0").strip() not in ("1", "true")
             database[name] = entry
         else:
             skipped.append(name)

@@ -222,7 +222,7 @@ private:
           cup.anchored = false;
         }
       }
-      if (!cup.target) {
+      if (!cup.target && valve_) {
         seal = Search(c, n, cup.target);
       }
 
