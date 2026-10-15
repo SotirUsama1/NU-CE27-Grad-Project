@@ -43,6 +43,11 @@ else
     echo "[WARNING] No GPU available, using software rendering (slow)"
 fi
 
+if [ -n "$(docker ps -aq --filter name=^/mir_ur_sim$)" ]; then
+    echo "[WARNING] A mir_ur_sim container already exists, replacing it"
+    docker rm -f mir_ur_sim >/dev/null
+fi
+
 echo "[INFO] Launching MiR + UR in the warehouse (container name: mir_ur_sim)"
 
 docker run -it --rm \

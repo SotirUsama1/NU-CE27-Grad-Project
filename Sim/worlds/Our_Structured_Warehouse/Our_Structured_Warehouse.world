@@ -97,6 +97,11 @@
       <pose>-0.040107 0.052292 0 0 0 0</pose>
     </include>
     <include>
+      <name>zone_a_aisles</name>
+      <uri>model://zone_a_aisles</uri>
+      <pose>-0.040107 0.052292 0 0 0 0</pose>
+    </include>
+    <include>
       <name>rack_A1_0</name>
       <uri>model://warehouse_rack_5lvl_6bay</uri>
       <pose>-1.1401 -3.0477 0 0 0 0</pose>
@@ -3753,6 +3758,11 @@
     <include>
       <name>zone_B_layout</name>
       <uri>model://zone_b_layout</uri>
+      <pose>20.062 0.052292 0 0 0 1.5708</pose>
+    </include>
+    <include>
+      <name>zone_b_aisles</name>
+      <uri>model://zone_b_aisles</uri>
       <pose>20.062 0.052292 0 0 0 1.5708</pose>
     </include>
     <include>
@@ -7459,6 +7469,11 @@
       <pose>20.062 20.155 0 0 0 3.1416</pose>
     </include>
     <include>
+      <name>zone_c_aisles</name>
+      <uri>model://zone_c_aisles</uri>
+      <pose>20.062 20.155 0 0 0 3.1416</pose>
+    </include>
+    <include>
       <name>rack_C1_0</name>
       <uri>model://warehouse_rack_4lvl_6bay</uri>
       <pose>21.162 23.255 0 0 0 3.1416</pose>
@@ -10015,6 +10030,11 @@
     <include>
       <name>zone_D_layout</name>
       <uri>model://zone_d_layout</uri>
+      <pose>-0.040107 20.155 0 0 0 -1.5708</pose>
+    </include>
+    <include>
+      <name>zone_d_aisles</name>
+      <uri>model://zone_d_aisles</uri>
       <pose>-0.040107 20.155 0 0 0 -1.5708</pose>
     </include>
     <include>
@@ -12967,7 +12987,7 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>model://our_workcell/meshes/mesh.dae</uri>
+              <uri>model://our_workcell/meshes/mesh_open.dae</uri>
             </mesh>
           </geometry>
         </visual>
@@ -13042,48 +13062,6 @@
           <geometry>
             <box>
               <size>0.72902 15.2908 6.97771</size>
-            </box>
-          </geometry>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <bounce/>
-            <friction>
-              <torsional>
-                <ode/>
-              </torsional>
-              <ode/>
-            </friction>
-          </surface>
-        </collision>
-        <collision name='large_pallet1'>
-          <pose frame=''>-3.33609 6.31883 1.04257 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>2.14726 1.79349 2.08514</size>
-            </box>
-          </geometry>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <bounce/>
-            <friction>
-              <torsional>
-                <ode/>
-              </torsional>
-              <ode/>
-            </friction>
-          </surface>
-        </collision>
-        <collision name='large_pallet2'>
-          <pose frame=''>-5.74492 6.31883 1.04257 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>2.14726 1.79349 2.08514</size>
             </box>
           </geometry>
           <max_contacts>10</max_contacts>
@@ -13199,7 +13177,7 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>model://our_workcell/meshes/mesh.dae</uri>
+              <uri>model://our_workcell/meshes/mesh_open.dae</uri>
             </mesh>
           </geometry>
         </visual>
@@ -13274,48 +13252,6 @@
           <geometry>
             <box>
               <size>0.72902 15.2908 6.97771</size>
-            </box>
-          </geometry>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <bounce/>
-            <friction>
-              <torsional>
-                <ode/>
-              </torsional>
-              <ode/>
-            </friction>
-          </surface>
-        </collision>
-        <collision name='large_pallet1'>
-          <pose frame=''>-3.33609 6.31883 1.04257 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>2.14726 1.79349 2.08514</size>
-            </box>
-          </geometry>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <bounce/>
-            <friction>
-              <torsional>
-                <ode/>
-              </torsional>
-              <ode/>
-            </friction>
-          </surface>
-        </collision>
-        <collision name='large_pallet2'>
-          <pose frame=''>-5.74492 6.31883 1.04257 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>2.14726 1.79349 2.08514</size>
             </box>
           </geometry>
           <max_contacts>10</max_contacts>
@@ -13431,7 +13367,7 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>model://our_workcell/meshes/mesh.dae</uri>
+              <uri>model://our_workcell/meshes/mesh_open.dae</uri>
             </mesh>
           </geometry>
         </visual>
@@ -13506,48 +13442,6 @@
           <geometry>
             <box>
               <size>0.72902 15.2908 6.97771</size>
-            </box>
-          </geometry>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <bounce/>
-            <friction>
-              <torsional>
-                <ode/>
-              </torsional>
-              <ode/>
-            </friction>
-          </surface>
-        </collision>
-        <collision name='large_pallet1'>
-          <pose frame=''>-3.33609 6.31883 1.04257 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>2.14726 1.79349 2.08514</size>
-            </box>
-          </geometry>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <bounce/>
-            <friction>
-              <torsional>
-                <ode/>
-              </torsional>
-              <ode/>
-            </friction>
-          </surface>
-        </collision>
-        <collision name='large_pallet2'>
-          <pose frame=''>-5.74492 6.31883 1.04257 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>2.14726 1.79349 2.08514</size>
             </box>
           </geometry>
           <max_contacts>10</max_contacts>

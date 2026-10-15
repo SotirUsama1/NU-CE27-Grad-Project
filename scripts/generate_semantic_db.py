@@ -28,7 +28,8 @@ import os
 import sys
 import xml.etree.ElementTree as ET
 
-# Models that are not semantic targets (infrastructure / floor)
+# Models that are not semantic targets (infrastructure / floor). The flat zone_*_aisles floor
+# labels are skipped too; their aisles are listed in Sim/worlds/Our_Structured_Warehouse/aisles.yaml.
 SKIP_MODELS = {"ground_plane"}
 
 # No warehouse object is taller than this; larger means a unit bug.
@@ -295,7 +296,7 @@ def generate_semantic_db(world_name, output_path):
 
     for inc in world.findall("include"):
         name = inc.findtext("name")
-        if not name or name in SKIP_MODELS:
+        if not name or name in SKIP_MODELS or name.endswith("_aisles"):
             continue
         uri = inc.findtext("uri", "")
         model_name = uri.replace("model://", "").strip()

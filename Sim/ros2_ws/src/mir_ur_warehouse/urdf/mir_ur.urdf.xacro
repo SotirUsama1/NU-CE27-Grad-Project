@@ -39,12 +39,13 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 
-  <!-- Gripper plate, 30 x 18 cm, long side along x. The six 60 mm cups (3 x 2, pitch 10 cm) sit
-       flush with its face; their positions are repeated in the vacuum_gripper cups below. -->
+  <!-- Gripper plate, 30 x 18 cm, long side along x. The six 60 mm bellows cups (3 x 2, pitch
+       10 cm) stand 10 mm in front of its face; their positions and stroke are repeated in the
+       vacuum_gripper plugin below, which also models their compression. -->
   <xacro:macro name="cup_visual" params="x y">
     <visual>
-      <origin xyz="${x} ${y} 0.0095" rpy="0 0 0" />
-      <geometry><cylinder radius="0.03" length="0.002" /></geometry>
+      <origin xyz="${x} ${y} 0.015" rpy="0 0 0" />
+      <geometry><cylinder radius="0.03" length="0.01" /></geometry>
       <material name="suction_black"><color rgba="0.05 0.05 0.05 1" /></material>
     </visual>
   </xacro:macro>
@@ -110,7 +111,8 @@
     </plugin>
 
     <!-- Six 60 mm bellows cups on a vacuum generator reaching 40 kPa on cardboard, about 113 N
-         per cup and 680 N in total. Rubber on cardboard friction 0.6, lip 5 N/mm.
+         per cup and 680 N in total. Bellows 10 mm stroke at 20 N/mm, so a fully gripped box
+         seats about 6 mm in. Rubber on cardboard friction 0.6, lip 5 N/mm.
          SI units (angles in rad). See src/vacuum_gripper.cpp. -->
     <plugin name="vacuum_gripper" filename="libvacuum_gripper.so">
       <pad_link>ur_wrist_3_link</pad_link>
@@ -118,7 +120,10 @@
       <cups>-0.1 -0.05  0.0 -0.05  0.1 -0.05  -0.1 0.05  0.0 0.05  0.1 0.05</cups>
       <cup_radius>0.03</cup_radius>
       <max_vacuum>40000</max_vacuum>
-      <seal_gap>0.005</seal_gap>
+      <stroke>0.01</stroke>
+      <seal_gap>0.002</seal_gap>
+      <bellows_stiffness>20000</bellows_stiffness>
+      <bellows_damping>150</bellows_damping>
       <full_seal_angle>0.09</full_seal_angle>
       <max_seal_angle>0.26</max_seal_angle>
       <evacuation_time>0.15</evacuation_time>

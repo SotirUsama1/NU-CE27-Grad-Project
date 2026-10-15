@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Demo: the MiR 250 + UR10e takes a box from a shelf to the LOAD station and onto the conveyor.
 
-  1. drive from the dock corridor to row 1 of zone D and face box_D_006 (2 kg, 1.26 m shelf)
+  1. drive from the dock corridor to row 1 of zone D and face box_D_006 (2 kg, 0.68 m shelf)
   2. put the suction cup on the box's front face and switch the vacuum on; it holds the box by
      suction force and friction, and the vacuum switch confirms the grip
   3. pull the box out, hold it in front of the robot and drive to the LOAD station (S1)
@@ -45,6 +45,7 @@ LOAD = (BELT_X, 24.55, math.pi / 2)   # S1 LOAD, front edge 0.2 m before the bel
 # the robot top (0.79 m) and the belt rails (0.73 m).
 CARRY_BOX = (0.75, 0.0, 1.0)
 LIFT = 0.06           # off the shelf before pulling out (0.28 m free above the box)
+READY_PAD = (0.55, 0.0, 1.2)   # pad in base_footprint before approaching a shelf
 
 # Arm mount on base_footprint (mir_250_v1.urdf.xacro: ur_base_link, then UR's base -> DH base)
 # and the UR10e DH parameters (ur_description config/ur10e/default_kinematics.yaml).
@@ -53,6 +54,7 @@ DH_D = (0.1807, 0.0, 0.0, 0.17415, 0.11985, 0.11655)
 DH_A = (0.0, -0.6127, -0.57155, 0.0, 0.0, 0.0)
 DH_ALPHA = (math.pi / 2, 0.0, 0.0, math.pi / 2, -math.pi / 2, 0.0)
 PAD_FACE = 0.08       # gripper plate face in front of ur_tool0 (mir_ur.urdf.xacro)
+CUP_STROKE = 0.01     # the bellows cups stand this far in front of the plate face
 JOINTS = ['ur_shoulder_pan_joint', 'ur_shoulder_lift_joint', 'ur_elbow_joint',
           'ur_wrist_1_joint', 'ur_wrist_2_joint', 'ur_wrist_3_joint']
 HOME = [0.0, -1.57, 0.0, -1.57, 0.0, 0.0]
@@ -353,18 +355,22 @@ def main():
 
     print('== 2. suction pad onto the box, lift it and pull it out')
     into = r.dir_to_base(0.0, -1.0)
-    r.move_pad(r.to_base(bx, face_y + 0.35, bz), into)
+    # A joint-space swing straight to the box brushes boxes on low shelves, so swing to a ready
+    # pose well short of the rack first and go on in a straight line.
+    r.move_pad(READY_PAD, into)
+    r.move_pad(r.to_base(bx, face_y + 0.35, bz), into, steps=6)
     r.move_pad(r.to_base(bx, face_y + 0.05, bz), into, steps=6, seconds=3.0)
     bx, by, bz = gz_pose(BOX)[:3]
     face_y = by + BOX_DEPTH / 2
-    r.move_pad(r.to_base(bx, face_y - 0.002, bz), into, steps=4, seconds=2.0)
+    # Stop with the cup lips just short of the face; the vacuum pulls the box onto the cups.
+    r.move_pad(r.to_base(bx, face_y + CUP_STROKE + 0.001, bz), into, steps=4, seconds=2.0)
     if not r.vacuum(True):
         r.vacuum(False)
         raise SystemExit(f'no vacuum on {BOX} ({r.vacuum_kpa:.1f} kPa): the cup did not seal')
     print(f'  vacuum {r.vacuum_kpa:.1f} kPa, part present')
-    y = gz_pose(BOX)[1] + BOX_DEPTH / 2
-    r.move_pad(r.to_base(bx, y, bz + LIFT), into, steps=3, seconds=1.5)
-    r.move_pad(r.to_base(bx, y + 0.45, bz + LIFT), into, steps=8, seconds=4.0)
+    lifted = fk(r.q())[0] + np.array([0.0, 0.0, LIFT])
+    r.move_pad(lifted, into, steps=3, seconds=1.5)
+    r.move_pad(lifted - 0.45 * np.asarray(into), into, steps=8, seconds=4.0)
     carry_pad = np.array(CARRY_BOX) - np.array([BOX_DEPTH / 2, 0.0, 0.0])
     forward = np.array([1.0, 0.0, 0.0])
     r.move_pad(carry_pad, forward, steps=8, seconds=3.0)
