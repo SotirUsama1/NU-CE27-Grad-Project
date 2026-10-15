@@ -2,17 +2,16 @@
 <CycloneDDS xmlns="https://cdds.io/config">
   <Domain Id="any">
     <General>
-      <!-- Select the network interface automatically. Set name="eth0" (or the
-           interface used by your host/container) to pin Cyclone DDS to one NIC. -->
       <Interfaces>
-        <NetworkInterface autodetermine="true" />
+        <NetworkInterface name="enp3s0" />
       </Interfaces>
       <AllowMulticast>true</AllowMulticast>
     </General>
 
     <Discovery>
+      <ParticipantIndex>auto</ParticipantIndex>
       <Peers>
-        <Peer address="xxx.xxx.xxx.xxx" />
+        <Peer address="192.168.0.100" />
       </Peers>
     </Discovery>
   </Domain>
