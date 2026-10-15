@@ -100,43 +100,50 @@ The warehouse includes two pre-generated 2D occupancy grid maps and a 3D semanti
 - `maps/our_structured_warehouse_map.yaml` + `.pgm`: racks drawn solid (the robot cannot drive under them). The Nav2 costmaps plan on it.
 - `maps/our_structured_warehouse_map_scan.yaml` + `.pgm`: only what the lidar sees. The racks are open frames, so the lidar sees just their posts. AMCL localizes on it.
 
-#### Step A: Launch Nav2 with the Warehouse Maps
-Start the Husky first (Step 2). In a new host terminal connected to the container (`docker exec -it $(docker ps -q | head -n 1) bash`):
+#### Step 1: Start the Docker Container & Launch Husky with Gazebo GUI
+In your **First Host Terminal**:
+```bash
+./Sim/gzScripts/runGzClassic-Robots bash
+```
+Once inside the container shell, launch the warehouse world and Husky:
+```bash
+ros2 launch warehouse_husky husky.launch.py world_path:=Our_Structured_Warehouse/Our_Structured_Warehouse.world gui:=true
+```
+*(Gazebo Classic 3D window will open with the Husky spawned at `(-1.5, 2.0)` facing the warehouse aisles).*
 
+#### Step 2: Launch Nav2 Stack (Tuned RPP Controller)
+In your **Second Host Terminal**, connect to the running container:
+```bash
+docker exec -it $(docker ps -q | head -n 1) bash
+```
+Inside the container, launch the Nav2 navigation stack:
 ```bash
 ros2 launch warehouse_husky nav2.launch.py
 ```
+*(This loads the map servers, AMCL localization, global/local costmaps, and the Regulated Pure Pursuit path follower).*
 
-*(This loads the map servers, AMCL localization, global/local costmaps, and path planners).*
+*(Optional)* To benchmark alternative controllers instead of RPP:
+- MPPI: `ros2 launch warehouse_husky nav2.launch.py params_file:=/main/ros_ws/src/warehouse_husky/config/nav2_params_mppi.yaml`
+- DWB: `ros2 launch warehouse_husky nav2.launch.py params_file:=/main/ros_ws/src/warehouse_husky/config/nav2_params_dwb.yaml`
 
-The container and launch files select loopback-only UDP transport for Fast DDS using `config/fastdds_udp.xml`. Shared-memory communication stalled AMCL transforms even while its lifecycle state remained active. Restart the container after changing transport settings so every ROS process uses the same configuration. If you added this XML file to an existing workspace, rebuild `warehouse_husky` first. Keep just one RViz instance open to avoid unnecessary rendering load.
-
-This runs Nav2's `bringup_launch.py` with the Husky's settings ([nav2_params.yaml](Sim/ros_ws/src/warehouse_husky/config/nav2_params.yaml)) and both maps. Nav2's own default parameters are for a TurtleBot3 and would read odometry from `/odom`, which the Husky does not publish. The Husky file also sets the Husky's size and speed, and starts AMCL at the Husky's default spawn pose `(-1.5, 2.0)`, 2 m from the racks. If you spawn the robot elsewhere (`x:=`, `y:=`, `yaw:=`), set the initial pose in RViz as in Step C, and keep clear of the racks: Nav2 cannot plan a turn within about 0.4 m of one.
-
-#### Step B: Launch RViz2 (Nav2 Graphical Interface)
-The `Map` display shows the scan map (the lidar's view, racks as thin posts); the costmap displays show the racks as solid obstacles, which is what the planner avoids.
-
-AMCL uses 120 laser samples per scan and 500–2,000 particles. Updates occur after 0.1 m of translation or 0.1 rad of rotation. Check scan alignment while driving and turning before using longer routes; an active lifecycle state alone does not establish localization accuracy. DWB's minimum translation and rotation speeds are configured together to avoid turn commands too weak to overcome Husky's skid friction.
-
-In another terminal connected to the container (`docker exec -it $(docker ps -q | head -n 1) bash`):
-
+#### Step 3: Launch RViz2 (Nav2 Graphical Interface)
+In your **Third Host Terminal**, connect to the running container:
+```bash
+docker exec -it $(docker ps -q | head -n 1) bash
+```
+Inside the container, launch RViz2:
 ```bash
 rviz2 -d /opt/ros/humble/share/nav2_bringup/rviz/nav2_default_view.rviz --ros-args -p use_sim_time:=true
 ```
 
-#### Step C: Operating Nav2 in RViz2
-1. **Check the Initial Robot Pose:**
-   * AMCL starts at the spawn point, so the robot and laser scan should already sit on the map. Set the pose by hand only if they don't line up, or if you spawned the robot elsewhere:
-   * In the top toolbar, click **`2D Pose Estimate`**.
-   * Click and drag on the map near the robot's spawn point (`-1.5, 2.0`), pointing in the direction the robot faces.
-   * AMCL will snap the laser scan dots (in red) onto the warehouse walls and rack posts.
-2. **Activate Navigation:**
-   * In the bottom-left **Navigation 2** panel, ensure **`Localization`** is green (`active`).
-   * If **`Navigation`** is `inactive`, click the **`Startup`** (or **`Reset`**) button.
-3. **Send an Autonomous Goal:**
-   * In the top toolbar, click **`Nav2 Goal`** (or **`2D Goal Pose`**).
-   * Click on any open white floor in an aisle to set the destination.
-   * Nav2 will calculate a global path and autonomously steer the Husky to the target while dodging obstacles.
+#### Step 4: Operating Nav2 in RViz2
+1. **Initial Robot Pose:**
+   * AMCL automatically initializes at spawn pose `(-1.5, 2.0)`, matching the red laser scan points against warehouse walls and rack posts.
+   * If you spawned the robot at a custom pose, click **`2D Pose Estimate`** in the top toolbar and click/drag on the map to set the initial pose.
+2. **Send an Autonomous Navigation Goal:**
+   * In the top toolbar, click **`Nav2 Goal`** (or press `g`).
+   * Click inside any picking aisle (for example, at `(2.46, 3.5)` in Aisle 1) facing North ($90^\circ$).
+   * The RPP controller will autonomously steer the Husky, squaring up in place before entering the aisle, and follow the centerline with zero tire scrub.
 
 ---
 

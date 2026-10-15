@@ -25,14 +25,17 @@ def generate_launch_description():
 
     scan_map = LaunchConfiguration('scan_map')
     nav_map = LaunchConfiguration('nav_map')
+    params_file = LaunchConfiguration('params_file')
+    use_rviz = LaunchConfiguration('use_rviz')
 
     nav2 = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(nav2_launch),
         launch_arguments={
             'map': scan_map,  # map_server + AMCL
-            'params_file': os.path.join(pkg_share, 'config', 'nav2_params.yaml'),
+            'params_file': params_file,
             'use_sim_time': 'true',
             'use_composition': 'False',
+            'use_rviz': use_rviz,
         }.items(),
     )
 
@@ -63,6 +66,11 @@ def generate_launch_description():
                               description='Map of what the lidar sees, for AMCL'),
         DeclareLaunchArgument('nav_map', default_value='/main/maps/our_structured_warehouse_map.yaml',
                               description='Map with solid racks, for the costmaps'),
+        DeclareLaunchArgument('params_file',
+                              default_value=os.path.join(pkg_share, 'config', 'nav2_params.yaml'),
+                              description='Nav2 parameters file (e.g. nav2_params.yaml or nav2_params_mppi.yaml)'),
+        DeclareLaunchArgument('use_rviz', default_value='False',
+                              description='Whether to start RViz alongside Nav2'),
         nav2,
         nav_map_server,
         nav_map_lifecycle,
