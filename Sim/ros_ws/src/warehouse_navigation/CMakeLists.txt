@@ -7,4 +7,9 @@ install(DIRECTORY config launch maps rviz
   DESTINATION share/${PROJECT_NAME}
 )
 
+# ros2 run warehouse_navigation go_far.py
+install(PROGRAMS scripts/go_far.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()

@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-"""Generate the Nav2 map of the warehouse from the Gazebo world file.
+"""Generate the Nav2 maps of the warehouse from the Gazebo world file.
 
-Every obstacle in the world is a collision box, so the map is drawn from their exact
-positions instead of being built with SLAM.
+Every obstacle in the world is a collision box, so the maps are drawn from their exact
+positions instead of being built with SLAM. Two maps, same size and origin:
+  warehouse        what the robot can bump into, racks drawn solid: used to plan routes
+  warehouse_lidar  what the lidar's scan plane cuts through (rack posts one by one, boxes on the
+                   lowest shelves): used by AMCL to match scans, since the lidar sees between the posts
 
 Run on the host, from anywhere:
   python3 Sim/ros_ws/src/warehouse_navigation/scripts/generate_map.py
@@ -17,7 +20,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 SIM_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..', '..', '..'))
 WORLD_FILE = os.path.join(SIM_DIR, 'worlds', 'Our_Structured_Warehouse', 'Our_Structured_Warehouse.world')
 MODELS_DIR = os.path.join(SIM_DIR, 'models')
-MAP_FILE = os.path.join(SCRIPT_DIR, '..', 'maps', 'warehouse')  # writes warehouse.pgm and warehouse.yaml
+MAPS_DIR = os.path.join(SCRIPT_DIR, '..', 'maps')  # writes warehouse.pgm/.yaml and warehouse_lidar.pgm/.yaml
 
 RESOLUTION = 0.05  # m per pixel, same as slam_toolbox
 MARGIN = 1.0       # m of free space around the outermost obstacle
@@ -26,6 +29,9 @@ FREE, OCCUPIED = 254, 0  # pixel values Nav2's map_server reads as free / occupi
 # Only parts between these heights (m) can touch the Husky; the floor and anything higher are left out.
 ROBOT_Z_MIN = 0.05
 ROBOT_Z_MAX = 0.6
+
+# Height of the Husky lidar's scan plane (laser_link in the simulation)
+LIDAR_Z = 0.285
 
 
 def parse_pose(text):
@@ -118,6 +124,13 @@ def map_obstacles(models):
     return obstacles, skipped
 
 
+def lidar_obstacles(models):
+    """The rectangles the lidar's scan plane cuts through, every part on its own (no solid racks)."""
+    return [{'name': f"{p['model']}/{p['part']}", **{k: p[k] for k in ('x', 'y', 'sx', 'sy', 'yaw')}}
+            for model in models for p in collision_boxes(model)
+            if p['z_min'] <= LIDAR_Z <= p['z_max']]
+
+
 def corners(o):
     """The four corners of a rectangle obstacle in world coordinates."""
     c, s = math.cos(o['yaw']), math.sin(o['yaw'])
@@ -126,9 +139,12 @@ def corners(o):
                            (o['sx'] / 2, o['sy'] / 2), (-o['sx'] / 2, o['sy'] / 2))]
 
 
-def draw_map(obstacles, path):
-    """Draw the obstacles into <path>.pgm and write <path>.yaml in Nav2 map_server format."""
-    points = [p for o in obstacles for p in corners(o)]
+def draw_map(obstacles, path, extent_of=None):
+    """Draw the obstacles into <path>.pgm and write <path>.yaml in Nav2 map_server format.
+
+    The map covers extent_of (default: the obstacles themselves) plus MARGIN.
+    """
+    points = [p for o in (extent_of or obstacles) for p in corners(o)]
     x0 = min(x for x, _ in points) - MARGIN
     y0 = min(y for _, y in points) - MARGIN
     width = math.ceil((max(x for x, _ in points) + MARGIN - x0) / RESOLUTION)
@@ -162,11 +178,16 @@ def main():
     print(f'obstacles: {racks} solid racks + {len(obstacles) - racks} others; '
           f'skipped {skipped["labelled boxes"]} labelled boxes, {skipped["outside robot height"]} parts outside robot height')
 
-    path = os.path.abspath(MAP_FILE)
+    path = os.path.abspath(os.path.join(MAPS_DIR, 'warehouse'))
     width, height, x0, y0 = draw_map(obstacles, path)
     print(f'map: {width} x {height} px = {width * RESOLUTION:.1f} x {height * RESOLUTION:.1f} m, '
           f'origin ({x0:.2f}, {y0:.2f})')
     print(f'wrote {path}.pgm and {path}.yaml')
+
+    seen = lidar_obstacles(models)
+    path = os.path.abspath(os.path.join(MAPS_DIR, 'warehouse_lidar'))
+    draw_map(seen, path, extent_of=obstacles)  # same size and origin as the main map
+    print(f'lidar map: {len(seen)} parts at the lidar height ({LIDAR_Z} m); wrote {path}.pgm and {path}.yaml')
 
 
 if __name__ == '__main__':

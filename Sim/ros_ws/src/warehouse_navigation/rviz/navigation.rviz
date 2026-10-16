@@ -44,6 +44,16 @@ Visualization Manager:
         Value: /local_costmap/published_footprint
         Reliability Policy: Reliable
       Color: 0; 255; 255
+    - Class: rviz_default_plugins/Path
+      Name: Planned path
+      Enabled: true
+      Topic:
+        Value: /plan
+        Durability Policy: Volatile
+        Reliability Policy: Reliable
+      Color: 0; 200; 0
+      Line Style: Billboards
+      Line Width: 0.06
     - Class: rviz_default_plugins/RobotModel
       Name: RobotModel
       Enabled: true
@@ -83,6 +93,9 @@ Visualization Manager:
     - Class: rviz_default_plugins/SetInitialPose
       Topic:
         Value: /initialpose
+    - Class: rviz_default_plugins/SetGoal
+      Topic:
+        Value: /goal_pose
   Views:
     Current:
       Class: rviz_default_plugins/TopDownOrtho

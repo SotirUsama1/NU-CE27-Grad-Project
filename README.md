@@ -44,7 +44,7 @@ ros2 launch warehouse_husky husky.launch.py world_path:=Our_Structured_Warehouse
 This is the project's Husky (`Sim/ros_ws/src/warehouse_husky`), built on Clearpath's:
 
 - a 2D lidar on `/scan`
-- the `odom` → `base_link` transform from the wheel odometry
+- the `odom` → `base_link` transform from an EKF that combines the wheel speed with the IMU gyroscope (the skid-steer wheels slip in turns, so on their own they misjudge how far the robot turned)
 - Nav2 can drive it on `/cmd_vel_nav`; keyboard teleop on `/cmd_vel` overrides it
 
 Extra arguments: `gui:=false` runs without the Gazebo window, and `x:=`, `y:=`, `yaw:=` set the spawn pose. Clearpath's stock Husky (no lidar) is still available with `ros2 launch husky_gazebo gazebo.launch.py world_path:=...`.
@@ -85,7 +85,7 @@ ros2 launch ur_robot_driver test_joint_trajectory_controller.launch.py
 
 ### 4. The warehouse map (Husky)
 
-Nav2 needs a map of the warehouse. It is already in the repository, in `Sim/ros_ws/src/warehouse_navigation/maps` (`warehouse.pgm` is the image, `warehouse.yaml` its scale and origin), so there is nothing to do unless the world changes.
+Nav2 needs a map of the warehouse. It is already in the repository, in `Sim/ros_ws/src/warehouse_navigation/maps` (`warehouse.pgm` is the image, `warehouse.yaml` its scale and origin), so there is nothing to do unless the world changes. A second map, `warehouse_lidar`, shows the warehouse as the lidar sees it (rack posts one by one instead of solid racks); only localization uses it.
 
 **Open the map image** on your computer (not in the container), from the repository root:
 
@@ -108,11 +108,11 @@ The robot is placed on the map at its spawn pose and then follows its wheel odom
 
 The map is generated from `Our_Structured_Warehouse.world` rather than built with SLAM: every obstacle in the world is a collision box, so the script draws walls, pallets, pillars, the dock and the truck from their exact positions, and each rack as one solid block. Labelled boxes are left out because they move.
 
-**After changing the world**, regenerate the map inside the container and commit both files:
+**After changing the world**, regenerate the maps inside the container and commit all four files:
 
 ```bash
 python3 /main/ros_ws/src/warehouse_navigation/scripts/generate_map.py
-chown $(stat -c %u:%g /main/ros_ws/src) /main/ros_ws/src/warehouse_navigation/maps/warehouse.*
+chown $(stat -c %u:%g /main/ros_ws/src) /main/ros_ws/src/warehouse_navigation/maps/warehouse*
 ```
 
 `chown` gives the files back to your host user instead of root. If the script fails with `No module named 'PIL'`, your image is older than the Pillow addition: run `docker pull sotirusama/gzclassic:devvv`.
@@ -136,18 +136,48 @@ If you spawned the Husky somewhere else, pass the same pose, for example `x:=2.0
 
 Run either this or `view_map.launch.py`, not both: they both place the robot on the map.
 
-### 6. Costmaps (Husky)
-
-A costmap marks how dangerous each spot is for the robot's centre: obstacles are lethal, and a safety zone around them (0.7 m) gets a cost that falls with distance. The **global costmap** covers the whole map and is used to plan routes; the **local costmap** is a 6 x 6 m window around the robot, updated from the lidar, used to follow the route and avoid new obstacles.
+### 6. Navigation (Husky)
 
 Instead of `localization.launch.py` (it is included), run in terminal 2:
 
 ```bash
-ros2 launch warehouse_navigation costmaps.launch.py
+ros2 launch warehouse_navigation navigation.launch.py
 ```
 
-RViz now also shows the costmaps (red/purple = obstacle, blue to cyan = safety zone) and the robot's footprint as a cyan rectangle. Drive the robot with the keyboard: the local costmap moves with it. A box added in Gazebo in front of the robot appears in the costmaps, and disappears again after it is removed.
+Wait for `Managed nodes are active` to appear twice (about 10 s). Then in RViz click **2D Goal Pose**, click a free spot on the map and drag to choose the direction the robot should face. The robot plans a route (green line) and drives there by itself.
 
-### 7. Stop
+What runs, all in `config/nav2_params.yaml`:
+
+| Part | Job |
+|---|---|
+| Global costmap | the whole map with a 1 m safety zone around every obstacle, plus what the lidar sees; routes avoid passages narrower than about 1.25 m, which the 1.0 m long Husky could only enter perfectly lined up |
+| Planner (NavFn) | the cheapest route from the robot to the goal on the global costmap, recomputed every second |
+| Local costmap | a 6 x 6 m window around the robot, updated from the lidar 5 times a second |
+| Controller (MPPI) | 20 times a second tries about 2000 short motions, keeps those whose whole footprint stays clear, and drives the best one on `/cmd_vel_nav` |
+| Recovery behaviors | when stuck: clear the costmaps, spin 90 degrees, wait 5 s or back up 0.3 m, then try again (up to 6 times) |
+| BT Navigator | takes the goal and runs the behavior tree that uses all of the above |
+
+RViz shows the costmaps (red/purple = obstacle, blue to cyan = safety zone) and the robot's footprint as a cyan rectangle. A box added in Gazebo in front of the robot appears in the costmaps and the route goes around it. Keyboard teleop on `/cmd_vel` always overrides navigation.
+
+A goal can also be sent from a terminal:
+
+```bash
+ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose \
+  "{pose: {header: {frame_id: map}, pose: {position: {x: 28.0, y: 25.6}, orientation: {w: 1.0}}}}"
+```
+
+The goal must leave room for the whole robot (1.0 x 0.69 m): a spot right against a wall is never reached.
+
+### 7. Drive to the furthest point (Husky)
+
+With navigation running (step 6), in another terminal:
+
+```bash
+ros2 run warehouse_navigation go_far.py
+```
+
+It finds the point of the warehouse furthest from the robot (in a straight line) that the robot can reach and that leaves room to turn on the spot (0.75 m clear all round), sends it to Nav2, and prints progress until the robot arrives. Add `--ros-args -p dry_run:=true` to only print the point. From the default spawn pose it is (28.2, 25.9), 38 m away; the drive takes about 2 minutes.
+
+### 8. Stop
 
 Press `Ctrl+C` in the launch terminal. Do not use `Ctrl+P` `P` (detach): it leaves the simulation half-stopped.

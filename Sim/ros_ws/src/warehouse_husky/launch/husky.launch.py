@@ -2,8 +2,9 @@
 
 Compared with husky_gazebo/launch/gazebo.launch.py it:
   * adds a 2D lidar from urdf/husky_lidar.urdf.xacro (topic /scan)
-  * publishes odom -> base_link from the wheel controller (config/control.yaml); the upstream EKF
-    is left out because it listens on the wrong odometry topic and never publishes that transform
+  * publishes odom -> base_link from an EKF (config/ekf.yaml) that fuses the wheel speed with the IMU
+    gyroscope, because the skid-steer wheels misjudge turns; the upstream EKF is left out because it
+    listens on the wrong odometry topic and never publishes that transform
   * runs every node on simulation time
   * routes Nav2 (/cmd_vel_nav) through twist_mux, below keyboard teleop (/cmd_vel)
 
@@ -29,6 +30,7 @@ def generate_launch_description():
     pkg_share = get_package_share_directory('warehouse_husky')
     control_config = os.path.join(pkg_share, 'config', 'control.yaml')
     twist_mux_config = os.path.join(pkg_share, 'config', 'twist_mux.yaml')
+    ekf_config = os.path.join(pkg_share, 'config', 'ekf.yaml')
 
     robot_description = ParameterValue(Command([
         FindExecutable(name='xacro'), ' ',
@@ -93,6 +95,15 @@ def generate_launch_description():
         output='screen',
     )
 
+    # wheels + gyroscope -> odom -> base_link and /odometry/filtered
+    ekf = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        parameters=[ekf_config],
+        output='screen',
+    )
+
     return LaunchDescription([
         DeclareLaunchArgument('world_path', default_value='',
                               description='World file, relative to Sim/worlds or absolute; empty world if unset'),
@@ -109,4 +120,5 @@ def generate_launch_description():
         RegisterEventHandler(OnProcessExit(target_action=spawn_joint_state_broadcaster,
                                            on_exit=[spawn_velocity_controller])),
         twist_mux,
+        ekf,
     ])

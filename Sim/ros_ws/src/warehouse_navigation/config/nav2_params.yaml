@@ -1,10 +1,17 @@
 # Nav2 settings for the Husky in Our_Structured_Warehouse.
-# Built up stage by stage: localization (map_server, amcl), costmaps; planner and controller follow.
+# Localization (map_server, amcl), costmaps, planner, controller, recovery behaviors and the navigator.
 
 map_server:
   ros__parameters:
     use_sim_time: true
     yaml_filename: ""   # set by the launch file to maps/warehouse.yaml
+
+# Second map, for AMCL: the warehouse as the lidar sees it
+map_server_lidar:
+  ros__parameters:
+    use_sim_time: true
+    yaml_filename: ""   # set by the launch file to maps/warehouse_lidar.yaml
+    topic_name: map_lidar
 
 amcl:
   ros__parameters:
@@ -15,7 +22,9 @@ amcl:
     odom_frame_id: odom
     base_frame_id: base_link
     scan_topic: scan
-    map_topic: map
+    # The lidar map (warehouse_lidar): racks drawn post by post, as the lidar sees them. The solid
+    # map used for planning would make scans that pass between the posts look wrong.
+    map_topic: map_lidar
 
     # Start pose: the Husky's spawn pose (launch arguments x, y, yaw override it)
     set_initial_pose: true
@@ -25,13 +34,16 @@ amcl:
       z: 0.0
       yaw: 0.0
 
-    # Motion model: how much the wheel odometry is trusted (higher alpha = more noise expected).
-    # 0.3 instead of the usual 0.2: the skid-steer Husky slips when turning.
+    # Motion model: how much the odometry is trusted (higher alpha = more error expected).
+    # The odometry comes from the EKF (wheels + gyroscope). Measured in Gazebo: straight distance
+    # is exact and the heading is within 0.1 deg, but tight arcs under-report distance by up to 25%.
+    # Low noise keeps AMCL from sliding along long corridors, where the lidar cannot tell how far
+    # along the robot is.
     robot_model_type: nav2_amcl::DifferentialMotionModel
-    alpha1: 0.3   # rotation noise from rotation
-    alpha2: 0.3   # rotation noise from translation
-    alpha3: 0.3   # translation noise from translation
-    alpha4: 0.3   # translation noise from rotation
+    alpha1: 0.1   # rotation noise from rotation (gyroscope: accurate)
+    alpha2: 0.1   # rotation noise from translation
+    alpha3: 0.05  # translation noise from translation (straight driving: exact)
+    alpha4: 0.2   # translation noise from rotation (tight arcs under-report distance)
     alpha5: 0.3   # unused by the differential model
 
     # Particles: each one is a guess of the robot's pose
@@ -43,9 +55,10 @@ amcl:
     recovery_alpha_fast: 0.0
     recovery_alpha_slow: 0.0
 
-    # Only update after the robot moves this much, so a still robot does not drift
-    update_min_d: 0.20    # m
-    update_min_a: 0.20    # rad
+    # Only update after the robot moves this much, so a still robot does not drift.
+    # Small values: heading errors from the wheels are corrected during a turn, not after it.
+    update_min_d: 0.10    # m
+    update_min_a: 0.10    # rad
 
     # Laser model: matches the Husky lidar (720 samples, 0.3 to 25 m, 360 degrees).
     # The simulated lidar is clean and the map is exact, so the scan is trusted more than usual
@@ -83,6 +96,10 @@ global_costmap:
       global_frame: map
       robot_base_frame: base_link
       footprint: "[[0.50, 0.345], [0.50, -0.345], [-0.50, -0.345], [-0.50, 0.345]]"
+      # Large margin for planning only: routes avoid passages narrower than about 1.25 m. The Husky
+      # is 1.0 m long, so it gets through a narrower gap only if already lined up with it, and a
+      # route that reaches such a gap at an angle leaves it stuck at the entrance.
+      footprint_padding: 0.28     # m added all round the footprint
       resolution: 0.05            # m per cell, same as the map
       track_unknown_space: false  # the generated map has no unknown cells
       update_frequency: 1.0       # Hz
@@ -113,8 +130,10 @@ global_costmap:
       # Safety zone around every obstacle
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        inflation_radius: 0.70      # m, cost spreads this far from an obstacle
-        cost_scaling_factor: 3.0    # higher = cost drops faster with distance
+        # The cost slopes down across the whole width of a rack aisle (1.6 m, so 0.8 m from each side),
+        # which pulls the route and the robot to the middle instead of letting them drift to one side
+        inflation_radius: 1.0       # m, cost spreads this far from an obstacle
+        cost_scaling_factor: 2.5    # higher = cost drops faster with distance
 
 local_costmap:
   local_costmap:
@@ -123,6 +142,7 @@ local_costmap:
       global_frame: odom          # smooth odometry frame: the window does not jump when AMCL corrects
       robot_base_frame: base_link
       footprint: "[[0.50, 0.345], [0.50, -0.345], [-0.50, -0.345], [-0.50, 0.345]]"
+      footprint_padding: 0.05     # m of safety margin added all round the footprint
       rolling_window: true        # the window moves with the robot
       width: 6                    # m
       height: 6                   # m
@@ -153,5 +173,204 @@ local_costmap:
 
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        inflation_radius: 0.70
-        cost_scaling_factor: 3.0
+        inflation_radius: 1.0
+        cost_scaling_factor: 2.5
+
+# ---------------------------------------------------------------------------------------------
+# Planner: finds the cheapest route from the robot to the goal on the global costmap.
+# The cost of a route adds up its length and the cost of every cell it crosses, so routes keep
+# to the middle of aisles instead of brushing the racks.
+# ---------------------------------------------------------------------------------------------
+
+planner_server:
+  ros__parameters:
+    use_sim_time: true
+    expected_planner_frequency: 1.0   # Hz, only used to warn when planning is slower than this
+    planner_plugins: ["GridBased"]
+    GridBased:
+      # NavFn: Dijkstra search over the costmap cells. Suits the Husky, which can turn on the spot,
+      # so the route does not need to respect a turning radius.
+      plugin: "nav2_navfn_planner/NavfnPlanner"
+      use_astar: false        # Dijkstra: always finds the cheapest route; A* is faster but less smooth
+      allow_unknown: false    # never plan through unknown cells (our map has none)
+      tolerance: 0.25         # m, if the goal itself is blocked, accept a free cell this close to it
+
+# ---------------------------------------------------------------------------------------------
+# Controller: follows the planned route, sending speed commands 20 times per second.
+# Its output cmd_vel is remapped to /cmd_vel_nav, which twist_mux passes to the wheels
+# (keyboard teleop on /cmd_vel still overrides it).
+# ---------------------------------------------------------------------------------------------
+
+controller_server:
+  ros__parameters:
+    use_sim_time: true
+    controller_frequency: 20.0          # Hz
+    odom_topic: /odometry/filtered   # the robot's measured speed (EKF: wheels + gyroscope); the default /odom does not exist
+    min_x_velocity_threshold: 0.001     # m/s, smaller odometry speeds count as standing still
+    min_y_velocity_threshold: 0.5       # the Husky cannot move sideways
+    min_theta_velocity_threshold: 0.001
+    failure_tolerance: 0.3              # s the controller may fail before giving up
+
+    # Stuck detection: the robot must move 0.5 m every 10 s, otherwise the run is aborted
+    progress_checker_plugin: "progress_checker"
+    progress_checker:
+      plugin: "nav2_controller::SimpleProgressChecker"
+      required_movement_radius: 0.5
+      movement_time_allowance: 10.0
+
+    # Arrival: within 25 cm and about 15 degrees of the goal
+    goal_checker_plugins: ["general_goal_checker"]
+    general_goal_checker:
+      plugin: "nav2_controller::SimpleGoalChecker"
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.25
+      stateful: true                    # once in position, only turn on the spot, do not drift away
+
+    controller_plugins: ["FollowPath"]
+    FollowPath:
+      # MPPI (Model Predictive Path Integral): every cycle it samples batch_size possible motions for
+      # the next time_steps x model_dt seconds, scores each one with the critics below (stay on the
+      # route, keep the whole footprint clear of obstacles, head for the goal...) and drives the
+      # weighted best. Unlike a pure path follower it steers around tight corners instead of stopping.
+      plugin: "nav2_mppi_controller::MPPIController"
+      time_steps: 56              # 56 x 0.05 s = 2.8 s ahead
+      model_dt: 0.05              # s, same as 1 / controller_frequency
+      batch_size: 2000            # motions tried per cycle
+      vx_std: 0.2                 # spread of the tried speeds (m/s, m/s, rad/s)
+      vy_std: 0.2
+      wz_std: 0.4
+      vx_max: 0.5                 # m/s forward
+      vx_min: -0.35               # m/s backward, for getting out of tight spots
+      vy_max: 0.5                 # unused: the diff-drive model cannot move sideways
+      wz_max: 1.0                 # rad/s, same limit as the wheel controller
+      iteration_count: 1
+      prune_distance: 1.7         # m of route ahead that is considered
+      transform_tolerance: 0.1
+      temperature: 0.3
+      gamma: 0.015
+      motion_model: "DiffDrive"
+      visualize: false
+      reset_period: 1.0
+      regenerate_noises: false
+      critics: ["ConstraintCritic", "CostCritic", "GoalCritic", "GoalAngleCritic", "PathAlignCritic",
+                "PathFollowCritic", "PathAngleCritic", "PreferForwardCritic", "VelocityDeadbandCritic"]
+
+      # Respect the speed limits above
+      ConstraintCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 4.0
+      # Keep the whole footprint off obstacles and out of the high-cost zone next to them
+      CostCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 3.81
+        critical_cost: 300.0
+        consider_footprint: true
+        collision_cost: 1000000.0
+        near_goal_distance: 1.0
+        trajectory_point_step: 2
+      # Near the goal: get there, then face the goal direction
+      GoalCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 5.0
+        threshold_to_consider: 1.4
+      GoalAngleCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 3.0
+        threshold_to_consider: 0.5
+      # Away from the goal: stay on the route, move along it, face along it
+      PathAlignCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 14.0
+        max_path_occupancy_ratio: 0.05
+        trajectory_point_step: 4
+        threshold_to_consider: 0.5
+        offset_from_furthest: 20
+        use_path_orientations: false
+      PathFollowCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 5.0
+        offset_from_furthest: 5
+        threshold_to_consider: 1.4
+      PathAngleCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 2.0
+        offset_from_furthest: 4
+        threshold_to_consider: 0.5
+        max_angle_to_furthest: 1.0
+        mode: 0                   # 0 = prefer driving forwards along the route
+      # Drive forwards unless reversing is clearly better
+      PreferForwardCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 5.0
+        threshold_to_consider: 0.5
+      # The skid-steer Husky does not turn on the spot below about 0.15 rad/s: avoid such weak commands
+      VelocityDeadbandCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 35.0
+        deadband_velocities: [0.05, 0.05, 0.15]
+
+# ---------------------------------------------------------------------------------------------
+# Recovery behaviors: simple moves the navigator uses when the robot is stuck.
+# They drive through /cmd_vel_nav like the controller, and check the local costmap so they do
+# not drive into anything.
+# ---------------------------------------------------------------------------------------------
+
+behavior_server:
+  ros__parameters:
+    use_sim_time: true
+    costmap_topic: local_costmap/costmap_raw            # the local costmap, to check moves are safe
+    footprint_topic: local_costmap/published_footprint
+    cycle_frequency: 10.0                               # Hz
+    behavior_plugins: ["spin", "backup", "drive_on_heading", "wait"]
+    spin:
+      plugin: "nav2_behaviors/Spin"                     # turn on the spot
+    backup:
+      plugin: "nav2_behaviors/BackUp"                   # drive straight backwards
+    drive_on_heading:
+      plugin: "nav2_behaviors/DriveOnHeading"           # drive straight forwards
+    wait:
+      plugin: "nav2_behaviors/Wait"                     # stand still (e.g. until a person walks away)
+    global_frame: odom
+    robot_base_frame: base_link
+    transform_tolerance: 0.5
+    simulate_ahead_time: 2.0       # s, check this far ahead for collisions before moving
+    max_rotational_vel: 1.0        # rad/s
+    min_rotational_vel: 0.4        # rad/s, well above the 0.15 the Husky needs to turn at all
+    rotational_acc_lim: 1.0        # rad/s^2, same limit as the wheel controller
+
+# ---------------------------------------------------------------------------------------------
+# BT Navigator: the "boss". Takes a goal (from RViz's Nav2 Goal button on /goal_pose, or the
+# navigate_to_pose action) and runs a behavior tree that calls the planner, the controller and,
+# when something fails, the recovery behaviors.
+# The tree used is Nav2's default, navigate_to_pose_w_replanning_and_recovery.xml (in the
+# nav2_bt_navigator package): replan every second, and on failure clear the costmaps, spin 90
+# degrees, wait 5 s or back up 0.3 m, then try again, up to 6 times.
+# ---------------------------------------------------------------------------------------------
+
+bt_navigator:
+  ros__parameters:
+    use_sim_time: true
+    global_frame: map
+    robot_base_frame: base_link
+    odom_topic: /odometry/filtered
+    bt_loop_duration: 10           # ms between ticks of the tree
+    default_server_timeout: 20     # ms to wait for a planner / controller reply each tick
+    # default_nav_to_pose_bt_xml is left unset: the default tree described above is used
+
+# Helper nodes the navigator creates internally
+bt_navigator_navigate_to_pose_rclcpp_node:
+  ros__parameters:
+    use_sim_time: true
+
+bt_navigator_navigate_through_poses_rclcpp_node:
+  ros__parameters:
+    use_sim_time: true
