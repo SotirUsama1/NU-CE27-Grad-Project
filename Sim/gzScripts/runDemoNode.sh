@@ -25,9 +25,11 @@ fi
 docker run --rm -it \
   --network host \
   --mount "type=bind,src=$(realpath "$CONFIG"),dst=/etc/cyclonedds/cyclonedds.xml,readonly" \
-  -e RMW_IMPLEMENTATION=rmw_cyclonedds_cpp \
-  -e ROS_LOCALHOST_ONLY=0 \
-  -e ROS_DOMAIN_ID="$DOMAIN" \
-  -e CYCLONEDDS_URI=file:///etc/cyclonedds/cyclonedds.xml \
+  --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+  --volume="${HOME}/.Xauthority:/root/.Xauthority:rw" \
+  --env="RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" \
+  --env="ROS_LOCALHOST_ONLY=0" \
+  --env="ROS_DOMAIN_ID=$DOMAIN" \
+  --env="CYCLONEDDS_URI=file:///etc/cyclonedds/cyclonedds.xml" \
   "$IMAGE" \
   bash -lc "source /opt/ros/humble/setup.bash && ros2 run demo_nodes_cpp $NODE"
