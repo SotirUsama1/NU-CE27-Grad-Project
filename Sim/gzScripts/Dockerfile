@@ -41,6 +41,7 @@ RUN echo "Refreshing ROS application packages (${DYNAMIC_PACKAGES_CACHEBUST})" \
     ros-humble-demo-nodes-cpp \
     ros-humble-turtlesim \
  && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /main
 
 CMD ["bash"]

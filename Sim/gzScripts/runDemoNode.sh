@@ -8,7 +8,7 @@ fi
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG="${CYCLONEDDS_CONFIG:-$SCRIPT_DIR/cyclonedds.xml}"
-IMAGE="${ROS_IMAGE:-sotirusama/gzclassic:cyclonedds}"
+IMAGE="${ROS_IMAGE:-sotirusama/gzclassic:latest}"
 DOMAIN="${ROS_DOMAIN_ID:-17}"
 
 [[ -r "$CONFIG" ]] || {
