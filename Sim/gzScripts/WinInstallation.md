@@ -214,13 +214,26 @@ cp cyclonedds.xml cyclonedds.local.xml
 CYCLONEDDS_CONFIG="$PWD/cyclonedds.local.xml" ROS_DOMAIN_ID=17 ./runGzClassic-WSL.sh
 ```
 
-Use `./runGzClassic-Ubuntu` on Ubuntu for the same command. Each launcher validates
-the selected file, mounts it read-only at `/etc/cyclonedds/cyclonedds.xml`, and sets
-`CYCLONEDDS_URI` to that in-container path. The file path and domain ID remain
-configurable through `CYCLONEDDS_CONFIG` and `ROS_DOMAIN_ID`. The Ubuntu launcher
-uses host networking. The WSL launcher uses Docker's default network; multi-host
-communication there also needs Docker networking that passes DDS traffic between
-hosts, including multicast or configured unicast peers.
+Use `./runGzClassic-Ubuntu` on Ubuntu for the same command. When a config path is
+provided, each launcher validates the file, mounts it read-only at
+`/etc/cyclonedds/cyclonedds.xml`, and sets `CYCLONEDDS_URI` to that in-container
+path. The file path and domain ID remain configurable through `CYCLONEDDS_CONFIG`
+and `ROS_DOMAIN_ID`. The Ubuntu launcher uses host networking. The WSL launcher
+uses Docker's default network; multi-host communication there also needs Docker
+networking that passes DDS traffic between hosts, including multicast or
+configured unicast peers.
+
+For an Ubuntu run where ROS 2 nodes should communicate only on this machine, omit
+the custom Cyclone DDS configuration and restrict ROS 2 discovery to localhost:
+
+```bash
+CYCLONEDDS_CONFIG= ROS_LOCALHOST_ONLY=1 ./runGzClassic-Ubuntu
+```
+
+Setting `CYCLONEDDS_CONFIG` to an empty value skips the custom config; Cyclone
+DDS then uses its built-in defaults. Set `ROS_LOCALHOST_ONLY=1` for any other
+local ROS 2 processes that need to communicate with the container. To restore the
+launcher's normal network behavior, omit `ROS_LOCALHOST_ONLY` (it defaults to `0`).
 
 ---
 

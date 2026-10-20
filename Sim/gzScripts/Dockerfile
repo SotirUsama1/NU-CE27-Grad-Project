@@ -29,6 +29,7 @@ RUN apt-get -o Acquire::Retries=5 update \
 RUN apt-get -o Acquire::Retries=5 update \
  && apt-get -o Acquire::Retries=5 install -y --no-install-recommends \
     ros-humble-ros-base \
+    ros-humble-gazebo-ros-pkgs \
     ros-humble-rmw-cyclonedds-cpp \
  && rm -rf /var/lib/apt/lists/*
 

@@ -36,7 +36,7 @@ else
 fi
 
 
-CYCLONEDDS_CONFIG="${CYCLONEDDS_CONFIG:-${SCRIPT_DIR}/cyclonedds.xml}"
+CYCLONEDDS_CONFIG="${CYCLONEDDS_CONFIG-${SCRIPT_DIR}/cyclonedds.xml}"
 ROS_DOMAIN_ID="${ROS_DOMAIN_ID:-17}"
 
 CYCLONEDDS_DOCKER_ARGS=()
@@ -49,7 +49,7 @@ if [[ -n ${CYCLONEDDS_CONFIG:-} ]]; then
     CYCLONEDDS_DOCKER_ARGS+=(--mount "type=bind,src=${CYCLONEDDS_CONFIG_PATH},dst=/etc/cyclonedds/cyclonedds.xml,readonly")
     CYCLONEDDS_URI_DOCKER_ARGS=(--env=CYCLONEDDS_URI=file:///etc/cyclonedds/cyclonedds.xml)
 else
-    CYCLONEDDS_URI_DOCKER_ARGS=(--env=CYCLONEDDS_URI)
+    CYCLONEDDS_URI_DOCKER_ARGS=()
 fi
 
 # 5. Execute the Docker command
