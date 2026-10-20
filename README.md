@@ -111,7 +111,7 @@ ros2 launch warehouse_husky husky.launch.py world_path:=Our_Structured_Warehouse
 ```
 *(Gazebo Classic 3D window will open with the Husky spawned at `(-1.5, 2.0)` facing the warehouse aisles).*
 
-#### Step 2: Launch Nav2 Stack (Tuned RPP Controller)
+#### Step 2: Launch Nav2 Stack (Tuned MPPI Controller - Default)
 In your **Second Host Terminal**, connect to the running container:
 ```bash
 docker exec -it $(docker ps -q | head -n 1) bash
@@ -120,11 +120,14 @@ Inside the container, launch the Nav2 navigation stack:
 ```bash
 ros2 launch warehouse_husky nav2.launch.py
 ```
-*(This loads the map servers, AMCL localization, global/local costmaps, and the Regulated Pure Pursuit path follower).*
+*(This loads the map servers, AMCL localization, global/local costmaps, and the Model Predictive Path Integral [MPPI] controller tuned for narrow warehouse corridors).*
 
-*(Optional)* To benchmark alternative controllers instead of RPP:
-- MPPI: `ros2 launch warehouse_husky nav2.launch.py params_file:=/main/ros_ws/src/warehouse_husky/config/nav2_params_mppi.yaml`
-- DWB: `ros2 launch warehouse_husky nav2.launch.py params_file:=/main/ros_ws/src/warehouse_husky/config/nav2_params_dwb.yaml`
+*(Optional)* To benchmark alternative controllers and robot platforms:
+- Husky with RPP: `ros2 launch warehouse_husky nav2.launch.py controller:=rpp`
+- Husky with DWB: `ros2 launch warehouse_husky nav2.launch.py controller:=dwb`
+- Jackal with MPPI: `ros2 launch warehouse_husky nav2.launch.py robot:=jackal controller:=mppi`
+- Jackal with RPP: `ros2 launch warehouse_husky nav2.launch.py robot:=jackal controller:=rpp`
+- Custom params: `ros2 launch warehouse_husky nav2.launch.py params_file:=/path/to/custom_params.yaml`
 
 #### Step 3: Launch RViz2 (Nav2 Graphical Interface)
 In your **Third Host Terminal**, connect to the running container:
@@ -142,12 +145,28 @@ rviz2 -d /opt/ros/humble/share/nav2_bringup/rviz/nav2_default_view.rviz --ros-ar
    * If you spawned the robot at a custom pose, click **`2D Pose Estimate`** in the top toolbar and click/drag on the map to set the initial pose.
 2. **Send an Autonomous Navigation Goal:**
    * In the top toolbar, click **`Nav2 Goal`** (or press `g`).
-   * Click inside any picking aisle (for example, at `(2.46, 3.5)` in Aisle 1) facing North ($90^\circ$).
-   * The RPP controller will autonomously steer the Husky, squaring up in place before entering the aisle, and follow the centerline with zero tire scrub.
+   * Click inside any picking aisle (for example, at `(2.47, 3.5)` in Aisle 1) facing North ($90^\circ$).
+   * The MPPI controller will predictively sample trajectories, center the Husky within the narrow 1.45 m corridor, and follow the path with sub-15 cm accuracy.
 
 ---
 
-### 5. Regenerating Maps (Optional)
+### 5. Running the Local Planner Stress Benchmark Suite
+
+To run the automated endurance benchmark comparing MPPI vs. RPP over 150 test scenarios across narrow corridors, dead-ends, and slaloms:
+
+```bash
+# Execute headless benchmark on host (auto-manages containers and domain isolation)
+./scripts/run_automated_benchmarks.sh
+
+# Generate the formatted Markdown comparison report from JSON logs
+python3 scripts/generate_benchmark_report.py
+```
+
+*Detailed analysis, failure mode breakdowns, and controller theory:* see [`docs/NAV2_BENCHMARK_REPORT.md`](file:///home/ubuntu/Documents/Grad/NU-CE27-Grad-Project/docs/NAV2_BENCHMARK_REPORT.md).
+
+---
+
+### 6. Regenerating Maps (Optional)
 
 If the warehouse world or models are modified, you can regenerate the maps directly:
 
@@ -163,13 +182,13 @@ If the warehouse world or models are modified, you can regenerate the maps direc
 
 ---
 
-### 6. Stop
+### 7. Stop
 
 Press `Ctrl+C` in each launch terminal: Nav2 first, then the robot. Do not use `Ctrl+P` `P` (detach): it leaves the simulation half-stopped.
 
 ---
 
-### 7. Troubleshooting
+### 8. Troubleshooting
 
 | Symptom | Cause and fix |
 |---|---|
