@@ -10,7 +10,7 @@ on:
     inputs:
       version:
         description: 'Image version (e.g., v1.0.0 or 1.2.3)'
-        required: true
+        required: false
         type: string
 
 jobs:
