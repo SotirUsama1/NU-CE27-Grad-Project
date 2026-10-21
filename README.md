@@ -203,3 +203,42 @@ Press `Ctrl+C` in each launch terminal: Nav2 first, then the robot. Do not use `
 | Goal aborts at once, log shows `No valid trajectories` | The robot is within about 0.4 m of a rack. Drive it into open floor with teleop and send the goal again. |
 | Robot does not move for keyboard teleop | Run the Husky teleop command from Step 3, which publishes on `/cmd_vel_teleop`. |
 
+---
+
+### 9. warehouse_navigation (map, localization, navigation)
+
+`Sim/ros_ws/src/warehouse_navigation` is a second Husky navigation stack, with its own map in `maps/` (`warehouse.pgm` and `warehouse.yaml`, plus `warehouse_lidar` for what the lidar sees). It drives on `/cmd_vel_nav`. Keyboard teleop stays the command from step 3 (`/cmd_vel_teleop`), which overrides it. Run this stack or `ros2 launch warehouse_husky nav2.launch.py`, not both.
+
+**View the map** after launching the Husky (step 2), in a second shell:
+
+```bash
+ros2 launch warehouse_navigation view_map.launch.py
+```
+
+**Localization** (AMCL) in that second shell instead:
+
+```bash
+ros2 launch warehouse_navigation localization.launch.py
+```
+
+**Navigation** (includes localization). Wait for `Managed nodes are active` twice, then use **2D Goal Pose** in RViz:
+
+```bash
+ros2 launch warehouse_navigation navigation.launch.py
+```
+
+**Drive to the furthest reachable point:**
+
+```bash
+ros2 run warehouse_navigation go_far.py
+```
+
+**After changing the world**, regenerate that package's maps inside the container:
+
+```bash
+python3 /main/ros_ws/src/warehouse_navigation/scripts/generate_map.py
+chown $(stat -c %u:%g /main/ros_ws/src) /main/ros_ws/src/warehouse_navigation/maps/warehouse*
+```
+
+Pass the same `x:=`, `y:=` and `yaw:=` you gave the Husky if it was not spawned at the default `(-1.5, 2.0)`. Run `view_map.launch.py` or `localization.launch.py`, not both: both place the robot on the map.
+

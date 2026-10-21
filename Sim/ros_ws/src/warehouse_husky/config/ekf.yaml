@@ -1,0 +1,35 @@
+# Odometry for the Husky: robot_localization's EKF fuses the wheels and the IMU gyroscope and
+# publishes odom -> base_link and /odometry/filtered.
+# Why: the Husky is skid-steered, so its wheels slip whenever it turns. Wheel odometry is exact when
+# driving straight but misjudges turns (it can report a 50 degree turn when the robot did not turn
+# at all). The gyroscope measures the real turning rate, slip or not.
+ekf_filter_node:
+  ros__parameters:
+    use_sim_time: true
+    frequency: 50.0          # Hz, same as the wheel controller
+    two_d_mode: true         # flat floor: ignore height, roll and pitch
+    publish_tf: true
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: odom        # this filter produces odom -> base_link; AMCL adds map -> odom
+
+    # Each config list picks what a sensor contributes, in this order:
+    #   x, y, z,  roll, pitch, yaw,  vx, vy, vz,  vroll, vpitch, vyaw,  ax, ay, az
+    # Wheels: forward speed, and sideways speed (always 0: the Husky cannot move sideways)
+    odom0: /husky_velocity_controller/odom
+    odom0_config: [false, false, false,
+                   false, false, false,
+                   true,  true,  false,
+                   false, false, false,
+                   false, false, false]
+    odom0_queue_size: 10
+
+    # Gyroscope: turning rate only
+    imu0: /imu/data_raw
+    imu0_config: [false, false, false,
+                  false, false, false,
+                  false, false, false,
+                  false, false, true,
+                  false, false, false]
+    imu0_queue_size: 10

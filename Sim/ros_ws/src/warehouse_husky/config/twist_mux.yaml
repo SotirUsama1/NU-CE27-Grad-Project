@@ -1,6 +1,6 @@
 # Velocity command sources for the Husky. Higher priority wins while it is publishing.
-# Same as husky_control/config/twist_mux.yaml, plus Nav2 on cmd_vel (the velocity_smoother output),
-# and keyboard moved to cmd_vel_teleop and raised above Nav2 so a person driving always overrides it.
+# Same as husky_control/config/twist_mux.yaml, plus Nav2. Keyboard on cmd_vel_teleop overrides both
+# navigation inputs: warehouse_husky Nav2 on cmd_vel, and warehouse_navigation on cmd_vel_nav.
 twist_mux:
   ros__parameters:
     topics:
@@ -18,6 +18,10 @@ twist_mux:
         priority: 7
       navigation:
         topic   : cmd_vel
+        timeout : 0.5
+        priority: 5
+      warehouse_navigation:
+        topic   : cmd_vel_nav
         timeout : 0.5
         priority: 5
     locks:
