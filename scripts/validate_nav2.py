@@ -73,12 +73,14 @@ class Validator(Node):
         self.received[topic] = time.monotonic()
 
     def model_states(self, msg):
-        if 'husky' in msg.name:
-            i = msg.name.index('husky')
-            self.truth = pose(msg.pose[i])
-            t = msg.twist[i]
-            self.truth_twist = [math.hypot(t.linear.x, t.linear.y), t.angular.z]
-            self.received['truth'] = time.monotonic()
+        for name in ['husky', 'jackal']:
+            if name in msg.name:
+                i = msg.name.index(name)
+                self.truth = pose(msg.pose[i])
+                t = msg.twist[i]
+                self.truth_twist = [math.hypot(t.linear.x, t.linear.y), t.angular.z]
+                self.received['truth'] = time.monotonic()
+                break
 
     def sample(self):
         s = {'sim_time': self.get_clock().now().nanoseconds / 1e9, 'wall_time': time.time()}

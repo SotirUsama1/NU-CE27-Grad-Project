@@ -131,7 +131,7 @@ def world_boxes(world_xml, models_dir):
     return boxes
 
 
-def render_map(boxes, hits, output_prefix, label):
+def render_map(boxes, hits, output_prefix, label, keepout_zones=None):
     """Draw floors free and every box for which hits(z_min, z_max) is true as occupied; save .pgm/.yaml/.png."""
     # Map specifications (50m x 50m @ 0.05m/pixel)
     origin_x, origin_y, origin_yaw = -15.0, -15.0, 0.0
@@ -162,7 +162,10 @@ def render_map(boxes, hits, output_prefix, label):
         draw.polygon([world_to_pixel(x, y) for x, y in footprint], fill=254)
     for footprint in obstacles:
         draw.polygon([world_to_pixel(x, y) for x, y in footprint], fill=0)
-    print(f"[{label}] {len(floors)} floors, {len(obstacles)} obstacles")
+    if keepout_zones:
+        for zone in keepout_zones:
+            draw.polygon([world_to_pixel(x, y) for x, y in zone], fill=0)
+    print(f"[{label}] {len(floors)} floors, {len(obstacles)} obstacles, {len(keepout_zones or [])} keepout zones")
 
     pgm_path = f"{output_prefix}.pgm"
     img.save(pgm_path)
@@ -190,8 +193,14 @@ def generate_map(world_name="Our_Structured_Warehouse", output_prefix="maps/our_
     boxes = world_boxes(world_xml, os.path.join(project_root, "Sim", "models"))
     print(f"Collision boxes: {len(boxes)}")
 
-    # Navigation map: anything in the robot's height band blocks it
-    render_map(boxes, lambda z_min, z_max: z_min < ROBOT_HEIGHT, output_prefix, "navigation")
+    # Warehouse operational keepout zones for navigation map (non-transit structural dead-spaces)
+    keepout_zones = [
+        # Full structural gap between Zone A pallet staging stacks and rack_A2_1 (non-transit bottleneck)
+        [(-0.30, 1.0), (0.90, 1.0), (0.90, 7.2), (-0.30, 7.2)],
+    ]
+
+    # Navigation map: anything in the robot's height band blocks it, plus keepout zones
+    render_map(boxes, lambda z_min, z_max: z_min < ROBOT_HEIGHT, output_prefix, "navigation", keepout_zones=keepout_zones)
     # Scan map: only what the lidar plane passes through
     render_map(boxes, lambda z_min, z_max: z_min <= LIDAR_Z <= z_max, f"{output_prefix}_scan", "scan")
 

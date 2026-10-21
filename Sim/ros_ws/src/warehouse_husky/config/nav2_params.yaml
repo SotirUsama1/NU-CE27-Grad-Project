@@ -15,11 +15,11 @@ amcl:
     use_sim_time: True
     # Skid-steer motion model: rotation causes significant translation slip,
     # so alpha4 is elevated to let particles explore translation during turns.
-    alpha1: 0.1
-    alpha2: 0.05
-    alpha3: 0.1
-    alpha4: 0.2
-    alpha5: 0.1
+    alpha1: 0.15
+    alpha2: 0.10
+    alpha3: 0.20
+    alpha4: 0.25
+    alpha5: 0.10
     base_frame_id: "base_link"
     beam_skip_distance: 0.5
     beam_skip_error_threshold: 0.9
@@ -27,22 +27,22 @@ amcl:
     do_beamskip: false
     global_frame_id: "map"
     lambda_short: 0.1
-    laser_likelihood_max_dist: 2.5
+    laser_likelihood_max_dist: 4.0
     laser_max_range: 25.0
     laser_min_range: 0.3
     laser_model_type: "likelihood_field"
     max_beams: 180
-    max_particles: 2000
-    min_particles: 500
+    max_particles: 2500
+    min_particles: 1000
     odom_frame_id: "odom"
     pf_err: 0.05
     pf_z: 0.99
-    recovery_alpha_fast: 0.0
-    recovery_alpha_slow: 0.0
+    recovery_alpha_fast: 0.1
+    recovery_alpha_slow: 0.001
     resample_interval: 1
     robot_model_type: "nav2_amcl::DifferentialMotionModel"
     save_pose_rate: 0.5
-    sigma_hit: 0.15
+    sigma_hit: 0.20
     tf_broadcast: true
     transform_tolerance: 1.0
     update_min_a: 0.05
@@ -161,57 +161,77 @@ controller_server:
       xy_goal_tolerance: 0.15
       yaw_goal_tolerance: 0.20
     # DWB parameters
+    # MPPI parameters
     FollowPath:
-      plugin: "nav2_rotation_shim_controller::RotationShimController"
-      primary_controller: "dwb_core::DWBLocalPlanner"
-      angular_dist_threshold: 0.785
-      angular_disengage_threshold: 0.3925
-      forward_sampling_distance: 0.5
-      rotate_to_heading_angular_vel: 0.8
-      max_angular_accel: 2.5
-      simulate_ahead_time: 1.0
-      rotate_to_goal_heading: true
-      closed_loop: false
-      debug_trajectory_details: True
-      min_vel_x: 0.0
-      min_vel_y: 0.0
-      max_vel_x: 0.5
-      max_vel_y: 0.0
-      max_vel_theta: 0.8
-      # Reject near-stationary rotational samples with too little yaw speed to overcome skid friction.
-      min_speed_xy: 0.0
-      max_speed_xy: 0.5
-      min_speed_theta: 0.35
-      min_vel_theta: 0.35
-      acc_lim_x: 1.0
-      acc_lim_y: 0.0
-      acc_lim_theta: 2.0
-      decel_lim_x: -1.0
-      decel_lim_y: 0.0
-      decel_lim_theta: -2.0
-      vx_samples: 20
-      vy_samples: 5
-      vtheta_samples: 20
-      sim_time: 1.7
-      linear_granularity: 0.05
-      angular_granularity: 0.025
+      plugin: "nav2_mppi_controller::MPPIController"
+      time_steps: 32
+      model_dt: 0.05
+      batch_size: 1000
+      vx_std: 0.2
+      vy_std: 0.0
+      wz_std: 0.4
+      vx_max: 0.5
+      vx_min: -0.2
+      vy_max: 0.0
+      wz_max: 0.8
+      iteration_count: 1
+      prune_distance: 1.0
       transform_tolerance: 0.5
-      xy_goal_tolerance: 0.15
-      yaw_goal_tolerance: 0.20
-      trans_stopped_velocity: 0.05
-      short_circuit_trajectory_evaluation: True
-      stateful: True
-      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
-      BaseObstacle.scale: 0.02
-      PathAlign.scale: 32.0
-      PathAlign.forward_point_distance: 0.1
-      GoalAlign.scale: 24.0
-      GoalAlign.forward_point_distance: 0.1
-      PathDist.scale: 32.0
-      GoalDist.scale: 24.0
-      RotateToGoal.scale: 32.0
-      RotateToGoal.slowing_factor: 1.5
-      RotateToGoal.lookahead_time: 0.2
+      temperature: 0.3
+      gamma: 0.015
+      motion_model: "DiffDrive"
+      visualize: false
+      critics: ["ConstraintCritic", "ObstaclesCritic", "GoalCritic", "GoalAngleCritic", "PathAlignCritic", "PathFollowCritic", "PathAngleCritic", "PreferForwardCritic"]
+      ConstraintCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 4.0
+      ObstaclesCritic:
+        enabled: true
+        cost_power: 1
+        repulsion_weight: 0.1
+        critical_weight: 20.0
+        consider_footprint: false
+        collision_cost: 10000.0
+        near_goal_distance: 0.5
+      GoalCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 5.0
+        threshold_to_consider: 1.0
+      GoalAngleCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 3.0
+        threshold_to_consider: 0.5
+      PathAlignCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 14.0
+        max_path_occupancy_ratio: 0.05
+        trajectory_point_step: 3
+        threshold_to_consider: 0.5
+        offset_from_furthest: 20
+        use_path_orientations: false
+      PathFollowCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 8.0
+        offset_from_furthest: 5
+        threshold_to_consider: 0.5
+      PathAngleCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 2.0
+        offset_from_furthest: 4
+        threshold_to_consider: 0.5
+        max_angle_to_furthest: 0.785
+        mode: 0
+      PreferForwardCritic:
+        enabled: true
+        cost_power: 1
+        cost_weight: 5.0
+        threshold_to_consider: 0.5
 
 local_costmap:
   local_costmap:
@@ -242,15 +262,15 @@ local_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
-          raytrace_max_range: 3.0
+          raytrace_max_range: 3.5
           raytrace_min_range: 0.0
-          obstacle_max_range: 2.5
+          obstacle_max_range: 3.0
           obstacle_min_range: 0.0
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
         map_topic: /map_nav
-      always_send_full_costmap: True
+      always_send_full_costmap: False
 
 global_costmap:
   global_costmap:
@@ -264,7 +284,21 @@ global_costmap:
       footprint: "[[0.5, 0.34], [0.5, -0.34], [-0.5, -0.34], [-0.5, 0.34]]"
       resolution: 0.05
       track_unknown_space: true
-      plugins: ["static_layer", "inflation_layer"]
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: True
+        observation_sources: scan
+        scan:
+          topic: /scan
+          max_obstacle_height: 2.0
+          clearing: True
+          marking: True
+          data_type: "LaserScan"
+          raytrace_max_range: 4.0
+          raytrace_min_range: 0.0
+          obstacle_max_range: 3.5
+          obstacle_min_range: 0.0
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
@@ -273,7 +307,7 @@ global_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 4.0
         inflation_radius: 0.8
-      always_send_full_costmap: True
+      always_send_full_costmap: False
 
 map_server:
   ros__parameters:
@@ -292,13 +326,13 @@ map_saver:
 
 planner_server:
   ros__parameters:
-    expected_planner_frequency: 20.0
+    expected_planner_frequency: 5.0
     use_sim_time: True
     planner_plugins: ["GridBased"]
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
       tolerance: 0.5
-      use_astar: false
+      use_astar: true
       allow_unknown: true
 
 smoother_server:
@@ -307,8 +341,8 @@ smoother_server:
     smoother_plugins: ["simple_smoother"]
     simple_smoother:
       plugin: "nav2_smoother::SimpleSmoother"
-      tolerance: 1.0e-10
-      max_its: 1000
+      tolerance: 1.0e-3
+      max_its: 300
       do_refinement: True
 
 behavior_server:

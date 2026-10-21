@@ -13,7 +13,7 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable, OpaqueFunction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -25,16 +25,40 @@ def generate_launch_description():
 
     scan_map = LaunchConfiguration('scan_map')
     nav_map = LaunchConfiguration('nav_map')
+    use_rviz = LaunchConfiguration('use_rviz')
 
-    nav2 = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(nav2_launch),
-        launch_arguments={
-            'map': scan_map,  # map_server + AMCL
-            'params_file': os.path.join(pkg_share, 'config', 'nav2_params.yaml'),
-            'use_sim_time': 'true',
-            'use_composition': 'False',
-        }.items(),
-    )
+    def setup_nav2(context, *args, **kwargs):
+        controller = LaunchConfiguration('controller').perform(context).strip().lower()
+        robot = LaunchConfiguration('robot').perform(context).strip().lower()
+        custom_params = LaunchConfiguration('params_file').perform(context).strip()
+
+        if custom_params:
+            chosen_params = custom_params
+        elif robot == 'jackal':
+            if controller == 'rpp':
+                chosen_params = os.path.join(pkg_share, 'config', 'nav2_params_jackal_rpp.yaml')
+            else:
+                chosen_params = os.path.join(pkg_share, 'config', 'nav2_params_jackal_mppi.yaml')
+        else:
+            if controller == 'rpp':
+                chosen_params = os.path.join(pkg_share, 'config', 'nav2_params_rpp.yaml')
+            elif controller == 'dwb':
+                chosen_params = os.path.join(pkg_share, 'config', 'nav2_params_dwb.yaml')
+            else:
+                # Default is the benchmark-winning Tuned MPPI controller
+                chosen_params = os.path.join(pkg_share, 'config', 'nav2_params_mppi.yaml')
+
+        nav2_node = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(nav2_launch),
+            launch_arguments={
+                'map': scan_map,  # map_server + AMCL
+                'params_file': chosen_params,
+                'use_sim_time': 'true',
+                'use_composition': 'False',
+                'use_rviz': use_rviz,
+            }.items(),
+        )
+        return [nav2_node]
 
     # Second map server for the costmaps, on /map_nav (the static layers in nav2_params.yaml read it)
     nav_map_server = Node(
@@ -63,7 +87,15 @@ def generate_launch_description():
                               description='Map of what the lidar sees, for AMCL'),
         DeclareLaunchArgument('nav_map', default_value='/main/maps/our_structured_warehouse_map.yaml',
                               description='Map with solid racks, for the costmaps'),
-        nav2,
+        DeclareLaunchArgument('robot', default_value='husky',
+                              description='Robot platform: husky (default) or jackal'),
+        DeclareLaunchArgument('controller', default_value='mppi',
+                              description='Controller algorithm to use: mppi (Model Predictive Path Integral, default), rpp, or dwb'),
+        DeclareLaunchArgument('params_file', default_value='',
+                              description='Direct path to a Nav2 parameters YAML file (overrides controller choice if provided)'),
+        DeclareLaunchArgument('use_rviz', default_value='False',
+                              description='Whether to start RViz alongside Nav2'),
+        OpaqueFunction(function=setup_nav2),
         nav_map_server,
         nav_map_lifecycle,
     ])
