@@ -190,6 +190,38 @@ cd NU-CE27-Grad-Project/Sim/gzScripts
 ./runGzClassic-WSL.sh worlds/cafe.world     # a specific world
 ```
 
+## ROS 2 communication across hosts
+
+The image includes Cyclone DDS and uses it by default. The launch scripts use the
+included `cyclonedds.xml` template and domain ID `17` by default. ROS 2 containers
+on all participating machines need the same domain ID. You can run either launcher
+from this directory:
+
+```bash
+# WSL2
+CYCLONEDDS_CONFIG="$PWD/cyclonedds.xml" ROS_DOMAIN_ID=17 ./runGzClassic-WSL.sh
+
+# Ubuntu
+CYCLONEDDS_CONFIG="$PWD/cyclonedds.xml" ROS_DOMAIN_ID=17 ./runGzClassic-Ubuntu
+```
+
+To customize the template without changing the checked-in copy, make a local copy
+and edit it, then pass its path to the launcher:
+
+```bash
+cp cyclonedds.xml cyclonedds.local.xml
+# Edit cyclonedds.local.xml to select your interface or add remote peers.
+CYCLONEDDS_CONFIG="$PWD/cyclonedds.local.xml" ROS_DOMAIN_ID=17 ./runGzClassic-WSL.sh
+```
+
+Use `./runGzClassic-Ubuntu` on Ubuntu for the same command. Each launcher validates
+the selected file, mounts it read-only at `/etc/cyclonedds/cyclonedds.xml`, and sets
+`CYCLONEDDS_URI` to that in-container path. The file path and domain ID remain
+configurable through `CYCLONEDDS_CONFIG` and `ROS_DOMAIN_ID`. The Ubuntu launcher
+uses host networking. The WSL launcher uses Docker's default network; multi-host
+communication there also needs Docker networking that passes DDS traffic between
+hosts, including multicast or configured unicast peers.
+
 ---
 
 ## Troubleshooting

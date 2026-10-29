@@ -52,7 +52,7 @@ The containers are removed when they exit (`--rm`), so persistent project files 
 
 | Script | Image tag | Display/GPU setup |
 |---|---|---|
-| `runGzClassic-Ubuntu` | `sotirusama/gzclassic:test` | X11 socket, `DISPLAY`, `.Xauthority`, NVIDIA container settings |
+| `runGzClassic-Ubuntu` | `sotirusama/gzclassic:latest` | X11 socket, `DISPLAY`, `.Xauthority`, NVIDIA container settings |
 | `runGzClassic-WSL.sh` | `sotirusama/gzclassic:latest` | WSLg mounts and environment, `/dev/dxg`, NVIDIA adapter selection |
 
 If you change an image tag in a launcher, build or pull that same tag before running it. The Ubuntu launcher requests `--gpus all`; the WSL launcher additionally requires `/dev/dxg` and the WSLg paths present on the host.
