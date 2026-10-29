@@ -1,17 +1,21 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="mir_250">
   <!-- MiR 250 + UR arm (mir_description) with a suction tool on the wrist.
-       Same as mir_description/urdf/mir.urdf.xacro, plus
-         - a rigid carton gripper plate (suction_pad) with six cups, its face 8 cm in front of
-           ur_tool0
-         - vacuum_gripper (src/vacuum_gripper.cpp), which holds boxes by suction force and
-           friction only
-         - ground-truth pose (libgazebo_ros_p3d) on /mir_ur/ground_truth
+       gripper:=large is the twelve-cup plate used for the 8 kg carton.
+       gripper:=small is the older six-cup plate, for the 2 kg and 4 kg cartons.
+       prefix names the base links so a second robot can share the world.
        Comments end up in robot_description, which gazebo_ros2_control parses as YAML,
        so they must not contain a colon followed by a space. -->
 
+  <xacro:arg name="prefix" default=""/>
+  <xacro:arg name="gripper" default="large"/>
+  <xacro:arg name="ros_namespace" default=""/>
+  <xacro:arg name="robot_param_node" default="robot_state_publisher"/>
+  <xacro:arg name="gt_namespace" default="/mir_ur"/>
+  <xacro:arg name="controllers" default="$(find mir_ur_warehouse)/config/controllers.yaml"/>
+  <xacro:property name="prefix" value="$(arg prefix)"/>
+
   <xacro:include filename="$(find mir_description)/urdf/include/mir_250_v1.urdf.xacro" />
-  <xacro:arg name="controllers" default="$(find mir_ur_warehouse)/config/controllers.yaml" />
 
   <!-- No wrist RealSense. It rendered colour, depth, two infrared streams and a point cloud at
        up to 60 Hz, which halved the simulation speed, and nothing uses it. Redefining its macro
@@ -19,7 +23,31 @@
   <xacro:macro name="sensor_d435i" params="parent *origin name use_nominal_extrinsics">
   </xacro:macro>
 
-  <xacro:mir_250 prefix="" ns=""/>
+  <xacro:mir_250 prefix="$(arg prefix)" ns="$(arg ros_namespace)"/>
+
+  <!-- Nile University mark on the lower skirt, the same artwork as the dock poster. -->
+  <xacro:macro name="nu_badge" params="side x y z roll pitch yaw">
+    <link name="${prefix}nu_badge_${side}">
+      <visual>
+        <origin xyz="0 0 0" rpy="${roll} ${pitch} ${yaw}"/>
+        <geometry>
+          <mesh filename="file:///workspace/models/nu_logo/nu_badge.dae"/>
+        </geometry>
+      </visual>
+      <inertial>
+        <mass value="0.05"/>
+        <inertia ixx="1e-4" iyy="1e-4" izz="1e-4" ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+    <joint name="${prefix}nu_badge_${side}_joint" type="fixed">
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}nu_badge_${side}"/>
+      <origin xyz="${x} ${y} ${z}" rpy="0 0 0"/>
+    </joint>
+  </xacro:macro>
+  <xacro:nu_badge side="right" x="0" y="-0.31" z="0.16" roll="${pi/2}" pitch="0" yaw="0"/>
+  <xacro:nu_badge side="left" x="0" y="0.31" z="0.16" roll="${pi/2}" pitch="0" yaw="${pi}"/>
+  <xacro:nu_badge side="front" x="0.42" y="0" z="0.16" roll="${pi/2}" pitch="0" yaw="${-pi/2}"/>
 
   <!-- Suction tool bolted to the flange, a 7 cm body (vacuum generator) and the plate. Both are
        merged into ur_wrist_3_link when the URDF becomes SDF, so the plate is rigid. -->
@@ -45,9 +73,8 @@
     <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>
 
-  <!-- Gripper plate, 30 x 18 cm, long side along x. The six 60 mm bellows cups (3 x 2, pitch
-       10 cm) stand 10 mm in front of its face; their positions and stroke are repeated in the
-       vacuum_gripper plugin below, which also models their compression. -->
+  <!-- Gripper plate. The large plate is 30 x 40 cm with twelve cups. The small plate is the
+       older 30 x 18 cm tool with the inner six cups only. Cup positions are repeated below. -->
   <xacro:macro name="cup_visual" params="x y">
     <visual>
       <origin xyz="${x} ${y} 0.015" rpy="0 0 0" />
@@ -55,10 +82,21 @@
       <material name="suction_black"><color rgba="0.05 0.05 0.05 1" /></material>
     </visual>
   </xacro:macro>
+
+  <xacro:property name="large_gripper" value="${'$(arg gripper)' == 'large'}"/>
+  <xacro:if value="${large_gripper}">
+    <xacro:property name="plate_height" value="0.40"/>
+    <xacro:property name="cup_row" value="-0.1 -0.05  0.0 -0.05  0.1 -0.05  -0.1 0.05  0.0 0.05  0.1 0.05  -0.1 -0.15  0.0 -0.15  0.1 -0.15  -0.1 0.15  0.0 0.15  0.1 0.15"/>
+  </xacro:if>
+  <xacro:unless value="${large_gripper}">
+    <xacro:property name="plate_height" value="0.18"/>
+    <xacro:property name="cup_row" value="-0.1 -0.05  0.0 -0.05  0.1 -0.05  -0.1 0.05  0.0 0.05  0.1 0.05"/>
+  </xacro:unless>
+
   <link name="suction_pad">
     <visual>
       <origin xyz="0 0 0.005" rpy="0 0 0" />
-      <geometry><box size="0.30 0.18 0.008" /></geometry>
+      <geometry><box size="0.30 ${plate_height} 0.008" /></geometry>
       <material name="suction_grey"><color rgba="0.3 0.3 0.3 1" /></material>
     </visual>
     <xacro:cup_visual x="-0.1" y="-0.05" />
@@ -67,6 +105,14 @@
     <xacro:cup_visual x="-0.1" y="0.05" />
     <xacro:cup_visual x="0.0" y="0.05" />
     <xacro:cup_visual x="0.1" y="0.05" />
+    <xacro:if value="${large_gripper}">
+      <xacro:cup_visual x="-0.1" y="-0.15" />
+      <xacro:cup_visual x="0.0" y="-0.15" />
+      <xacro:cup_visual x="0.1" y="-0.15" />
+      <xacro:cup_visual x="-0.1" y="0.15" />
+      <xacro:cup_visual x="0.0" y="0.15" />
+      <xacro:cup_visual x="0.1" y="0.15" />
+    </xacro:if>
     <collision>
       <origin xyz="0 0 0.005" rpy="0 0 0" />
       <geometry><box size="0.30 0.18 0.01" /></geometry>
@@ -89,11 +135,11 @@
     <maxContacts>8</maxContacts>
   </gazebo>
 
-  <ros2_control name="GazeboSystem" type="system">
+  <ros2_control name="${prefix}GazeboSystem" type="system">
     <hardware>
       <plugin>gazebo_ros2_control/GazeboSystem</plugin>
     </hardware>
-    <joint name="left_wheel_joint">
+    <joint name="${prefix}left_wheel_joint">
       <command_interface name="velocity">
         <param name="min">-1</param>
         <param name="max">1</param>
@@ -101,7 +147,7 @@
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
-    <joint name="right_wheel_joint">
+    <joint name="${prefix}right_wheel_joint">
       <command_interface name="velocity">
         <param name="min">-1</param>
         <param name="max">1</param>
@@ -112,18 +158,25 @@
   </ros2_control>
 
   <gazebo>
-    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+    <plugin filename="libmir_ur_ros2_control.so" name="${prefix}gazebo_ros2_control">
       <parameters>$(arg controllers)</parameters>
+      <robot_param_node>$(arg robot_param_node)</robot_param_node>
+      <!-- The controller manager takes its namespace from this ros block. A bare namespace
+           tag is ignored, and both robots would claim /controller_manager. -->
+      <xacro:if value="${'$(arg ros_namespace)' != ''}">
+        <ros><namespace>/$(arg ros_namespace)</namespace></ros>
+      </xacro:if>
     </plugin>
 
-    <!-- Six 60 mm bellows cups on a vacuum generator reaching 40 kPa on cardboard, about 113 N
-         per cup and 680 N in total. Bellows 10 mm stroke at 20 N/mm, so a fully gripped box
-         seats about 6 mm in. Rubber on cardboard friction 0.6, lip 5 N/mm.
-         SI units (angles in rad). See src/vacuum_gripper.cpp. -->
-    <plugin name="vacuum_gripper" filename="libvacuum_gripper.so">
+    <!-- 60 mm bellows cups. 40 kPa is about 113 N per cup. The inner six hold the shallow
+         cartons. The outer row is only on the large gripper, for the 8 kg face. -->
+    <plugin name="${prefix}vacuum_gripper" filename="libvacuum_gripper.so">
+      <xacro:if value="${'$(arg ros_namespace)' != ''}">
+        <ros><namespace>/$(arg ros_namespace)</namespace></ros>
+      </xacro:if>
       <pad_link>ur_wrist_3_link</pad_link>
       <pad_offset>0.08</pad_offset>
-      <cups>-0.1 -0.05  0.0 -0.05  0.1 -0.05  -0.1 0.05  0.0 0.05  0.1 0.05</cups>
+      <cups>${cup_row}</cups>
       <cup_radius>0.03</cup_radius>
       <max_vacuum>40000</max_vacuum>
       <stroke>0.01</stroke>
@@ -140,12 +193,12 @@
       <lip_damping>50</lip_damping>
     </plugin>
 
-    <plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
+    <plugin name="${prefix}ground_truth" filename="libgazebo_ros_p3d.so">
       <ros>
-        <namespace>/mir_ur</namespace>
+        <namespace>$(arg gt_namespace)</namespace>
         <remapping>odom:=ground_truth</remapping>
       </ros>
-      <body_name>base_footprint</body_name>
+      <body_name>${prefix}base_footprint</body_name>
       <frame_name>world</frame_name>
       <update_rate>50</update_rate>
     </plugin>

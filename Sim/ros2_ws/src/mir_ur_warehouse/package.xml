@@ -12,12 +12,16 @@
   <depend>gazebo_dev</depend>
   <depend>gazebo_ros</depend>
   <depend>rclcpp</depend>
+  <depend>rclcpp_lifecycle</depend>
+  <depend>controller_manager</depend>
+  <depend>hardware_interface</depend>
+  <depend>pluginlib</depend>
+  <depend>control_toolbox</depend>
   <depend>std_msgs</depend>
   <depend>std_srvs</depend>
 
   <exec_depend>mir_description</exec_depend>
   <exec_depend>gazebo_ros2_control</exec_depend>
-  <exec_depend>controller_manager</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>
   <exec_depend>ira_laser_tools</exec_depend>
   <exec_depend>xacro</exec_depend>

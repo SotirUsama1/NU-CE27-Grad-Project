@@ -67,7 +67,7 @@ ros2 launch jackal_gazebo gazebo.launch.py world_path:=Our_Structured_Warehouse/
 ros2 launch ur_simulation_gazebo ur_sim_control.launch.py ur_type:=ur5e
 ```
 
-`world_path` is required: without it the robot opens in an empty world. It is looked up inside `Sim/worlds`, so other worlds work the same way, for example `world_path:=Grad_warehouse/Grad_warehouse.world` or `world_path:=worlds/empty.world` for an empty world.
+`world_path` is required: without it the robot opens in an empty world. It is looked up inside `Sim/worlds`, so other worlds work the same way, for example `world_path:=Custom_Robot_Warehouse/Custom_Robot_Warehouse.world` or `world_path:=worlds/empty.world` for an empty world.
 
 ### 3. Drive the robot manually (Teleoperation)
 
