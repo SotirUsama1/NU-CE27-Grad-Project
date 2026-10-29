@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - 'Sim/gzScripts/Dockerfile'
+      - 'Docker/Dockerfile'
   workflow_dispatch:
     inputs:
       version:
         description: 'Image version (e.g., v1.0.0 or 1.2.3)'
-        required: true
+        required: false
         type: string
 
 jobs:
@@ -48,7 +48,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: ./Sim/gzScripts/Dockerfile
+          file: ./Docker/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
