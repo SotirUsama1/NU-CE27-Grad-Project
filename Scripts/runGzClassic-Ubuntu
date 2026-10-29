@@ -1,13 +1,26 @@
 #!/usr/bin/env bash
 
-# Exit immediately if a command exits with a non-zero status
-set -e
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+CONFIG="${CYCLONEDDS_CONFIG-$SCRIPT_DIR/cyclonedds.xml}"
+IMAGE="${ROS_IMAGE:-sotirusama/gzclassic:latest}"
+DOMAIN="${ROS_DOMAIN_ID:-17}"
+CONTAINER_NAME="${CONTAINER_NAME:-gazebo}"
+
+CYCLONEDDS_DOCKER_ARGS=()
+if [[ -n "$CONFIG" ]]; then
+  if [[ -r "$CONFIG" ]]; then
+    CYCLONEDDS_DOCKER_ARGS+=(--mount "type=bind,src=$(realpath "$CONFIG"),dst=/etc/cyclonedds/cyclonedds.xml,readonly")
+    CYCLONEDDS_DOCKER_ARGS+=(--env="CYCLONEDDS_URI=file:///etc/cyclonedds/cyclonedds.xml")
+  elif [[ -n "${CYCLONEDDS_CONFIG+x}" || -e "$CONFIG" || -L "$CONFIG" ]]; then
+    echo "CycloneDDS config is not readable: $CONFIG" >&2
+    exit 1
+  fi
+fi
 
 # 1. Ensure local directories exist on the host to prevent Docker from creating them as root
-mkdir -p ${SCRIPT_DIR}/../models
-mkdir -p ${SCRIPT_DIR}/../worlds
+mkdir -p ${SCRIPT_DIR}/../Sim/{models,worlds}
 
 # 2. Automatically permit local Docker containers to connect to the X server display
 if command -v xhost &> /dev/null; then
@@ -32,18 +45,26 @@ else
     echo "[INFO] Passing arguments to gazebo: $*"
 fi
 
+
 docker run -it --rm \
     --net=host \
     --privileged \
     --gpus all \
+    --name "$CONTAINER_NAME" \
+    \
     --env="DISPLAY=${DISPLAY}" \
     --env="QT_X11_NO_MITSHM=1" \
     --env="NVIDIA_DRIVER_CAPABILITIES=all" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
     --volume="${HOME}/.Xauthority:/root/.Xauthority:rw" \
-    --volume="${SCRIPT_DIR}/../models:/main/models:rw" \
-    --volume="${SCRIPT_DIR}/../worlds:/main/worlds:rw" \
-    sotirusama/gzclassic:latest \
+    \
+    "${CYCLONEDDS_DOCKER_ARGS[@]}" \
+    --env="RMW_IMPLEMENTATION=${RMW_IMPLEMENTATION:-rmw_cyclonedds_cpp}" \
+    --env="ROS_LOCALHOST_ONLY=${ROS_LOCALHOST_ONLY:-0}" \
+    --env="ROS_DOMAIN_ID=$DOMAIN" \
+    \
+    --volume="${SCRIPT_DIR}/../Sim:/main/:rw" \
+    "$IMAGE" \
     bash -c 'source /usr/share/gazebo/setup.sh &&
              source /opt/ros/humble/setup.bash &&
              export GAZEBO_MODEL_PATH="$GAZEBO_MODEL_PATH:/main/models" &&

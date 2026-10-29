@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - 'Sim/gzScripts/Dockerfile'
+      - 'Docker/Dockerfile'
   workflow_dispatch:
     inputs:
       version:
         description: 'Image version (e.g., v1.0.0 or 1.2.3)'
-        required: true
+        required: false
         type: string
 
 jobs:
@@ -37,10 +37,9 @@ jobs:
           images: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.IMAGE_NAME }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
-            type=ref,event=branch
+            type=raw,value=latest-${{ github.ref_name }},enable=${{ github.event_name == 'workflow_dispatch' && github.ref_name != 'main' }}
             type=sha,format=short
             type=raw,value=${{ inputs.version }},enable=${{ github.event_name == 'workflow_dispatch' }}
-            type=semver,pattern={{version}},enable=${{ github.event_name == 'push' }}
           labels: |
             org.opencontainers.image.created_by=${{ github.actor }}
             org.opencontainers.image.authors=${{ github.actor }}
@@ -49,7 +48,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: ./Sim/gzScripts/Dockerfile
+          file: ./Docker/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
