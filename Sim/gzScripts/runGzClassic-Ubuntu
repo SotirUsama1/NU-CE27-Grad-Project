@@ -4,7 +4,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 CONFIG="${CYCLONEDDS_CONFIG-$SCRIPT_DIR/cyclonedds.xml}"
-IMAGE="${ROS_IMAGE:-sotirusama/gzclassic:latest"
+IMAGE="${ROS_IMAGE:-sotirusama/gzclassic:latest}"
 DOMAIN="${ROS_DOMAIN_ID:-17}"
 CONTAINER_NAME="${CONTAINER_NAME:-gazebo}"
 
