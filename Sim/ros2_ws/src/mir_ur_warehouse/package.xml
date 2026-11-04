@@ -19,6 +19,7 @@
   <depend>control_toolbox</depend>
   <depend>std_msgs</depend>
   <depend>std_srvs</depend>
+  <depend>geometry_msgs</depend>
 
   <exec_depend>mir_description</exec_depend>
   <exec_depend>gazebo_ros2_control</exec_depend>

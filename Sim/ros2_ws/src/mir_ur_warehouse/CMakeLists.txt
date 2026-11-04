@@ -13,9 +13,13 @@ find_package(gazebo_ros2_control REQUIRED)
 find_package(control_toolbox REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 add_library(vacuum_gripper SHARED src/vacuum_gripper.cpp)
 ament_target_dependencies(vacuum_gripper gazebo_dev gazebo_ros rclcpp std_msgs std_srvs)
+
+add_library(park_base SHARED src/park_base.cpp)
+ament_target_dependencies(park_base gazebo_dev gazebo_ros rclcpp geometry_msgs)
 
 add_library(mir_ur_ros2_control SHARED src/gazebo_ros2_control_plugin.cpp)
 target_include_directories(mir_ur_ros2_control PUBLIC
@@ -24,7 +28,7 @@ ament_target_dependencies(mir_ur_ros2_control
   gazebo_dev gazebo_ros gazebo_ros2_control control_toolbox controller_manager hardware_interface
   pluginlib rclcpp rclcpp_lifecycle)
 
-install(TARGETS vacuum_gripper mir_ur_ros2_control LIBRARY DESTINATION lib)
+install(TARGETS vacuum_gripper park_base mir_ur_ros2_control LIBRARY DESTINATION lib)
 
 install(DIRECTORY launch config urdf DESTINATION share/${PROJECT_NAME})
 

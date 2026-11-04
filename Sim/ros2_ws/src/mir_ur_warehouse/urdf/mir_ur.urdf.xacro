@@ -170,6 +170,17 @@
 
     <!-- 60 mm bellows cups. 40 kPa is about 113 N per cup. The inner six hold the shallow
          cartons. The outer row is only on the large gripper, for the 8 kg face. -->
+    <!-- Zero base twist while cmd_vel is idle so arm SetPosition cannot chatter the MiR. -->
+    <plugin name="${prefix}park_base" filename="libpark_base.so">
+      <xacro:if value="${'$(arg ros_namespace)' != ''}">
+        <ros><namespace>/$(arg ros_namespace)</namespace></ros>
+      </xacro:if>
+      <!-- Gazebo merges fixed joints, so base_link is folded into base_footprint. -->
+      <base_link>${prefix}base_footprint</base_link>
+      <left_wheel_joint>${prefix}left_wheel_joint</left_wheel_joint>
+      <right_wheel_joint>${prefix}right_wheel_joint</right_wheel_joint>
+    </plugin>
+
     <plugin name="${prefix}vacuum_gripper" filename="libvacuum_gripper.so">
       <xacro:if value="${'$(arg ros_namespace)' != ''}">
         <ros><namespace>/$(arg ros_namespace)</namespace></ros>

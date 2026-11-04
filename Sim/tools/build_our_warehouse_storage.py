@@ -21,6 +21,8 @@ SIM = Path(__file__).resolve().parent.parent
 MODELS = SIM / 'models'
 WORLD = SIM / 'worlds/Our_Structured_Warehouse/Our_Structured_Warehouse.world'
 WORKCELL_MESH = MODELS / 'our_workcell/meshes/mesh.dae'
+ZONE_A_MESH = MODELS / 'our_workcell/meshes/mesh_zone_a.dae'   # SW / zone A: stairs + garage doors
+OPEN_MESH = MODELS / 'our_workcell/meshes/mesh_open.dae'       # B and C: no stairs, keep garage doors
 WORKCELL_TEXTURES = MODELS / 'our_workcell/materials/textures'
 FONT = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
 
@@ -53,7 +55,7 @@ ROWS = [  # (row number, x, [(y centre, length, bays), ...])
 ]
 PALLETS = [(-1.09806, 6.31883), (-5.29667, 1.91644)]   # pallets in the workcell mesh
 PALLET_TOP = 0.3272
-REMOVED_POLES = ('pole1', 'pole2')                      # pillars at x = 5.02 and x = 0.47
+REMOVED_POLES = ('pole1', 'pole2', 'pole3')              # all pillar collisions; visuals stripped too
 SOUTH_WALL_Y = -9.769
 
 TILE = 20.1026
@@ -549,12 +551,32 @@ def filter_triangles(mesh, material, keep):
     return mesh.replace(body, new)
 
 
+def _drop_mezzanine_door(mesh):
+    """Remove the red Door_Window at the top of the workcell stairs."""
+    return filter_triangles(
+        mesh, 'Door_Window',
+        lambda c: not (c[0] > -9.0 and c[0] < -0.5 and c[1] > -8.5 and c[1] < -3.5 and c[2] > 2.5))
+
+
 def clean_workcell_mesh():
     mesh = WORKCELL_MESH.read_text()
     for mat in ('ControlPanel', 'Yellow', '_4_-_Default'):   # control panel, old floor lines, bin mat
         mesh = filter_triangles(mesh, mat, lambda c: False)
-    mesh = filter_triangles(mesh, 'Pillar', lambda c: c[0] < -2.0)
     WORKCELL_MESH.write_text(mesh)
+
+
+def build_zone_meshes():
+    """Per-zone workcell visuals.
+
+    Zone A (SW) keeps stairs and its mezzanine door. Zones B/C drop stairs and that door
+    but keep the roll-up garage doors. Pillars are removed everywhere.
+    """
+    base = filter_triangles(WORKCELL_MESH.read_text(), 'Pillar', lambda c: False)
+    ZONE_A_MESH.write_text(base)
+
+    open_mesh = filter_triangles(base, 'Stairs', lambda c: False)
+    open_mesh = _drop_mezzanine_door(open_mesh)
+    OPEN_MESH.write_text(open_mesh)
 
 
 # ------------------------------------------------------------ shipping dock
@@ -592,10 +614,11 @@ PROJECT_BANNER = (4.3, 4.65, 7.0, 1.75)   # y centre, z centre, width, height on
 
 
 def build_dock_mesh():
-    """Workcell mesh for the dock quarter: door opened, pillars and all pallets removed for robot space."""
+    """Workcell mesh for the dock quarter: door opened, pillars/stairs removed for robot space."""
     mesh = WORKCELL_MESH.read_text()
-    for mat in ('RollupDoor', 'Pillar', 'Pallet', 'PalletWrap'):
+    for mat in ('RollupDoor', 'Pillar', 'Pallet', 'PalletWrap', 'Stairs'):
         mesh = filter_triangles(mesh, mat, lambda c: False)
+    mesh = _drop_mezzanine_door(mesh)
     DOCK_MESH.write_text(mesh)
 
 
@@ -751,10 +774,7 @@ def build_dock_layout():
             cx, cy = ax + ux * (k + 0.5) * dash, ay + uy * (k + 0.5) * dash
             sx, sy = (dash if ux else w), (dash if uy else w)
             m.plate('yellow' if k % 2 == 0 else 'black', (cx, cy, 0.003), (1, 0, 0), (0, 1, 0), sx, sy)
-    for pname, caption, px, py in DOCK_POINTS:
-        point_texture(tex / f'{pname}.jpg', pname, caption)
-        materials[pname] = f'{pname}.jpg'
-        m.plate(pname, (px, py, 0.004), (0, 1, 0), (-1, 0, 0), 1.2, 1.2)
+    # S1–S4 drop-off coords stay in shipping_dock.yaml; no floor squares drawn.
     m.plate('floor', (-6.6, 0.25, 0.004), (1, 0, 0), (0, 1, 0), 3.0, 0.75)
     m.plate('sign', (-8.88, DOOR_Y, 4.2), (0, 1, 0), (0, 0, 1), 3.6, 0.9)
     by, bz, bw, bh = PROJECT_BANNER
@@ -876,6 +896,14 @@ def clean_world(text):
     text = re.sub(r"    <model name='workcell_bin[^']*'> ?\n.*?\n    </model>\n", '', text, flags=re.S)
     for name in ('control_panel',) + REMOVED_POLES:
         text = re.sub(rf"\s*<collision name='{name}'>.*?</collision>", '', text, flags=re.S)
+    # Zone A keeps stairs. B/C use the open mesh (no stairs, garage doors kept).
+    text = re.sub(
+        r"(<model name='workcell_SW'>.*?model://our_workcell/meshes/)[^<]+",
+        r'\1mesh_zone_a.dae', text, count=1, flags=re.S)
+    for module in ('SE', 'NE'):
+        text = re.sub(
+            rf"(<model name='workcell_{module}'>.*?model://our_workcell/meshes/)[^<]+",
+            r'\1mesh_open.dae', text, count=1, flags=re.S)
     if '<iters>' not in text:
         text = text.replace('</real_time_update_rate>\n    </physics>',
                             '</real_time_update_rate>\n'
@@ -899,6 +927,50 @@ def update_world(conveyor_x):
     return boxes.count
 
 
+# Dock bays used by Sim/tools/demo_mir_ur_heavy_boxes.py (2 / 4 / 8 kg). Random fill is
+# overwritten so a rebuild cannot move those cartons.
+DEMO_BOXES = {
+    'box_D_006': ('small', 'D-006', -2.6568, 21.46, 1.992, -math.pi / 2),
+    'box_D_004': ('long', 'D-004', -1.690, 21.46, 1.362, -math.pi / 2),
+    'box_D_003': ('large', 'D-003', -3.6234, 21.27, 0.907, -math.pi / 2),
+}
+DEMO_CLEAR = ('box_D_002', 'box_D_005')  # same bays; would collide with the pinned cartons
+
+
+def pin_demo_boxes():
+    """Put the three demo cartons on their dock bays with matching kind textures."""
+    text = WORLD.read_text()
+    for name in DEMO_CLEAR:
+        text = re.sub(rf"    <model name='{name}'>.*?</model>\n", '', text, count=1, flags=re.S)
+    zc = next(z[6] for z in ZONES if z[0] == 'D')
+    tex_dir = MODELS / 'labeled_boxes/materials/textures'
+    mat_path = MODELS / 'labeled_boxes/materials/scripts/labeled_boxes.material'
+    script = mat_path.read_text() if mat_path.exists() else ''
+    rng = random.Random(27)
+    for name, (kind, label, x, y, z, yaw) in DEMO_BOXES.items():
+        xml = box_xml(name, kind, label, x, y, z, yaw)
+        pat = rf"    <model name='{name}'>.*?</model>\n"
+        if re.search(pat, text, flags=re.S):
+            text = re.sub(pat, xml, text, count=1, flags=re.S)
+        else:
+            text = text.replace('    <!-- Module SW -->', xml + '    <!-- Module SW -->', 1)
+        # Same cardboard art as other small / long / large boxes in the warehouse.
+        if tex_dir.exists():
+            img = DRAW[kind](label, zc, rng)
+            img.resize((256, 256), Image.LANCZOS).save(tex_dir / f'{label}.jpg', quality=88)
+        block = (f'material LabeledBox/{label}\n{{\n  technique\n  {{\n    pass\n    {{\n'
+                 f'      texture_unit\n      {{\n        texture {label}.jpg\n      }}\n    }}\n  }}\n}}\n')
+        if f'material LabeledBox/{label}' in script:
+            script = re.sub(
+                rf'material LabeledBox/{re.escape(label)}\n\{{.*?\n\}}\n',
+                block, script, count=1, flags=re.S)
+        else:
+            script += ('\n' if script and not script.endswith('\n') else '') + block
+    if mat_path.parent.exists():
+        mat_path.write_text(script)
+    WORLD.write_text(text)
+
+
 if __name__ == '__main__':
     for old in ('warehouse_rack_short', 'warehouse_rack_long'):
         shutil.rmtree(MODELS / old, ignore_errors=True)
@@ -909,10 +981,13 @@ if __name__ == '__main__':
     for zone, _, _, _, _, contents, zc, *_ in ZONES:
         build_zone_layout(zone, contents, zc)
     clean_workcell_mesh()
+    build_zone_meshes()
     build_dock_mesh()
     conveyor_x = build_conveyor()
     build_truck()
     build_dock_layout()
     count = update_world(conveyor_x)
+    pin_demo_boxes()
     racks = sum(len(s) for _, _, s in ROWS) * len(ZONES)
     print(f'racks: {racks}, boxes: {count}, total boxes: {sum(count.values())}')
+    print('demo cartons pinned: 2 kg box_D_006, 4 kg box_D_004, 8 kg box_D_003')
