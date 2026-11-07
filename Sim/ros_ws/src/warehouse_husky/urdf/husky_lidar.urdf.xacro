@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<!-- Extra parts for the Husky, loaded through urdf_extras by launch/husky.launch.py: a 2D lidar on the top plate. -->
+<!-- Extra parts for the Husky, loaded through urdf_extras by launch/husky.launch.py: a 2D lidar on the top plate
+     and contact sensors, so real collisions can be counted. -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <link name="laser_link">
@@ -56,6 +57,82 @@
         <frame_name>laser_link</frame_name>
       </plugin>
     </sensor>
+  </gazebo>
+
+  <!-- Contact sensors, one on the body and one per wheel, on /contacts/(part)/bumper_states. The wheels touch the floor all the time, so they report more slowly. Comments in this file must not contain a colon followed by a space, because Gazebo passes the whole text on as a ROS parameter. -->
+  <gazebo reference="base_link">
+    <sensor name="base_contact" type="contact">
+      <always_on>true</always_on>
+      <update_rate>20</update_rate>
+      <contact>
+        <collision>base_link_collision</collision>
+        <collision>base_link_collision_1</collision>
+        <collision>base_link_fixed_joint_lump__top_plate_link_collision_2</collision>
+        <collision>base_link_fixed_joint_lump__laser_link_collision_3</collision>
+      </contact>
+      <plugin name="base_bumper" filename="libgazebo_ros_bumper.so">
+        <ros><namespace>/contacts/base</namespace></ros>
+        <frame_name>base_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="front_left_wheel">
+    <sensor name="front_left_wheel_contact" type="contact">
+      <always_on>true</always_on>
+      <update_rate>5</update_rate>
+      <contact><collision>front_left_wheel_collision</collision></contact>
+      <plugin name="front_left_wheel_bumper" filename="libgazebo_ros_bumper.so">
+        <ros><namespace>/contacts/front_left_wheel</namespace></ros>
+        <frame_name>front_left_wheel</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="front_right_wheel">
+    <sensor name="front_right_wheel_contact" type="contact">
+      <always_on>true</always_on>
+      <update_rate>5</update_rate>
+      <contact><collision>front_right_wheel_collision</collision></contact>
+      <plugin name="front_right_wheel_bumper" filename="libgazebo_ros_bumper.so">
+        <ros><namespace>/contacts/front_right_wheel</namespace></ros>
+        <frame_name>front_right_wheel</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="rear_left_wheel">
+    <sensor name="rear_left_wheel_contact" type="contact">
+      <always_on>true</always_on>
+      <update_rate>5</update_rate>
+      <contact><collision>rear_left_wheel_collision</collision></contact>
+      <plugin name="rear_left_wheel_bumper" filename="libgazebo_ros_bumper.so">
+        <ros><namespace>/contacts/rear_left_wheel</namespace></ros>
+        <frame_name>rear_left_wheel</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="rear_right_wheel">
+    <sensor name="rear_right_wheel_contact" type="contact">
+      <always_on>true</always_on>
+      <update_rate>5</update_rate>
+      <contact><collision>rear_right_wheel_collision</collision></contact>
+      <plugin name="rear_right_wheel_bumper" filename="libgazebo_ros_bumper.so">
+        <ros><namespace>/contacts/rear_right_wheel</namespace></ros>
+        <frame_name>rear_right_wheel</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- The exact position of the robot from the simulator, for tests only (/ground_truth/odom). Nothing in the navigation reads it. -->
+  <gazebo>
+    <plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
+      <ros><remapping>odom:=/ground_truth/odom</remapping></ros>
+      <body_name>base_link</body_name>
+      <frame_name>world</frame_name>
+      <update_rate>20</update_rate>
+    </plugin>
   </gazebo>
 
 </robot>

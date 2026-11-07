@@ -82,8 +82,8 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        DeclareLaunchArgument('x', default_value='0.0', description='Robot spawn x (same as husky.launch.py)'),
-        DeclareLaunchArgument('y', default_value='0.0', description='Robot spawn y'),
+        DeclareLaunchArgument('x', default_value='-1.5', description='Robot spawn x (same as husky.launch.py)'),
+        DeclareLaunchArgument('y', default_value='2.0', description='Robot spawn y'),
         DeclareLaunchArgument('yaw', default_value='0.0', description='Robot spawn yaw (rad)'),
         DeclareLaunchArgument('rviz', default_value='true', description='Open RViz'),
         container,
