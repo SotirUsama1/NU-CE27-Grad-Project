@@ -4,7 +4,8 @@
 #   enable_odom_tf false     (odom -> base_link comes from our EKF, config/ekf.yaml)
 #   wheel_separation_multiplier 1.0 -> 1.58  (skid steering: the wheels slip when turning, so wheel
 #                            odometry reported 152 deg for a real 96 deg turn in Gazebo)
-controller_manager:
+# '/**/' in front of the node names: they match in any namespace (the robot runs under /husky1)
+/**/controller_manager:
   ros__parameters:
     update_rate: 50  # Hz
     use_sim_time: true
@@ -15,7 +16,7 @@ controller_manager:
     husky_velocity_controller:
       type: diff_drive_controller/DiffDriveController
 
-husky_velocity_controller:
+/**/husky_velocity_controller:
   ros__parameters:
     left_wheel_names: ["front_left_wheel_joint", "rear_left_wheel_joint"]
     right_wheel_names: ["front_right_wheel_joint", "rear_right_wheel_joint"]
@@ -31,6 +32,9 @@ husky_velocity_controller:
     publish_rate: 50.0
     odom_frame_id: odom
     base_frame_id: base_link
+    # In a namespace, the controller would otherwise name its frames husky1/odom and husky1/base_link, and
+    # the EKF would ignore its odometry (TF stays global with plain frame names)
+    tf_frame_prefix_enable: false
     pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
     twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
 

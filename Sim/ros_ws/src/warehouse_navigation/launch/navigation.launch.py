@@ -11,23 +11,31 @@ Start the Husky first (warehouse_husky husky.launch.py), then:
   ros2 launch warehouse_navigation navigation.launch.py x:=2.0 y:=1.0 yaw:=1.57   (same as the spawn pose)
 
 Give a goal with RViz's "2D Goal Pose" button (click the spot, drag for the direction), or:
-  ros2 action send_goal /navigate_to_pose nav2_msgs/action/NavigateToPose \\
+  ros2 action send_goal /husky1/navigate_to_pose nav2_msgs/action/NavigateToPose \\
     "{pose: {header: {frame_id: map}, pose: {position: {x: 28.0, y: 25.6}, orientation: {w: 1.0}}}}"
+
+Everything except RViz runs under the robot's namespace husky1 (/husky1/amcl, /husky1/map...),
+like the robot itself (warehouse_husky husky.launch.py).
 """
 import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
-from launch_ros.actions import ComposableNodeContainer
+from launch_ros.actions import ComposableNodeContainer, PushRosNamespace
 from launch_ros.descriptions import ComposableNode
+from nav2_common.launch import RewrittenYaml
+
+NAMESPACE = 'husky1'
 
 
 def generate_launch_description():
     pkg_share = get_package_share_directory('warehouse_navigation')
-    params = os.path.join(pkg_share, 'config', 'nav2_params.yaml')
+    # The settings file with everything moved under 'husky1:', so its node names match the namespaced nodes
+    params = RewrittenYaml(source_file=os.path.join(pkg_share, 'config', 'nav2_params.yaml'),
+                           root_key=NAMESPACE, param_rewrites={}, convert_types=True)
 
     localization = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch', 'localization.launch.py')),
@@ -88,6 +96,6 @@ def generate_launch_description():
         DeclareLaunchArgument('y', default_value='2.0', description='Robot spawn y'),
         DeclareLaunchArgument('yaw', default_value='0.0', description='Robot spawn yaw (rad)'),
         DeclareLaunchArgument('rviz', default_value='true', description='Open RViz'),
-        localization,
-        container,
+        localization,   # puts its own nodes under husky1
+        GroupAction([PushRosNamespace(NAMESPACE), container]),
     ])

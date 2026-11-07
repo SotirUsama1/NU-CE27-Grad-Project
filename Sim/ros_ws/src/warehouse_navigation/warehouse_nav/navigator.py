@@ -1,7 +1,7 @@
 """Drive one robot to a named place, and tell what happened.
 
     from warehouse_nav.navigator import RobotNavigator
-    nav = RobotNavigator()
+    nav = RobotNavigator()                      # the robot under the namespace husky1
     result = nav.go_to('dock')                   # blocks until arrived, failed or timed out
     print(result['success'], result['collisions'], result['duration_s'])
 
@@ -9,7 +9,7 @@ On top of Nav2 (navigate_to_pose) it adds
   * goal checking before moving (known place, room for the robot, reachable on the map),
   * getting out when the robot is pinned against something (Nav2's own recoveries refuse to move then, and the
     planner cannot start from a spot inside its keep-out zone), then trying again,
-  * counting real collisions from the Gazebo contact sensors (/contacts/*/bumper_states),
+  * counting real collisions from the Gazebo contact sensors (/husky1/contacts/*/bumper_states),
   * a result dictionary with the numbers a mission planner or a test needs.
 """
 import math
@@ -78,11 +78,12 @@ def yaw_of(q):
 
 
 class RobotNavigator:
-    def __init__(self, places=None):
+    def __init__(self, places=None, namespace='husky1'):
         if not rclpy.ok():
             rclpy.init()
         self.places = places or Places()
-        self.node = Node('navigator', parameter_overrides=[rclpy.parameter.Parameter('use_sim_time', value=True)])
+        # In the robot's namespace: the relative topic and action names below resolve to /husky1/...
+        self.node = Node('navigator', namespace=namespace, parameter_overrides=[rclpy.parameter.Parameter('use_sim_time', value=True)])
         self.log = self.node.get_logger()
 
         # Every subscription and client is made before the executor starts: adding them to a running
@@ -95,7 +96,7 @@ class RobotNavigator:
         self.scan = None
         self.node.create_subscription(LaserScan, 'scan', lambda m: setattr(self, 'scan', m), 5)
         self._truth = None
-        self.node.create_subscription(Odometry, '/ground_truth/odom', lambda m: setattr(self, '_truth', m), 5)
+        self.node.create_subscription(Odometry, 'ground_truth/odom', lambda m: setattr(self, '_truth', m), 5)
         self.map = None
         self.node.create_subscription(
             OccupancyGrid, 'map', self._on_map,
@@ -105,7 +106,7 @@ class RobotNavigator:
         self._contact_episodes = 0
         self._contact_with = {}
         for part in ('base',) + CONTACT_WHEELS:
-            self.node.create_subscription(ContactsState, f'/contacts/{part}/bumper_states',
+            self.node.create_subscription(ContactsState, f'contacts/{part}/bumper_states',
                                           self._on_contacts, 20)
         self._cancel = threading.Event()
         self._active_goal = None

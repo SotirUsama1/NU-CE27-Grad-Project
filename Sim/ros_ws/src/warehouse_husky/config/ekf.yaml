@@ -1,9 +1,9 @@
 # Odometry for the Husky: robot_localization's EKF fuses the wheels and the IMU gyroscope and
-# publishes odom -> base_link and /odometry/filtered.
+# publishes odom -> base_link and odometry/filtered (/husky1/odometry/filtered).
 # Why: the Husky is skid-steered, so its wheels slip whenever it turns. Wheel odometry is exact when
 # driving straight but misjudges turns (it can report a 50 degree turn when the robot did not turn
 # at all). The gyroscope measures the real turning rate, slip or not.
-ekf_filter_node:
+/**/ekf_filter_node:   # '/**/': any namespace (the robot runs under /husky1)
   ros__parameters:
     use_sim_time: true
     frequency: 50.0          # Hz, same as the wheel controller
@@ -17,7 +17,7 @@ ekf_filter_node:
     # Each config list picks what a sensor contributes, in this order:
     #   x, y, z,  roll, pitch, yaw,  vx, vy, vz,  vroll, vpitch, vyaw,  ax, ay, az
     # Wheels: forward speed, and sideways speed (always 0: the Husky cannot move sideways)
-    odom0: /husky_velocity_controller/odom
+    odom0: husky_velocity_controller/odom   # relative: /husky1/husky_velocity_controller/odom
     odom0_config: [false, false, false,
                    false, false, false,
                    true,  true,  false,
@@ -25,7 +25,9 @@ ekf_filter_node:
                    false, false, false]
     odom0_queue_size: 10
 
-    # Gyroscope: turning rate only
+    # Gyroscope: turning rate only. Absolute name: husky_description's husky.urdf.xacro fixes the IMU
+    # plugin's namespace to its 'prefix' argument (empty), so the IMU is NOT under /husky1.
+    # Must be solved before a second Husky, or both would publish here.
     imu0: /imu/data_raw
     imu0_config: [false, false, false,
                   false, false, false,

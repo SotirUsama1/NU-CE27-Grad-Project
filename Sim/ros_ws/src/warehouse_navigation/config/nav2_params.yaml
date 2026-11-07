@@ -1,5 +1,9 @@
 # Nav2 settings for the Husky in Our_Structured_Warehouse.
 # Localization (map_server, amcl), costmaps, planner, controller, recovery behaviors and the navigator.
+# The launch files put this whole file under the robot's namespace (RewrittenYaml root_key husky1), so the
+# keys below match /husky1/amcl, /husky1/global_costmap/global_costmap... Topics are relative (scan ->
+# /husky1/scan), except the costmap lidar topics: in Humble those are resolved inside the costmap's own
+# namespace (/husky1/global_costmap/scan), so they are written out in full.
 
 map_server:
   ros__parameters:
@@ -119,7 +123,7 @@ global_costmap:
         enabled: true
         observation_sources: scan
         scan:
-          topic: /scan
+          topic: /husky1/scan
           data_type: "LaserScan"
           marking: true             # add obstacles where the beams hit
           clearing: true            # remove obstacles the beams now pass through
@@ -163,7 +167,7 @@ local_costmap:
         enabled: true
         observation_sources: scan
         scan:
-          topic: /scan
+          topic: /husky1/scan
           data_type: "LaserScan"
           marking: true
           clearing: true
@@ -205,7 +209,7 @@ controller_server:
   ros__parameters:
     use_sim_time: true
     controller_frequency: 20.0          # Hz
-    odom_topic: /odometry/filtered   # the robot's measured speed (EKF: wheels + gyroscope); the default /odom does not exist
+    odom_topic: odometry/filtered    # the robot's measured speed (EKF: wheels + gyroscope), /husky1/odometry/filtered
     min_x_velocity_threshold: 0.001     # m/s, smaller odometry speeds count as standing still
     min_y_velocity_threshold: 0.5       # the Husky cannot move sideways
     min_theta_velocity_threshold: 0.001
@@ -363,7 +367,7 @@ bt_navigator:
     use_sim_time: true
     global_frame: map
     robot_base_frame: base_link
-    odom_topic: /odometry/filtered
+    odom_topic: odometry/filtered
     bt_loop_duration: 10           # ms between ticks of the tree
     default_server_timeout: 20     # ms to wait for a planner / controller reply each tick
     # default_nav_to_pose_bt_xml is left unset: the default tree described above is used

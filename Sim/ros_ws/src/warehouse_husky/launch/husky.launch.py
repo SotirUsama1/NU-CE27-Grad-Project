@@ -6,7 +6,9 @@ Compared with husky_gazebo/launch/gazebo.launch.py it:
     gyroscope, because the skid-steer wheels misjudge turns; the upstream EKF is left out because it
     listens on the wrong odometry topic and never publishes that transform
   * runs every node on simulation time
-  * routes Nav2 (/cmd_vel_nav) through twist_mux, below keyboard teleop (/cmd_vel)
+  * routes Nav2 (/husky1/cmd_vel_nav) through twist_mux, below keyboard teleop (/husky1/cmd_vel)
+  * puts every topic, node and Gazebo plugin of the robot under the namespace husky1
+    (/husky1/scan, /husky1/odometry/filtered...). TF stays global: /tf, frames odom and base_link.
 
 Usage (inside the container):
   ros2 launch warehouse_husky husky.launch.py world_path:=Our_Structured_Warehouse/Our_Structured_Warehouse.world
@@ -23,6 +25,8 @@ from launch.event_handlers import OnProcessExit
 from launch.substitutions import Command, EnvironmentVariable, FindExecutable, LaunchConfiguration
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
+
+NAMESPACE = 'husky1'
 
 
 def generate_launch_description():
@@ -59,6 +63,7 @@ def generate_launch_description():
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
+        namespace=NAMESPACE,
         parameters=[{'robot_description': robot_description, 'use_sim_time': True}],
         output='screen',
     )
@@ -67,7 +72,9 @@ def generate_launch_description():
         package='gazebo_ros',
         executable='spawn_entity.py',
         name='spawn_husky',
-        arguments=['-entity', 'husky', '-topic', 'robot_description',
+        namespace=NAMESPACE,
+        # -robot_namespace puts every Gazebo plugin of the robot (lidar, IMU, ros2_control...) under husky1
+        arguments=['-entity', 'husky', '-topic', 'robot_description', '-robot_namespace', NAMESPACE,
                    '-x', LaunchConfiguration('x'), '-y', LaunchConfiguration('y'),
                    '-z', '0.15', '-Y', LaunchConfiguration('yaw')],
         output='screen',
@@ -76,13 +83,13 @@ def generate_launch_description():
     spawn_joint_state_broadcaster = Node(
         package='controller_manager',
         executable='spawner',
-        arguments=['joint_state_broadcaster', '-c', '/controller_manager'],
+        arguments=['joint_state_broadcaster', '-c', f'/{NAMESPACE}/controller_manager'],
         output='screen',
     )
     spawn_velocity_controller = Node(
         package='controller_manager',
         executable='spawner',
-        arguments=['husky_velocity_controller', '-c', '/controller_manager'],
+        arguments=['husky_velocity_controller', '-c', f'/{NAMESPACE}/controller_manager'],
         output='screen',
     )
 
@@ -90,8 +97,9 @@ def generate_launch_description():
     twist_mux = Node(
         package='twist_mux',
         executable='twist_mux',
+        namespace=NAMESPACE,
         parameters=[twist_mux_config, {'use_sim_time': True}],
-        remappings=[('/cmd_vel_out', '/husky_velocity_controller/cmd_vel_unstamped')],
+        remappings=[('cmd_vel_out', 'husky_velocity_controller/cmd_vel_unstamped')],
         output='screen',
     )
 
@@ -100,6 +108,7 @@ def generate_launch_description():
         package='robot_localization',
         executable='ekf_node',
         name='ekf_filter_node',
+        namespace=NAMESPACE,
         parameters=[ekf_config],
         output='screen',
     )

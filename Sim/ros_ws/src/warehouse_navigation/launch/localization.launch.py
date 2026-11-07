@@ -6,6 +6,9 @@ sees). AMCL matches the lidar scan against /map_lidar and publishes map -> odom,
 wheel odometry drift. Replaces view_map.launch.py:
 do not run both, they would both publish map -> odom.
 
+Everything except RViz runs under the robot's namespace husky1 (/husky1/amcl, /husky1/map...),
+like the robot itself (warehouse_husky husky.launch.py).
+
 Start the Husky first (warehouse_husky husky.launch.py), then:
   ros2 launch warehouse_navigation localization.launch.py
   ros2 launch warehouse_navigation localization.launch.py x:=2.0 y:=1.0 yaw:=1.57   (same as the spawn pose)
@@ -14,16 +17,21 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, GroupAction
 from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration
-from launch_ros.actions import ComposableNodeContainer, Node
+from launch_ros.actions import ComposableNodeContainer, Node, PushRosNamespace
 from launch_ros.descriptions import ComposableNode, ParameterValue
+from nav2_common.launch import RewrittenYaml
+
+NAMESPACE = 'husky1'
 
 
 def generate_launch_description():
     pkg_share = get_package_share_directory('warehouse_navigation')
-    params = os.path.join(pkg_share, 'config', 'nav2_params.yaml')
+    # The settings file with everything moved under 'husky1:', so its node names match the namespaced nodes
+    params = RewrittenYaml(source_file=os.path.join(pkg_share, 'config', 'nav2_params.yaml'),
+                           root_key=NAMESPACE, param_rewrites={}, convert_types=True)
 
     # map_server, amcl and their lifecycle manager run in one process (a component container).
     # As separate processes, the manager sometimes asked a server to start before ROS had finished
@@ -86,6 +94,6 @@ def generate_launch_description():
         DeclareLaunchArgument('y', default_value='2.0', description='Robot spawn y'),
         DeclareLaunchArgument('yaw', default_value='0.0', description='Robot spawn yaw (rad)'),
         DeclareLaunchArgument('rviz', default_value='true', description='Open RViz'),
-        container,
+        GroupAction([PushRosNamespace(NAMESPACE), container]),   # the container and its nodes go under husky1
         rviz,
     ])
