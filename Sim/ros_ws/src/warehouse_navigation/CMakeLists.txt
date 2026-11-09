@@ -12,7 +12,7 @@ install(DIRECTORY config launch maps rviz
 )
 
 # ros2 run warehouse_navigation go_far.py / go_to.py
-install(PROGRAMS scripts/go_far.py scripts/go_to.py scripts/generate_waypoints.py
+install(PROGRAMS scripts/go_far.py scripts/go_to.py scripts/generate_waypoints.py scripts/other_robots.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Fast DDS settings for every process of the warehouse simulation. The launch files load it through the
+  environment variable FASTRTPS_DEFAULT_PROFILES_FILE (warehouse_husky husky.launch.py, warehouse_navigation
+  localization.launch.py and navigation.launch.py).
+
+  Why: before answering a service call, Fast DDS (rmw_fastrtps 6.2) waits until it has discovered the
+  caller's reply channel, but only for the writer's max_blocking_time, 100 ms by default. With several robots
+  starting at once, discovery is often slower than that; the answer is then dropped ("failed to send response
+  ... (timeout)") and the caller waits forever. That hung our start-up about once in 20 robots: launch never got
+  the answer to "load map_server", so AMCL was never even created. 5 s is plenty for discovery.
+
+  max_blocking_time also limits how long a reliable writer may block when its queue is full; ROS topics use
+  "keep last" queues, which do not block, so in practice only the service answers are affected.
+-->
+<dds xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
+  <profiles>
+    <data_writer profile_name="warehouse_default_writer" is_default_profile="true">
+      <qos>
+        <reliability>
+          <max_blocking_time>
+            <sec>5</sec>
+            <nanosec>0</nanosec>
+          </max_blocking_time>
+        </reliability>
+      </qos>
+    </data_writer>
+  </profiles>
+</dds>

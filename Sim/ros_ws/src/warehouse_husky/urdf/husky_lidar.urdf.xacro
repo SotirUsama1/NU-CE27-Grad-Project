@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- Extra parts for the Husky, loaded through urdf_extras by launch/husky.launch.py: a 2D lidar on the top plate
+<!-- Extra parts for the Husky, included by urdf/husky.urdf.xacro: a 2D lidar on the top plate
      and contact sensors, so real collisions can be counted. -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
@@ -50,7 +50,7 @@
         </noise>
       </ray>
       <plugin name="laser_plugin" filename="libgazebo_ros_ray_sensor.so">
-        <ros>
+        <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping>
           <remapping>~/out:=scan</remapping>
         </ros>
         <output_type>sensor_msgs/LaserScan</output_type>
@@ -59,7 +59,7 @@
     </sensor>
   </gazebo>
 
-  <!-- Contact sensors, one on the body and one per wheel, on /husky1/contacts/(part)/bumper_states (the namespace comes from spawn_entity -robot_namespace). The wheels touch the floor all the time, so they report more slowly. Comments in this file must not contain a colon followed by a space, because Gazebo passes the whole text on as a ROS parameter. -->
+  <!-- Contact sensors, one on the body and one per wheel, on /(namespace)/contacts/(part)/bumper_states. The wheels touch the floor all the time, so they report more slowly. Comments in this file must not contain a colon followed by a space, because Gazebo passes the whole text on as a ROS parameter. -->
   <gazebo reference="base_link">
     <sensor name="base_contact" type="contact">
       <always_on>true</always_on>
@@ -71,7 +71,7 @@
         <collision>base_link_fixed_joint_lump__laser_link_collision_3</collision>
       </contact>
       <plugin name="base_bumper" filename="libgazebo_ros_bumper.so">
-        <ros><remapping>bumper_states:=contacts/base/bumper_states</remapping></ros>
+        <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping><remapping>bumper_states:=contacts/base/bumper_states</remapping></ros>
         <frame_name>base_link</frame_name>
       </plugin>
     </sensor>
@@ -83,7 +83,7 @@
       <update_rate>5</update_rate>
       <contact><collision>front_left_wheel_collision</collision></contact>
       <plugin name="front_left_wheel_bumper" filename="libgazebo_ros_bumper.so">
-        <ros><remapping>bumper_states:=contacts/front_left_wheel/bumper_states</remapping></ros>
+        <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping><remapping>bumper_states:=contacts/front_left_wheel/bumper_states</remapping></ros>
         <frame_name>front_left_wheel</frame_name>
       </plugin>
     </sensor>
@@ -95,7 +95,7 @@
       <update_rate>5</update_rate>
       <contact><collision>front_right_wheel_collision</collision></contact>
       <plugin name="front_right_wheel_bumper" filename="libgazebo_ros_bumper.so">
-        <ros><remapping>bumper_states:=contacts/front_right_wheel/bumper_states</remapping></ros>
+        <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping><remapping>bumper_states:=contacts/front_right_wheel/bumper_states</remapping></ros>
         <frame_name>front_right_wheel</frame_name>
       </plugin>
     </sensor>
@@ -107,7 +107,7 @@
       <update_rate>5</update_rate>
       <contact><collision>rear_left_wheel_collision</collision></contact>
       <plugin name="rear_left_wheel_bumper" filename="libgazebo_ros_bumper.so">
-        <ros><remapping>bumper_states:=contacts/rear_left_wheel/bumper_states</remapping></ros>
+        <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping><remapping>bumper_states:=contacts/rear_left_wheel/bumper_states</remapping></ros>
         <frame_name>rear_left_wheel</frame_name>
       </plugin>
     </sensor>
@@ -119,16 +119,16 @@
       <update_rate>5</update_rate>
       <contact><collision>rear_right_wheel_collision</collision></contact>
       <plugin name="rear_right_wheel_bumper" filename="libgazebo_ros_bumper.so">
-        <ros><remapping>bumper_states:=contacts/rear_right_wheel/bumper_states</remapping></ros>
+        <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping><remapping>bumper_states:=contacts/rear_right_wheel/bumper_states</remapping></ros>
         <frame_name>rear_right_wheel</frame_name>
       </plugin>
     </sensor>
   </gazebo>
 
-  <!-- The exact position of the robot from the simulator, for tests only (/husky1/ground_truth/odom). Nothing in the navigation reads it. -->
+  <!-- The exact position of the robot from the simulator, for tests only (/(namespace)/ground_truth/odom). Nothing in the navigation reads it. -->
   <gazebo>
     <plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
-      <ros><remapping>odom:=ground_truth/odom</remapping></ros>
+      <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping><remapping>odom:=ground_truth/odom</remapping></ros>
       <body_name>base_link</body_name>
       <frame_name>world</frame_name>
       <update_rate>20</update_rate>

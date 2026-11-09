@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!-- The Husky of the warehouse simulation, used by launch/husky.launch.py instead of husky_description's husky.urdf.xacro.
+     It is the same robot, with two differences.
+     1. Every Gazebo plugin (ros2_control, IMU, GPS, and in husky_lidar.urdf.xacro the lidar, contacts and ground
+        truth) gets the robot's namespace from the namespace argument, so its topics are /(namespace)/imu/data_raw...
+        Upstream fixes the IMU and GPS namespace to its prefix argument (empty), which left them global.
+        The namespace is set twice, as namespace and as a __ns remapping. gazebo_ros2_control (0.4.10) overwrites
+        the global ROS arguments of the whole Gazebo process with its own robot's namespace, so without the
+        remapping (a node's own arguments win over the global ones) the plugins of a second robot came up in the
+        first robot's namespace. Start the robots one after the other, each once its controllers are running.
+     2. Our lidar and contact sensors (husky_lidar.urdf.xacro) are included directly.
+     Comments in this file must not contain a colon followed by a space (Gazebo passes the text on as a ROS parameter). -->
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="husky">
+
+  <xacro:arg name="gazebo_controllers" default="$(find warehouse_husky)/config/control.yaml" />
+  <xacro:arg name="namespace" default="husky1" />
+
+  <!-- The body, wheels and ros2_control joints (run xacro with is_sim=true for the Gazebo hardware) -->
+  <xacro:include filename="$(find husky_description)/urdf/husky_macro.urdf.xacro" />
+  <xacro:husky prefix="" />
+
+  <gazebo>
+    <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+      <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping></ros>
+      <parameters>$(arg gazebo_controllers)</parameters>
+    </plugin>
+  </gazebo>
+
+  <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <ros>
+          <namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping>
+          <remapping>~/out:=imu/data_raw</remapping>
+        </ros>
+        <initial_orientation_as_reference>false</initial_orientation_as_reference>
+      </plugin>
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="gps_link">
+    <sensor name="gps_sensor" type="gps">
+      <plugin filename="libgazebo_ros_gps_sensor.so" name="gps_plugin">
+        <ros>
+          <namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping>
+          <remapping>~/out:=gps/data</remapping>
+        </ros>
+      </plugin>
+      <always_on>true</always_on>
+      <update_rate>10</update_rate>
+    </sensor>
+  </gazebo>
+
+  <xacro:include filename="$(find warehouse_husky)/urdf/husky_lidar.urdf.xacro" />
+
+</robot>

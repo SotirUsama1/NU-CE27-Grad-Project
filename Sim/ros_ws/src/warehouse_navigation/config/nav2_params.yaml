@@ -1,9 +1,8 @@
 # Nav2 settings for the Husky in Our_Structured_Warehouse.
 # Localization (map_server, amcl), costmaps, planner, controller, recovery behaviors and the navigator.
-# The launch files put this whole file under the robot's namespace (RewrittenYaml root_key husky1), so the
-# keys below match /husky1/amcl, /husky1/global_costmap/global_costmap... Topics are relative (scan ->
-# /husky1/scan), except the costmap lidar topics: in Humble those are resolved inside the costmap's own
-# namespace (/husky1/global_costmap/scan), so they are written out in full.
+# One copy of these settings per robot: the launch files put the whole file under the robot's namespace
+# (warehouse_nav/nav2_launch.py), so the keys below match /husky1/amcl, /husky2/amcl... Topics are relative
+# (scan -> /husky1/scan), except the costmap lidar topics, which the launch files set to /<namespace>/scan.
 
 map_server:
   ros__parameters:
@@ -123,7 +122,7 @@ global_costmap:
         enabled: true
         observation_sources: scan
         scan:
-          topic: /husky1/scan
+          topic: scan               # replaced by the launch files with /<namespace>/scan_costmap
           data_type: "LaserScan"
           marking: true             # add obstacles where the beams hit
           clearing: true            # remove obstacles the beams now pass through
@@ -167,7 +166,7 @@ local_costmap:
         enabled: true
         observation_sources: scan
         scan:
-          topic: /husky1/scan
+          topic: scan               # replaced by the launch files with /<namespace>/scan_costmap
           data_type: "LaserScan"
           marking: true
           clearing: true
@@ -245,12 +244,12 @@ controller_server:
       vx_std: 0.2                 # spread of the tried speeds (m/s, m/s, rad/s)
       vy_std: 0.2
       wz_std: 0.4
-      vx_max: 0.5                 # m/s forward
+      vx_max: 0.8                 # m/s forward (wheel controller allows 1.0; 0.8 leaves margin in 1.6 m aisles)
       vx_min: -0.35               # m/s backward, for getting out of tight spots
       vy_max: 0.5                 # unused: the diff-drive model cannot move sideways
       wz_max: 1.0                 # rad/s, same limit as the wheel controller
       iteration_count: 1
-      prune_distance: 1.7         # m of route ahead that is considered
+      prune_distance: 2.5         # m of route ahead that is considered (>= vx_max x 2.8 s look-ahead)
       transform_tolerance: 0.1
       temperature: 0.3
       gamma: 0.015

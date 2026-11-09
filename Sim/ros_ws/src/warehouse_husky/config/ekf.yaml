@@ -25,10 +25,8 @@
                    false, false, false]
     odom0_queue_size: 10
 
-    # Gyroscope: turning rate only. Absolute name: husky_description's husky.urdf.xacro fixes the IMU
-    # plugin's namespace to its 'prefix' argument (empty), so the IMU is NOT under /husky1.
-    # Must be solved before a second Husky, or both would publish here.
-    imu0: /imu/data_raw
+    # Gyroscope: turning rate only
+    imu0: imu/data_raw   # relative: /<namespace>/imu/data_raw
     imu0_config: [false, false, false,
                   false, false, false,
                   false, false, false,

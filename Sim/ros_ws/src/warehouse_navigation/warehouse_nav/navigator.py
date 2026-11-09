@@ -26,7 +26,7 @@ from nav_msgs.msg import Odometry, OccupancyGrid
 from rclpy.action import ActionClient
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.node import Node
-from rclpy.qos import DurabilityPolicy, QoSProfile
+from rclpy.qos import DurabilityPolicy, QoSProfile, qos_profile_sensor_data
 from rclpy.time import Time
 from sensor_msgs.msg import LaserScan
 from tf2_ros import Buffer, TransformListener
@@ -82,8 +82,12 @@ class RobotNavigator:
         if not rclpy.ok():
             rclpy.init()
         self.places = places or Places()
+        self.robot = namespace          # also the robot's model name in Gazebo
         # In the robot's namespace: the relative topic and action names below resolve to /husky1/...
-        self.node = Node('navigator', namespace=namespace, parameter_overrides=[rclpy.parameter.Parameter('use_sim_time', value=True)])
+        # The TF listener reads /tf and /tf_static, which are remapped to the robot's own tree (/husky1/tf).
+        self.node = Node('navigator', namespace=namespace,
+                         cli_args=['--ros-args', '-r', '/tf:=tf', '-r', '/tf_static:=tf_static'],
+                         parameter_overrides=[rclpy.parameter.Parameter('use_sim_time', value=True)])
         self.log = self.node.get_logger()
 
         # Every subscription and client is made before the executor starts: adding them to a running
@@ -94,7 +98,10 @@ class RobotNavigator:
         self.planner = ActionClient(self.node, ComputePathToPose, 'compute_path_to_pose')
         self.cmd_pub = self.node.create_publisher(Twist, 'cmd_vel_nav', 10)
         self.scan = None
-        self.node.create_subscription(LaserScan, 'scan', lambda m: setattr(self, 'scan', m), 5)
+        # The scan with the other robots' outlines added (scripts/other_robots.py): the real lidar beam passes over
+        # another robot's body, and the getting-out moves below must not drive into it
+        self.node.create_subscription(LaserScan, 'scan_costmap', lambda m: setattr(self, 'scan', m),
+                                      qos_profile_sensor_data)   # best effort, like the lidar
         self._truth = None
         self.node.create_subscription(Odometry, 'ground_truth/odom', lambda m: setattr(self, '_truth', m), 5)
         self.map = None
@@ -124,7 +131,8 @@ class RobotNavigator:
         for s in msg.states:
             # The floor does not count (the ground plane, and the 'floor' of each workcell model), and neither does
             # one part of this robot touching another. Gazebo may name this robot first or second.
-            me = 'husky::'
+            # Another robot does count.
+            me = f'{self.robot}::'
             first, second = s.collision1_name, s.collision2_name
             if first.startswith(me) and second.startswith(me):
                 continue
@@ -359,9 +367,10 @@ class RobotNavigator:
             now = time.monotonic()
             twist = Twist()
             direction = None
-            if abs(bearing) < 1.0 and now > blocked['fwd']:
+            # Only towards free space in the scan too: the map does not know where the other robots are
+            if abs(bearing) < 1.0 and now > blocked['fwd'] and self._clear_ahead() > 0.15:
                 direction, twist.linear.x, twist.angular.z = 'fwd', 0.15, max(-0.3, min(0.3, bearing))
-            elif abs(bearing) > 2.14 and now > blocked['back']:
+            elif abs(bearing) > 2.14 and now > blocked['back'] and self._clear_behind() > 0.15:
                 direction, twist.linear.x, twist.angular.z = 'back', -0.15, max(-0.3, min(0.3, behind))
             else:     # turn on the spot until the front or the rear points at it
                 twist.angular.z = math.copysign(0.35, bearing if abs(bearing) < math.pi / 2 else behind)

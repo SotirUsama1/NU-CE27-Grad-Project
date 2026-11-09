@@ -33,7 +33,7 @@
     odom_frame_id: odom
     base_frame_id: base_link
     # In a namespace, the controller would otherwise name its frames husky1/odom and husky1/base_link, and
-    # the EKF would ignore its odometry (TF stays global with plain frame names)
+    # the EKF would ignore its odometry (each robot has its own TF tree, /husky1/tf, with plain frame names)
     tf_frame_prefix_enable: false
     pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
     twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
