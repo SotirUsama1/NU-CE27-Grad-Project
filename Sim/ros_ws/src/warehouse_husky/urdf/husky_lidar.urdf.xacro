@@ -59,7 +59,7 @@
     </sensor>
   </gazebo>
 
-  <!-- Contact sensors, one on the body and one per wheel, on /(namespace)/contacts/(part)/bumper_states. The wheels touch the floor all the time, so they report more slowly. Comments in this file must not contain a colon followed by a space, because Gazebo passes the whole text on as a ROS parameter. -->
+  <!-- Contact sensors, one on the body and one per wheel, on /(namespace)/contacts/(part)/bumper_states. The wheels touch the floor all the time, so they report more slowly. Comments in this file must not contain a colon followed by a space or a line end, because Gazebo passes the whole text on as a ROS parameter. -->
   <gazebo reference="base_link">
     <sensor name="base_contact" type="contact">
       <always_on>true</always_on>

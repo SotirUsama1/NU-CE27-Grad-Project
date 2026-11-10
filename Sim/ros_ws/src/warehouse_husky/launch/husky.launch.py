@@ -54,17 +54,18 @@ def generate_launch_description():
         ' namespace:=', namespace,
     ]), value_type=str)
 
-    # Lets Gazebo resolve model://husky_description/... meshes; without it, Gazebo
-    # tries to download them and stalls for about 100 s.
     # Fast DDS settings for every process started here (config/fastdds_profile.xml explains why): without
     # them, service answers were sometimes lost while several robots started, and start-up hung
     fastdds_profile = SetEnvironmentVariable(
         'FASTRTPS_DEFAULT_PROFILES_FILE', os.path.join(pkg_share, 'config', 'fastdds_profile.xml'))
 
+    # Lets Gazebo resolve model://husky_description/... and model://jackal_description/... meshes (a Jackal may join
+    # this Gazebo later); without it, Gazebo tries to download them and stalls for about 100 s.
     gz_model_path = SetEnvironmentVariable('GAZEBO_MODEL_PATH', [
         EnvironmentVariable('GAZEBO_MODEL_PATH', default_value=''),
         ':/usr/share/gazebo-11/models/:',
-        os.path.dirname(description_share),
+        os.path.dirname(description_share), ':',
+        os.path.dirname(get_package_share_directory('jackal_description')),
     ])
 
     gzserver = ExecuteProcess(

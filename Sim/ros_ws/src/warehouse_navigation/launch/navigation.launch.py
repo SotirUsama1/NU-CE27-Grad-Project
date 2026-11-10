@@ -2,7 +2,9 @@
 
 Starts localization.launch.py (map_server, AMCL, RViz) and the navigation servers:
   planner_server     global costmap + planner (NavFn): plans the route
-  controller_server  local costmap + controller (MPPI): drives along the route on /cmd_vel_nav
+  controller_server  local costmap + controller (MPPI): drives along the route on cmd_vel_raw
+  collision_monitor  passes cmd_vel_raw on to cmd_vel_nav (twist_mux -> wheels), 0.8 -> 0.5 m/s while
+                     something is less than 25 cm from the robot
   behavior_server    recovery moves (spin, back up, wait) for when the robot is stuck
   bt_navigator       takes a goal and runs the behavior tree that uses the three servers above
 
@@ -33,11 +35,12 @@ from warehouse_nav.nav2_launch import TF_REMAPS, nav2_params
 
 def generate_launch_description():
     pkg_share = get_package_share_directory('warehouse_navigation')
-    params = nav2_params(pkg_share, LaunchConfiguration('namespace'))
+    params = nav2_params(pkg_share, LaunchConfiguration('namespace'), LaunchConfiguration('robot_type'))
 
     localization = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch', 'localization.launch.py')),
-        launch_arguments={name: LaunchConfiguration(name) for name in ('x', 'y', 'yaw', 'rviz', 'namespace', 'other_namespace')}.items(),
+        launch_arguments={name: LaunchConfiguration(name) for name in (
+            'x', 'y', 'yaw', 'rviz', 'namespace', 'other_namespace', 'robot_type')}.items(),
     )
 
     # The servers and their lifecycle manager run in one process, for the same reason as in
@@ -58,7 +61,7 @@ def generate_launch_description():
                 plugin='nav2_controller::ControllerServer',
                 name='controller_server',
                 parameters=[params, {'use_sim_time': True}],
-                remappings=TF_REMAPS + [('cmd_vel', 'cmd_vel_nav')],
+                remappings=TF_REMAPS + [('cmd_vel', 'cmd_vel_raw')],
             ),
             ComposableNode(
                 package='nav2_planner',
@@ -72,7 +75,15 @@ def generate_launch_description():
                 plugin='behavior_server::BehaviorServer',
                 name='behavior_server',
                 parameters=[params, {'use_sim_time': True}],
-                remappings=TF_REMAPS + [('cmd_vel', 'cmd_vel_nav')],
+                remappings=TF_REMAPS + [('cmd_vel', 'cmd_vel_raw')],
+            ),
+            # Passes cmd_vel_raw on to cmd_vel_nav (twist_mux), slower while something is close
+            ComposableNode(
+                package='nav2_collision_monitor',
+                plugin='nav2_collision_monitor::CollisionMonitor',
+                name='collision_monitor',
+                parameters=[params, {'use_sim_time': True}],
+                remappings=TF_REMAPS,
             ),
             ComposableNode(
                 package='nav2_bt_navigator',
@@ -86,7 +97,8 @@ def generate_launch_description():
                 package='nav2_lifecycle_manager',
                 plugin='nav2_lifecycle_manager::LifecycleManager',
                 name='lifecycle_manager_navigation',
-                parameters=[{'node_names': ['controller_server', 'planner_server', 'behavior_server', 'bt_navigator'],
+                parameters=[{'node_names': ['controller_server', 'planner_server', 'behavior_server', 'collision_monitor',
+                                            'bt_navigator'],
                              'autostart': True, 'use_sim_time': True}],
             ),
         ],
@@ -114,6 +126,8 @@ def generate_launch_description():
         DeclareLaunchArgument('y', default_value='2.0', description='Robot spawn y'),
         DeclareLaunchArgument('yaw', default_value='0.0', description='Robot spawn yaw (rad)'),
         DeclareLaunchArgument('rviz', default_value='true', description='Open RViz'),
+        DeclareLaunchArgument('robot_type', default_value='husky',
+                              description='husky or jackal: sets the robot outline in the costmaps'),
         DeclareLaunchArgument('namespace', default_value='husky1', description='Robot to navigate (its namespace)'),
         DeclareLaunchArgument('other_namespace', default_value='husky2',
                               description='Other robot whose pose and route RViz also shows'),

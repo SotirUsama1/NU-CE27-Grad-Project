@@ -32,7 +32,7 @@ from warehouse_nav.nav2_launch import TF_REMAPS, nav2_params
 def generate_launch_description():
     pkg_share = get_package_share_directory('warehouse_navigation')
     namespace = LaunchConfiguration('namespace')
-    params = nav2_params(pkg_share, namespace)
+    params = nav2_params(pkg_share, namespace, LaunchConfiguration('robot_type'))
 
     # map_server, amcl and their lifecycle manager run in one process (a component container).
     # As separate processes, the manager sometimes asked a server to start before ROS had finished
@@ -113,6 +113,8 @@ def generate_launch_description():
         DeclareLaunchArgument('y', default_value='2.0', description='Robot spawn y'),
         DeclareLaunchArgument('yaw', default_value='0.0', description='Robot spawn yaw (rad)'),
         DeclareLaunchArgument('rviz', default_value='true', description='Open RViz'),
+        DeclareLaunchArgument('robot_type', default_value='husky',
+                              description='husky or jackal: sets the robot outline in the costmaps'),
         DeclareLaunchArgument('namespace', default_value='husky1', description='Robot to localize (its namespace)'),
         DeclareLaunchArgument('other_namespace', default_value='husky2',
                               description='Other robot whose pose and route RViz also shows'),

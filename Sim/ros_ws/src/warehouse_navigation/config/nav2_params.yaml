@@ -200,8 +200,8 @@ planner_server:
 
 # ---------------------------------------------------------------------------------------------
 # Controller: follows the planned route, sending speed commands 20 times per second.
-# Its output cmd_vel is remapped to /cmd_vel_nav, which twist_mux passes to the wheels
-# (keyboard teleop on /cmd_vel still overrides it).
+# Its output cmd_vel is remapped to cmd_vel_raw; the collision monitor (below) passes it on to
+# cmd_vel_nav, which twist_mux passes to the wheels (keyboard teleop on cmd_vel still overrides it).
 # ---------------------------------------------------------------------------------------------
 
 controller_server:
@@ -324,8 +324,55 @@ controller_server:
         deadband_velocities: [0.05, 0.05, 0.15]
 
 # ---------------------------------------------------------------------------------------------
+# Collision monitor: slows the robot down when something is close, everywhere else full speed.
+# It sits between the controller and the wheels: the controller (and the recovery behaviors) send
+# on cmd_vel_raw, the monitor passes the command on to cmd_vel_nav (twist_mux), cut to 62.5 %
+# (0.8 -> 0.5 m/s) while 4 or more lidar points are less than 25 cm from the robot's body.
+# In a 1.6 m aisle the Husky has about 45 cm on each side, so driving straight down the middle
+# stays at full speed; swinging toward a rack post in a turn slows it down.
+# The points come from scan_costmap, so other robots' bodies count too (scripts/other_robots.py).
+# One zone per robot type (footprint + 25 cm); the launch files switch on the one of the robot
+# (warehouse_nav/nav2_launch.py).
+# ---------------------------------------------------------------------------------------------
+
+collision_monitor:
+  ros__parameters:
+    use_sim_time: true
+    base_frame_id: base_link
+    odom_frame_id: odom
+    cmd_vel_in_topic: cmd_vel_raw
+    cmd_vel_out_topic: cmd_vel_nav
+    transform_tolerance: 0.5
+    source_timeout: 5.0
+    base_shift_correction: true    # move the points by how far the robot drove since the scan
+    stop_pub_timeout: 2.0
+    polygons: [slowdown_husky, slowdown_jackal]
+    slowdown_husky:                # Husky footprint (+-0.50 x +-0.345) + 0.25 m
+      type: polygon
+      points: [0.75, 0.595, 0.75, -0.595, -0.75, -0.595, -0.75, 0.595]
+      action_type: slowdown
+      slowdown_ratio: 0.625        # 0.8 m/s -> 0.5 m/s (turning speed is cut by the same factor)
+      max_points: 3                # 4 or more points inside slow the robot (one stray point does not)
+      visualize: true
+      polygon_pub_topic: slowdown_zone
+      enabled: true                # set by the launch files from robot_type
+    slowdown_jackal:               # Jackal footprint (+-0.26 x +-0.22) + 0.25 m
+      type: polygon
+      points: [0.51, 0.47, 0.51, -0.47, -0.51, -0.47, -0.51, 0.47]
+      action_type: slowdown
+      slowdown_ratio: 0.625
+      max_points: 3
+      visualize: true
+      polygon_pub_topic: slowdown_zone
+      enabled: false
+    observation_sources: [scan]
+    scan:
+      type: scan
+      topic: scan_costmap          # relative: /<namespace>/scan_costmap
+
+# ---------------------------------------------------------------------------------------------
 # Recovery behaviors: simple moves the navigator uses when the robot is stuck.
-# They drive through /cmd_vel_nav like the controller, and check the local costmap so they do
+# They drive through cmd_vel_raw and the collision monitor like the controller, and check the local costmap so they do
 # not drive into anything.
 # ---------------------------------------------------------------------------------------------
 

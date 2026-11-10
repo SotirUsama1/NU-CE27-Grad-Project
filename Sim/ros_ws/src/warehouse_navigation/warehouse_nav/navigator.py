@@ -20,7 +20,7 @@ import numpy as np
 import rclpy
 from action_msgs.msg import GoalStatus
 from gazebo_msgs.msg import ContactsState
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import PolygonStamped, Twist
 from nav2_msgs.action import ComputePathToPose, NavigateToPose
 from nav_msgs.msg import Odometry, OccupancyGrid
 from rclpy.action import ActionClient
@@ -34,8 +34,9 @@ from tf2_ros import Buffer, TransformListener
 from .grid import GridMap, reachable_from
 from .places import Places
 
-HALF_WIDTH = 0.345            # m, base_link to the side of the Husky
+HALF_WIDTH = 0.345            # m, base_link to the side of the Husky; only until the robot's own footprint is known
 HALF_LENGTH = 0.5
+LASER_X = 0.32               # m, lidar ahead of base_link on the Husky; only until TF tells the robot's own
 PASS_CLEARANCE = 0.625        # the planner's keep-out distance (half width + footprint padding)
 GOAL_CLEARANCE = 0.75         # room a goal needs all round
 ESCAPE_MARGIN = 0.15         # m beyond the planner's keep-out distance that unstick drives to
@@ -104,6 +105,10 @@ class RobotNavigator:
                                       qos_profile_sensor_data)   # best effort, like the lidar
         self._truth = None
         self.node.create_subscription(Odometry, 'ground_truth/odom', lambda m: setattr(self, '_truth', m), 5)
+        # The robot's size (from its costmap footprint) and lidar position (from TF), so the getting-out moves
+        # fit any robot type, a Husky or a Jackal
+        self.half_length, self.half_width, self.laser_x = HALF_LENGTH, HALF_WIDTH, None
+        self.node.create_subscription(PolygonStamped, 'local_costmap/published_footprint', self._on_footprint, 5)
         self.map = None
         self.node.create_subscription(
             OccupancyGrid, 'map', self._on_map,
@@ -126,6 +131,18 @@ class RobotNavigator:
     # ---------------------------------------------------------------- inputs
     def _on_map(self, msg):
         self.map = msg
+
+    def _on_footprint(self, msg):
+        try:
+            t = self.tf_buffer.lookup_transform('base_link', msg.header.frame_id, Time.from_msg(msg.header.stamp))
+        except Exception:
+            return
+        x0, y0, yaw = t.transform.translation.x, t.transform.translation.y, yaw_of(t.transform.rotation)
+        c, s = math.cos(yaw), math.sin(yaw)
+        pts = [(x0 + c * p.x - s * p.y, y0 + s * p.x + c * p.y) for p in msg.polygon.points]
+        if len(pts) >= 3:
+            self.half_length = max(abs(x) for x, _ in pts)
+            self.half_width = max(abs(y) for _, y in pts)
 
     def _on_contacts(self, msg):
         for s in msg.states:
@@ -295,9 +312,16 @@ class RobotNavigator:
         ang = s.angle_min + np.arange(len(s.ranges)) * s.angle_increment
         r = np.array(s.ranges)
         good = np.isfinite(r) & (r > s.range_min)
-        px, py = 0.32 + r * np.cos(ang), r * np.sin(ang)     # in base_link; the lidar sits 0.32 m ahead of its centre
-        inside = good & (np.abs(py) < HALF_WIDTH + 0.08) & (sign * px > HALF_LENGTH)
-        return float(np.min(sign * px[inside]) - HALF_LENGTH) if inside.any() else 3.0
+        if self.laser_x is None:
+            try:
+                t = self.tf_buffer.lookup_transform('base_link', s.header.frame_id, Time())
+                self.laser_x = t.transform.translation.x
+            except Exception:
+                pass
+        lx = LASER_X if self.laser_x is None else self.laser_x
+        px, py = lx + r * np.cos(ang), r * np.sin(ang)       # in base_link
+        inside = good & (np.abs(py) < self.half_width + 0.08) & (sign * px > self.half_length)
+        return float(np.min(sign * px[inside]) - self.half_length) if inside.any() else 3.0
 
     def _drive(self, speed, distance, give_up=8.0):
         """Straight move at `speed` (m/s, negative = backwards) for up to `distance`, stopping early when blocked."""

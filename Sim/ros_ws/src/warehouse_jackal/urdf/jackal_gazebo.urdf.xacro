@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+<!-- Simulation part of the warehouse Jackal, included by jackal.urdf.xacro.
+     Every Gazebo plugin gets the robot's namespace twice, as namespace and as a __ns remapping, exactly as on the
+     Husky (warehouse_husky urdf/husky.urdf.xacro explains why). Topics, all under /(namespace)
+       imu/data_raw, scan, contacts/(part)/bumper_states, ground_truth/odom, and the ros2_control controllers.
+     The lidar sits on a tower at the height of the Husky lidar's scan plane (0.417 m above the floor), so both robot
+     types see the same parts of the racks and use the same maps.
+     Comments in this file must not contain a colon followed by a space or a line end (Gazebo passes the text on as a ROS parameter). -->
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Chassis top (front_mount) is 0.2475 m above the floor; the lidar centre is 0.1695 m above it -->
+  <xacro:property name="laser_above_mount" value="0.1695" />
+  <xacro:property name="tower_height" value="${laser_above_mount - 0.035}" />
+
+  <gazebo>
+    <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+      <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping></ros>
+      <parameters>$(arg gazebo_controllers)</parameters>
+    </plugin>
+  </gazebo>
+
+  <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+        <ros>
+          <namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping>
+          <remapping>~/out:=imu/data_raw</remapping>
+        </ros>
+        <initial_orientation_as_reference>false</initial_orientation_as_reference>
+      </plugin>
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+    </sensor>
+  </gazebo>
+
+  <!-- Lidar tower on the front mount, and the lidar on top of it -->
+  <link name="laser_tower_link">
+    <visual>
+      <origin xyz="0 0 ${tower_height / 2}"/>
+      <geometry><box size="0.05 0.05 ${tower_height}"/></geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${tower_height / 2}"/>
+      <geometry><box size="0.05 0.05 ${tower_height}"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 ${tower_height / 2}"/>
+      <mass value="0.2"/>
+      <inertia ixx="0.0004" ixy="0" ixz="0" iyy="0.0004" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+  <joint name="laser_tower_joint" type="fixed">
+    <parent link="front_mount"/>
+    <child link="laser_tower_link"/>
+    <origin xyz="0 0 0"/>
+  </joint>
+
+  <link name="laser_link">
+    <visual>
+      <geometry><cylinder radius="0.05" length="0.07"/></geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry><cylinder radius="0.05" length="0.07"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.3"/>
+      <inertia ixx="0.0003" ixy="0" ixz="0" iyy="0.0003" iyz="0" izz="0.0004"/>
+    </inertial>
+  </link>
+  <joint name="laser_joint" type="fixed">
+    <parent link="front_mount"/>
+    <child link="laser_link"/>
+    <origin xyz="0 0 ${laser_above_mount}"/>
+  </joint>
+
+  <!-- Same lidar as the Husky's (720 samples, 360 degrees, 0.3 to 25 m, 15 Hz) -->
+  <gazebo reference="laser_link">
+    <sensor name="laser" type="ray">
+      <always_on>true</always_on>
+      <update_rate>15</update_rate>
+      <visualize>false</visualize>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.14159</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.3</min>
+          <max>25.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="laser_plugin" filename="libgazebo_ros_ray_sensor.so">
+        <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping>
+          <remapping>~/out:=scan</remapping>
+        </ros>
+        <output_type>sensor_msgs/LaserScan</output_type>
+        <frame_name>laser_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- Contact sensors, one on the body and one per wheel, on /(namespace)/contacts/(part)/bumper_states, so real
+       collisions can be counted (the same parts as on the Husky). The wheels touch the floor all the time, so they
+       report more slowly. The collision names are the ones Gazebo gives the parts after merging fixed joints. -->
+  <gazebo reference="base_link">
+    <sensor name="base_contact" type="contact">
+      <always_on>true</always_on>
+      <update_rate>20</update_rate>
+      <contact>
+        <collision>base_link_fixed_joint_lump__chassis_link_collision</collision>
+        <collision>base_link_fixed_joint_lump__laser_link_collision_1</collision>
+        <collision>base_link_fixed_joint_lump__laser_tower_link_collision_2</collision>
+      </contact>
+      <plugin name="base_bumper" filename="libgazebo_ros_bumper.so">
+        <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping><remapping>bumper_states:=contacts/base/bumper_states</remapping></ros>
+        <frame_name>base_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="front_left_wheel_link">
+    <sensor name="front_left_wheel_contact" type="contact">
+      <always_on>true</always_on>
+      <update_rate>5</update_rate>
+      <contact><collision>front_left_wheel_link_collision</collision></contact>
+      <plugin name="front_left_wheel_bumper" filename="libgazebo_ros_bumper.so">
+        <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping><remapping>bumper_states:=contacts/front_left_wheel/bumper_states</remapping></ros>
+        <frame_name>front_left_wheel_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="front_right_wheel_link">
+    <sensor name="front_right_wheel_contact" type="contact">
+      <always_on>true</always_on>
+      <update_rate>5</update_rate>
+      <contact><collision>front_right_wheel_link_collision</collision></contact>
+      <plugin name="front_right_wheel_bumper" filename="libgazebo_ros_bumper.so">
+        <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping><remapping>bumper_states:=contacts/front_right_wheel/bumper_states</remapping></ros>
+        <frame_name>front_right_wheel_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="rear_left_wheel_link">
+    <sensor name="rear_left_wheel_contact" type="contact">
+      <always_on>true</always_on>
+      <update_rate>5</update_rate>
+      <contact><collision>rear_left_wheel_link_collision</collision></contact>
+      <plugin name="rear_left_wheel_bumper" filename="libgazebo_ros_bumper.so">
+        <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping><remapping>bumper_states:=contacts/rear_left_wheel/bumper_states</remapping></ros>
+        <frame_name>rear_left_wheel_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <gazebo reference="rear_right_wheel_link">
+    <sensor name="rear_right_wheel_contact" type="contact">
+      <always_on>true</always_on>
+      <update_rate>5</update_rate>
+      <contact><collision>rear_right_wheel_link_collision</collision></contact>
+      <plugin name="rear_right_wheel_bumper" filename="libgazebo_ros_bumper.so">
+        <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping><remapping>bumper_states:=contacts/rear_right_wheel/bumper_states</remapping></ros>
+        <frame_name>rear_right_wheel_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- The exact position of the robot from the simulator, for tests only (/(namespace)/ground_truth/odom) -->
+  <gazebo>
+    <plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
+      <ros><namespace>$(arg namespace)</namespace><remapping>__ns:=/$(arg namespace)</remapping><remapping>odom:=ground_truth/odom</remapping></ros>
+      <body_name>base_link</body_name>
+      <frame_name>world</frame_name>
+      <update_rate>20</update_rate>
+    </plugin>
+  </gazebo>
+
+</robot>

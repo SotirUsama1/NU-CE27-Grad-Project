@@ -1,0 +1,60 @@
+# Jackal controllers for the warehouse simulation.
+# Same as jackal_control/config/control.yaml (upstream values for wheels and limits), except:
+#   '/**/' in front of the node names: they match in any namespace (the robot runs under /jackal1 ...)
+#   enable_odom_tf false and tf_frame_prefix_enable false: odom -> base_link comes from our EKF (config/ekf.yaml),
+#   with plain frame names in the robot's own TF tree
+/**/controller_manager:
+  ros__parameters:
+    update_rate: 50  # Hz
+    use_sim_time: true
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    jackal_velocity_controller:
+      type: diff_drive_controller/DiffDriveController
+
+/**/jackal_velocity_controller:
+  ros__parameters:
+    left_wheel_names: ["front_left_wheel_joint", "rear_left_wheel_joint"]
+    right_wheel_names: ["front_right_wheel_joint", "rear_right_wheel_joint"]
+
+    wheel_separation: 0.36
+    wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
+    wheel_radius: 0.098
+
+    wheel_separation_multiplier: 1.5   # upstream value: skid steering, the wheels slip when turning
+    left_wheel_radius_multiplier: 1.0
+    right_wheel_radius_multiplier: 1.0
+
+    publish_rate: 50.0
+    odom_frame_id: odom
+    base_frame_id: base_link
+    tf_frame_prefix_enable: false
+    pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+
+    open_loop: false
+    enable_odom_tf: false   # the EKF (config/ekf.yaml) publishes odom -> base_link
+
+    cmd_vel_timeout: 0.5
+    use_stamped_vel: false
+    preserve_turning_radius: true
+    publish_cmd: true
+    publish_wheel_data: true
+
+    linear.x.has_velocity_limits: true
+    linear.x.has_acceleration_limits: true
+    linear.x.has_jerk_limits: false
+    linear.x.max_velocity: 2.0
+    linear.x.min_velocity: -2.0
+    linear.x.max_acceleration: 2.0      # upstream 20: smoother for Nav2, still well above what it asks for
+    linear.x.min_acceleration: -2.0
+
+    angular.z.has_velocity_limits: true
+    angular.z.has_acceleration_limits: true
+    angular.z.has_jerk_limits: false
+    angular.z.max_velocity: 4.0
+    angular.z.min_velocity: -4.0
+    angular.z.max_acceleration: 4.0     # upstream 25
+    angular.z.min_acceleration: -4.0

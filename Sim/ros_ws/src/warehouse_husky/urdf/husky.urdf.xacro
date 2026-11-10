@@ -9,7 +9,7 @@
         remapping (a node's own arguments win over the global ones) the plugins of a second robot came up in the
         first robot's namespace. Start the robots one after the other, each once its controllers are running.
      2. Our lidar and contact sensors (husky_lidar.urdf.xacro) are included directly.
-     Comments in this file must not contain a colon followed by a space (Gazebo passes the text on as a ROS parameter). -->
+     Comments in this file must not contain a colon followed by a space or a line end (Gazebo passes the text on as a ROS parameter). -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="husky">
 
   <xacro:arg name="gazebo_controllers" default="$(find warehouse_husky)/config/control.yaml" />

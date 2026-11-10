@@ -1,0 +1,27 @@
+# Velocity command sources for the Jackal. Higher priority wins while it is publishing.
+# Same as warehouse_husky config/twist_mux.yaml: Nav2 on cmd_vel_nav, keyboard (cmd_vel) above it
+# The topics are relative, so they sit in the robot's namespace (/jackal1/cmd_vel, /jackal1/cmd_vel_nav...).
+/**/twist_mux:   # '/**/': any namespace
+  ros__parameters:
+    topics:
+      joy:
+        topic   : joy_teleop/cmd_vel
+        timeout : 0.5
+        priority: 10
+      interactive_marker:
+        topic   : twist_marker_server/cmd_vel
+        timeout : 0.5
+        priority: 8
+      keyboard:
+        topic   : cmd_vel
+        timeout : 0.5
+        priority: 7
+      navigation:
+        topic   : cmd_vel_nav
+        timeout : 0.5
+        priority: 5
+    locks:
+      e_stop:
+        topic   : e_stop
+        timeout : 0.0
+        priority: 255
