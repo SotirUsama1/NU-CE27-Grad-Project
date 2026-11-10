@@ -5,11 +5,15 @@
      Changed, only for the simulation part (see jackal_gazebo.urdf.xacro),
        * the ros2_control hardware is always Gazebo (GazeboSystem);
        * upstream's jackal.gazebo, accessories and urdf_extras are not included, our own Gazebo plugins put every
-         topic in the robot's namespace, and add a lidar, contact sensors and ground truth.
+         topic in the robot's namespace, and add a lidar, contact sensors and ground truth;
+       * optionally a Universal Robots arm on the rear mount (argument arm, see warehouse_husky ur_arm.urdf.xacro),
+         behind the lidar tower on the front mount.
      Comments in this file must not contain a colon followed by a space or a line end (Gazebo passes the text on as a ROS parameter). -->
 <robot name="jackal" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:arg name="namespace" default="jackal1" />
   <xacro:arg name="gazebo_controllers" default="$(find warehouse_jackal)/config/control.yaml" />
+  <!-- none, ur3e (or any arm of warehouse_husky ur_arm.urdf.xacro; the Jackal carries 20 kg) -->
+  <xacro:arg name="arm" default="none" />
   <xacro:property name="PI" value="3.1415926535897931" />
 
   <xacro:property name="wheelbase" value="0.262" />
@@ -285,4 +289,11 @@
   
   <!-- Our Gazebo plugins, lidar, contact sensors and ground truth, all in the robot's namespace -->
   <xacro:include filename="$(find warehouse_jackal)/urdf/jackal_gazebo.urdf.xacro" />
+
+  <xacro:if value="${'$(arg arm)' != 'none'}">
+    <xacro:include filename="$(find warehouse_husky)/urdf/ur_arm.urdf.xacro" />
+    <xacro:ur_arm arm_type="$(arg arm)" parent="rear_mount">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:ur_arm>
+  </xacro:if>
 </robot>

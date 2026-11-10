@@ -6,7 +6,9 @@ body (about 0.3 m high). It only hits the other robot's 10 cm lidar puck, so Nav
 thin pole and drove close enough to touch it.
 
 What: this node takes this robot's real scan (scan) and shortens every beam that would hit another robot's
-outline, as if the lidar could see the other bodies, and publishes the result on scan_costmap. The costmaps
+outline, as if the lidar could see the other bodies, and publishes the result on scan_costmap. It also drops
+every hit inside this robot's own outline: the base of its arm (warehouse_husky urdf/ur_arm.urdf.xacro) stands
+behind the lidar, and Nav2 would otherwise take the robot for always touching an obstacle. The costmaps
 use scan_costmap (warehouse_nav/nav2_launch.py); AMCL keeps the real scan, because other robots are not on
 the map.
 
@@ -111,6 +113,8 @@ class OtherRobotsScan(Node):
         self.tf = Buffer()
         self.tf_listener = TransformListener(self.tf, self)   # /tf, remapped by the launch file to this robot's tree
         self.others = {}
+        self.own_outline = None   # N x 2, this robot's footprint in its base_link (from its own local costmap)
+        self.create_subscription(PolygonStamped, 'local_costmap/published_footprint', self.on_own_footprint, 5)
         self.pub = self.create_publisher(LaserScan, 'scan_costmap', qos_profile_sensor_data)
         self.create_subscription(LaserScan, 'scan', self.on_scan, qos_profile_sensor_data)
         self.create_timer(DISCOVER_S, self.discover)
@@ -124,8 +128,33 @@ class OtherRobotsScan(Node):
                 self.others[m.group(1)] = OtherRobot(self, m.group(1))
                 self.get_logger().info(f'{self.me}: now seeing robot {m.group(1)}')
 
+    def on_own_footprint(self, msg):
+        # published in odom; keep it in base_link, where it does not move
+        try:
+            t = self.tf.lookup_transform('base_link', msg.header.frame_id, Time.from_msg(msg.header.stamp))
+        except Exception:
+            return
+        pts = np.array([[p.x, p.y] for p in msg.polygon.points])
+        if len(pts) >= 3:
+            self.own_outline = place(pts, *pose_2d(t.transform))
+
+    def drop_own_body(self, scan, ranges):
+        """Set to inf (nothing seen) every beam whose hit lies inside this robot's own outline."""
+        if self.own_outline is None:
+            return ranges
+        try:
+            laser = pose_2d(self.tf.lookup_transform('base_link', scan.header.frame_id, Time()).transform)
+        except Exception:
+            return ranges
+        angles = scan.angle_min + np.arange(len(ranges)) * scan.angle_increment
+        finite = np.isfinite(ranges)
+        hits = np.stack([np.where(finite, ranges, 0) * np.cos(angles), np.where(finite, ranges, 0) * np.sin(angles)], axis=1)
+        hits = place(hits, *laser)                       # in base_link
+        mine = finite & inside_points(self.own_outline, hits)
+        return np.where(mine, np.inf, ranges)
+
     def on_scan(self, scan):
-        ranges = np.array(scan.ranges, dtype=float)
+        ranges = self.drop_own_body(scan, np.array(scan.ranges, dtype=float))
         outlines = [o for o in (r.outline_in_map() for r in self.others.values()) if o is not None]
         if outlines:
             try:
@@ -162,6 +191,15 @@ class OtherRobotsScan(Node):
             ok = (np.abs(denom) > 1e-9) & (t > 0) & (u >= 0) & (u <= 1)
             best = np.minimum(best, np.where(ok, t, np.inf).min(axis=1))
         return best
+
+
+def inside_points(poly, pts):
+    """For each point (K x 2), True if it is inside the polygon (N x 2)."""
+    x, y = poly[:, 0], poly[:, 1]
+    xn, yn = np.roll(x, -1), np.roll(y, -1)
+    px, py = pts[:, 0:1], pts[:, 1:2]                                        # K x 1, against N edges
+    crosses = ((y > py) != (yn > py)) & (px < (xn - x) * (py - y) / np.where(yn == y, 1e-12, yn - y) + x)
+    return np.count_nonzero(crosses, axis=1) % 2 == 1
 
 
 def inside(poly):

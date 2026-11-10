@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!-- A Universal Robots arm bolted onto a mobile robot, shared by the Husky (urdf/husky.urdf.xacro) and the
+     Jackal (warehouse_jackal urdf/jackal.urdf.xacro).
+     The arm comes from ur_description, with all names prefixed with arm_ (arm_base_link, arm_shoulder_pan_joint,
+     arm_tool0...), so they never clash with the robot's own base_link.
+     Its joints get their own ros2_control block with the Gazebo hardware, so the robot's one controller manager
+     (gazebo_ros2_control) runs the wheels and the arm together; the arm is moved by arm_controller, a
+     joint_trajectory_controller (config/control.yaml) that sends joint positions.
+
+     How Gazebo turns those positions into motion matters on a robot that is itself free to move.
+       * ur_description's own block uses plain position (and velocity) commands. Gazebo Classic then sets the
+         joint angle (or speed) directly every step, outside the physics, and the Husky was thrown off within
+         seconds. So did the one-time jump to an initial_value at spawn.
+       * Here every joint uses position_pid, so gazebo_ros2_control turns the position error into a joint torque at
+         every physics step (1000 Hz) and the arm moves by real physics. The gains (kp, ki, kd) are per arm type
+         below; ki holds the arm up against gravity.
+       * The arm spawns stretched out (all joints 0) and the launch file folds it right after arm_controller
+         starts (scripts/arm_pose.py).
+       * Even with real torques, turning the shoulder while the UR10e stands fully upright made Gazebo's solver
+         blow up. arm_pose.py turns the arm only while it is tucked (bent), which works for every arm.
+     Comments in this file must not contain a colon followed by a space or a line end (Gazebo passes the text on as a ROS parameter). -->
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro" />
+
+  <!-- PID gains per arm type and joint, as [kp, ki, kd, integral limit]. Bigger arms carry more weight on the
+       shoulder and elbow; the wrists are light, and too much gain there makes them shake. -->
+  <xacro:property name="arm_gains" value="${dict(
+      ur10e=dict(shoulder_pan_joint=[1000, 100, 20, 100], shoulder_lift_joint=[3000, 500, 200, 200],
+                 elbow_joint=[1500, 300, 70, 100], wrist_1_joint=[100, 20, 1.5, 20],
+                 wrist_2_joint=[100, 20, 1.5, 20], wrist_3_joint=[50, 5, 0.3, 10]),
+      ur5e=dict(shoulder_pan_joint=[1000, 100, 20, 100], shoulder_lift_joint=[3000, 500, 200, 200],
+                elbow_joint=[1500, 300, 70, 100], wrist_1_joint=[100, 20, 1.5, 20],
+                wrist_2_joint=[100, 20, 1.5, 20], wrist_3_joint=[50, 5, 0.3, 10]),
+      ur3e=dict(shoulder_pan_joint=[300, 30, 6, 30], shoulder_lift_joint=[600, 100, 30, 60],
+                elbow_joint=[300, 60, 12, 30], wrist_1_joint=[30, 5, 0.4, 5],
+                wrist_2_joint=[30, 5, 0.4, 5], wrist_3_joint=[15, 2, 0.08, 2]))}" />
+
+  <xacro:macro name="arm_joint_control" params="joint gains">
+    <joint name="arm_${joint}">
+      <param name="kp">${gains[0]}</param>
+      <param name="ki">${gains[1]}</param>
+      <param name="kd">${gains[2]}</param>
+      <param name="max_integral_error">${gains[3]}</param>
+      <param name="min_integral_error">${-gains[3]}</param>
+      <param name="antiwindup">true</param>
+      <command_interface name="position_pid" />
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+    </joint>
+  </xacro:macro>
+
+  <!-- arm_type   ur3e, ur5e or ur10e
+       parent     the link of the robot the arm base is bolted to
+       origin     where on that link -->
+  <xacro:macro name="ur_arm" params="arm_type parent *origin">
+    <xacro:property name="config" value="$(find ur_description)/config/${arm_type}" />
+    <xacro:property name="gains" value="${arm_gains[arm_type]}" />
+    <xacro:ur_robot
+        name="arm"
+        tf_prefix="arm_"
+        parent="${parent}"
+        ur_type="${arm_type}"
+        joint_limits_parameters_file="${config}/joint_limits.yaml"
+        kinematics_parameters_file="${config}/default_kinematics.yaml"
+        physical_parameters_file="${config}/physical_parameters.yaml"
+        visual_parameters_file="${config}/visual_parameters.yaml"
+        sim_gazebo="true"
+        generate_ros2_control_tag="false">
+      <xacro:insert_block name="origin" />
+    </xacro:ur_robot>
+
+    <ros2_control name="arm" type="system">
+      <hardware>
+        <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+      </hardware>
+      <xacro:arm_joint_control joint="shoulder_pan_joint" gains="${gains['shoulder_pan_joint']}" />
+      <xacro:arm_joint_control joint="shoulder_lift_joint" gains="${gains['shoulder_lift_joint']}" />
+      <xacro:arm_joint_control joint="elbow_joint" gains="${gains['elbow_joint']}" />
+      <xacro:arm_joint_control joint="wrist_1_joint" gains="${gains['wrist_1_joint']}" />
+      <xacro:arm_joint_control joint="wrist_2_joint" gains="${gains['wrist_2_joint']}" />
+      <xacro:arm_joint_control joint="wrist_3_joint" gains="${gains['wrist_3_joint']}" />
+    </ros2_control>
+  </xacro:macro>
+
+</robot>

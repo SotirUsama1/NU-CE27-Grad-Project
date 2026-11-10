@@ -9,11 +9,15 @@
         remapping (a node's own arguments win over the global ones) the plugins of a second robot came up in the
         first robot's namespace. Start the robots one after the other, each once its controllers are running.
      2. Our lidar and contact sensors (husky_lidar.urdf.xacro) are included directly.
+     3. Optionally a Universal Robots arm on the rear of the top plate (argument arm, see ur_arm.urdf.xacro),
+        behind the lidar, which sits on the front.
      Comments in this file must not contain a colon followed by a space or a line end (Gazebo passes the text on as a ROS parameter). -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="husky">
 
   <xacro:arg name="gazebo_controllers" default="$(find warehouse_husky)/config/control.yaml" />
   <xacro:arg name="namespace" default="husky1" />
+  <!-- none, ur3e, ur5e or ur10e -->
+  <xacro:arg name="arm" default="none" />
 
   <!-- The body, wheels and ros2_control joints (run xacro with is_sim=true for the Gazebo hardware) -->
   <xacro:include filename="$(find husky_description)/urdf/husky_macro.urdf.xacro" />
@@ -55,5 +59,12 @@
   </gazebo>
 
   <xacro:include filename="$(find warehouse_husky)/urdf/husky_lidar.urdf.xacro" />
+
+  <xacro:if value="${'$(arg arm)' != 'none'}">
+    <xacro:include filename="$(find warehouse_husky)/urdf/ur_arm.urdf.xacro" />
+    <xacro:ur_arm arm_type="$(arg arm)" parent="top_plate_rear_link">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:ur_arm>
+  </xacro:if>
 
 </robot>

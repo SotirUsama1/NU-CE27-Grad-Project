@@ -85,12 +85,13 @@ def generate_launch_description():
         ],
     )
 
-    # navigation.rviz is a template: <robot_namespace> is this robot, <other_namespace> the robot whose pose and
-    # route are also shown
+    # navigation.rviz is a template: <robot_namespace> is this robot, <other_namespace> and
+    # <third_namespace> the robots whose pose and route are also shown
     rviz_config = ReplaceString(
         source_file=os.path.join(pkg_share, 'rviz', 'navigation.rviz'),
         replacements={'<robot_namespace>': ['/', namespace],
-                      '<other_namespace>': ['/', LaunchConfiguration('other_namespace')]})
+                      '<other_namespace>': ['/', LaunchConfiguration('other_namespace')],
+                      '<third_namespace>': ['/', LaunchConfiguration('third_namespace')]})
     rviz = Node(
         package='rviz2',
         executable='rviz2',
@@ -118,5 +119,7 @@ def generate_launch_description():
         DeclareLaunchArgument('namespace', default_value='husky1', description='Robot to localize (its namespace)'),
         DeclareLaunchArgument('other_namespace', default_value='husky2',
                               description='Other robot whose pose and route RViz also shows'),
+        DeclareLaunchArgument('third_namespace', default_value='jackal1',
+                              description='Third robot whose pose and route RViz shows (purple)'),
         GroupAction([PushRosNamespace(namespace), container, rviz]),   # all of it under the robot's namespace
     ])

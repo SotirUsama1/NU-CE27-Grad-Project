@@ -14,6 +14,10 @@
     jackal_velocity_controller:
       type: diff_drive_controller/DiffDriveController
 
+    # Only started when the robot has an arm (jackal.launch.py arm:=...)
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
 /**/jackal_velocity_controller:
   ros__parameters:
     left_wheel_names: ["front_left_wheel_joint", "rear_left_wheel_joint"]
@@ -58,3 +62,24 @@
     angular.z.min_velocity: -4.0
     angular.z.max_acceleration: 4.0     # upstream 25
     angular.z.min_acceleration: -4.0
+
+# The arm (warehouse_husky urdf/ur_arm.urdf.xacro), the same as on the Husky: follows joint trajectories, sent on the action
+# /<namespace>/arm_controller/follow_joint_trajectory (warehouse_husky scripts/arm_pose.py). It sends joint positions;
+# Gazebo turns them into joint torques with the PID gains in ur_arm.urdf.xacro.
+/**/arm_controller:
+  ros__parameters:
+    joints:
+      - arm_shoulder_pan_joint
+      - arm_shoulder_lift_joint
+      - arm_elbow_joint
+      - arm_wrist_1_joint
+      - arm_wrist_2_joint
+      - arm_wrist_3_joint
+    command_interfaces: [position]
+    state_interfaces: [position, velocity]
+    state_publish_rate: 50.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.2
+      goal_time: 2.0

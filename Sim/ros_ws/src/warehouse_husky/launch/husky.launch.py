@@ -17,6 +17,8 @@ Usage (inside the container):
   ros2 launch warehouse_husky husky.launch.py world_path:=... gui:=false x:=2.0 y:=0.0 yaw:=0.0
 A second robot joins the running Gazebo (gazebo:=false) under another namespace and spawn pose:
   ros2 launch warehouse_husky husky.launch.py gazebo:=false namespace:=husky2 x:=-1.5 y:=4.0
+With an arm on the top plate (urdf/ur_arm.urdf.xacro), moved by arm_controller:
+  ros2 launch warehouse_husky husky.launch.py world_path:=... arm:=ur10e
 """
 import os
 
@@ -52,6 +54,7 @@ def generate_launch_description():
         ' is_sim:=true',
         ' gazebo_controllers:=', control_config,
         ' namespace:=', namespace,
+        ' arm:=', LaunchConfiguration('arm'),
     ]), value_type=str)
 
     # Fast DDS settings for every process started here (config/fastdds_profile.xml explains why): without
@@ -112,6 +115,24 @@ def generate_launch_description():
         output='screen',
     )
 
+    # The arm's controller, only when the robot has an arm
+    spawn_arm_controller = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['arm_controller', '-c', ['/', namespace, '/controller_manager']],
+        output='screen',
+        condition=IfCondition(PythonExpression(["'", LaunchConfiguration('arm'), "' != 'none'"])),
+    )
+
+    # Folds the arm into its travel pose (it spawns stretched out, see urdf/ur_arm.urdf.xacro)
+    fold_arm = Node(
+        package='warehouse_husky',
+        executable='arm_pose.py',
+        name='fold_arm',
+        arguments=['travel', '--robot', namespace],
+        output='screen',
+    )
+
     # cmd_vel sources (keyboard on /cmd_vel, Nav2 on /cmd_vel_nav) -> wheel controller
     twist_mux = Node(
         package='twist_mux',
@@ -141,6 +162,8 @@ def generate_launch_description():
                               description='Start Gazebo; false to add this robot to a Gazebo that is already running'),
         DeclareLaunchArgument('namespace', default_value='husky1',
                               description='Robot name: namespace of its topics and nodes, and its Gazebo model name'),
+        DeclareLaunchArgument('arm', default_value='none',
+                              description='Arm on the top plate: none, ur3e, ur5e or ur10e'),
         DeclareLaunchArgument('x', default_value='-1.5'),
         DeclareLaunchArgument('y', default_value='2.0'),
         DeclareLaunchArgument('yaw', default_value='0.0'),
@@ -152,7 +175,8 @@ def generate_launch_description():
         spawn_robot,
         spawn_joint_state_broadcaster,
         RegisterEventHandler(OnProcessExit(target_action=spawn_joint_state_broadcaster,
-                                           on_exit=[spawn_velocity_controller])),
+                                           on_exit=[spawn_velocity_controller, spawn_arm_controller])),
+        RegisterEventHandler(OnProcessExit(target_action=spawn_arm_controller, on_exit=[fold_arm])),
         twist_mux,
         ekf,
     ])

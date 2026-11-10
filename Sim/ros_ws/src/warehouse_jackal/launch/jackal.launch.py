@@ -15,6 +15,8 @@ Compared with jackal_gazebo/launch/gazebo.launch.py it:
 Usage (inside the container), alone or joining a running Gazebo (gazebo:=false), e.g. next to the Huskies:
   ros2 launch warehouse_jackal jackal.launch.py world_path:=Our_Structured_Warehouse/Our_Structured_Warehouse.world
   ros2 launch warehouse_jackal jackal.launch.py gazebo:=false namespace:=jackal1 x:=-2.5 y:=3.0
+With a UR3e arm on the rear mount (warehouse_husky urdf/ur_arm.urdf.xacro), folded once it is up:
+  ros2 launch warehouse_jackal jackal.launch.py gazebo:=false namespace:=jackal1 x:=-5.5 y:=4.0 arm:=ur3e
 """
 import os
 
@@ -49,6 +51,7 @@ def generate_launch_description():
         os.path.join(pkg_share, 'urdf', 'jackal.urdf.xacro'),
         ' gazebo_controllers:=', control_config,
         ' namespace:=', namespace,
+        ' arm:=', LaunchConfiguration('arm'),
     ]), value_type=str)
 
     # Fast DDS settings for every process started here (warehouse_husky config/fastdds_profile.xml explains why):
@@ -110,6 +113,22 @@ def generate_launch_description():
         output='screen',
     )
 
+    # The arm's controller, only when the robot has an arm; then the arm is folded into its travel pose
+    spawn_arm_controller = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['arm_controller', '-c', ['/', namespace, '/controller_manager']],
+        output='screen',
+        condition=IfCondition(PythonExpression(["'", LaunchConfiguration('arm'), "' != 'none'"])),
+    )
+    fold_arm = Node(
+        package='warehouse_husky',
+        executable='arm_pose.py',
+        name='fold_arm',
+        arguments=['travel', '--robot', namespace],
+        output='screen',
+    )
+
     # cmd_vel sources (keyboard on /cmd_vel, Nav2 on /cmd_vel_nav) -> wheel controller
     twist_mux = Node(
         package='twist_mux',
@@ -139,6 +158,7 @@ def generate_launch_description():
                               description='Start Gazebo; false to add this robot to a Gazebo that is already running'),
         DeclareLaunchArgument('namespace', default_value='jackal1',
                               description='Robot name: namespace of its topics and nodes, and its Gazebo model name'),
+        DeclareLaunchArgument('arm', default_value='none', description='Arm on the rear mount: none or ur3e'),
         DeclareLaunchArgument('x', default_value='-2.5'),
         DeclareLaunchArgument('y', default_value='3.0'),
         DeclareLaunchArgument('yaw', default_value='0.0'),
@@ -150,7 +170,8 @@ def generate_launch_description():
         spawn_robot,
         spawn_joint_state_broadcaster,
         RegisterEventHandler(OnProcessExit(target_action=spawn_joint_state_broadcaster,
-                                           on_exit=[spawn_velocity_controller])),
+                                           on_exit=[spawn_velocity_controller, spawn_arm_controller])),
+        RegisterEventHandler(OnProcessExit(target_action=spawn_arm_controller, on_exit=[fold_arm])),
         twist_mux,
         ekf,
     ])

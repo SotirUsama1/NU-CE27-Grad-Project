@@ -40,7 +40,7 @@ def generate_launch_description():
     localization = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch', 'localization.launch.py')),
         launch_arguments={name: LaunchConfiguration(name) for name in (
-            'x', 'y', 'yaw', 'rviz', 'namespace', 'other_namespace', 'robot_type')}.items(),
+            'x', 'y', 'yaw', 'rviz', 'namespace', 'other_namespace', 'third_namespace', 'robot_type')}.items(),
     )
 
     # The servers and their lifecycle manager run in one process, for the same reason as in
@@ -131,6 +131,8 @@ def generate_launch_description():
         DeclareLaunchArgument('namespace', default_value='husky1', description='Robot to navigate (its namespace)'),
         DeclareLaunchArgument('other_namespace', default_value='husky2',
                               description='Other robot whose pose and route RViz also shows'),
+        DeclareLaunchArgument('third_namespace', default_value='jackal1',
+                              description='Third robot whose pose and route RViz shows (purple)'),
         localization,   # puts its own nodes under the namespace
         GroupAction([PushRosNamespace(LaunchConfiguration('namespace')), container, other_robots]),
     ])

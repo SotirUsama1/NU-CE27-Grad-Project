@@ -1,5 +1,6 @@
 # RViz for one robot, used as a template by launch/localization.launch.py: <robot_namespace> becomes this robot
-# (/husky1) and <other_namespace> the other robot (/husky2), whose pose and route are drawn in orange.
+# (/husky1), <other_namespace> another robot (/husky2), whose pose and route are drawn in orange, and
+# <third_namespace> a third robot (/jackal1), drawn in purple.
 Panels:
   - Class: rviz_common/Displays
     Name: Displays
@@ -106,6 +107,31 @@ Visualization Manager:
         Durability Policy: Volatile
         Reliability Policy: Reliable
       Color: 255; 140; 0
+      Line Style: Billboards
+      Line Width: 0.06
+    - Class: rviz_default_plugins/PoseWithCovariance
+      Name: Third robot pose
+      Enabled: true
+      Topic:
+        Value: <third_namespace>/amcl_pose
+        Durability Policy: Transient Local
+        Reliability Policy: Reliable
+      Shape: Arrow
+      Color: 170; 60; 255
+      Shaft Length: 0.6
+      Shaft Radius: 0.08
+      Head Length: 0.3
+      Head Radius: 0.18
+      Covariance:
+        Value: false
+    - Class: rviz_default_plugins/Path
+      Name: Third robot path
+      Enabled: true
+      Topic:
+        Value: <third_namespace>/plan
+        Durability Policy: Volatile
+        Reliability Policy: Reliable
+      Color: 170; 60; 255
       Line Style: Billboards
       Line Width: 0.06
     - Class: rviz_default_plugins/TF
