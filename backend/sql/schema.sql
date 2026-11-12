@@ -27,6 +27,8 @@ CREATE TABLE IF NOT EXISTS missions (
 -- Tasks: primitive-level units of work within a mission.
 --   prerequisite gating: task N is claimable only when task N-1 is COMPLETED.
 --   robot session affinity: claimed tasks are pinned to assigned_robot_id.
+--   params: free-form primitive parameters (JSONB).
+--   dispatch order: FIFO by created_at (oldest mission first), then sequence.
 CREATE TABLE IF NOT EXISTS tasks (
     id TEXT PRIMARY KEY,
     mission_id TEXT NOT NULL REFERENCES missions(id) ON DELETE CASCADE,
@@ -34,6 +36,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     status TEXT NOT NULL DEFAULT 'PENDING',
     primitive_type TEXT NOT NULL,
     target_node TEXT,
+    params JSONB DEFAULT '{}'::jsonb,
     assigned_robot_id TEXT REFERENCES robots(id) ON DELETE SET NULL,
     claimed_at TIMESTAMPTZ,
     completed_at TIMESTAMPTZ,

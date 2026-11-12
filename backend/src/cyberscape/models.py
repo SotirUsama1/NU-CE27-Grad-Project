@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
+from typing import Any
 from uuid import uuid4
 
 from pydantic import BaseModel, Field
@@ -73,6 +74,7 @@ class Task(BaseModel):
     status: TaskStatus = TaskStatus.PENDING
     primitive_type: PrimitiveType
     target_node: str | None = None
+    params: dict[str, Any] = Field(default_factory=dict)
     assigned_robot_id: str | None = None
     claimed_at: datetime | None = None
     completed_at: datetime | None = None

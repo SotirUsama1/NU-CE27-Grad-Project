@@ -14,6 +14,7 @@ Operations:
 
 from __future__ import annotations
 
+import json
 from typing import Any
 
 import asyncpg
@@ -29,10 +30,18 @@ class Database:
 
     async def connect(self) -> None:
         """Open the connection pool."""
+
+        async def _init(conn: asyncpg.Connection) -> None:
+            # Decode JSONB columns (task params) as dicts, not raw strings.
+            await conn.set_type_codec(
+                "jsonb", encoder=json.dumps, decoder=json.loads, schema="pg_catalog"
+            )
+
         self.pool = await asyncpg.create_pool(
             dsn=settings.DATABASE_URL,
             min_size=1,
             max_size=10,
+            init=_init,
         )
 
     async def disconnect(self) -> None:
@@ -72,7 +81,11 @@ class Database:
         never hand out the same task. A task is claimable when:
           * its status is ``PENDING`` and it is not yet assigned, and
           * it is the first task of its mission (sequence_order = 1), or
-            the preceding task (sequence_order - 1) is ``COMPLETED``.
+            the preceding task (sequence_order - 1) is ``COMPLETED`` by
+            this same robot (mission-to-robot session affinity).
+
+        Candidates are dispatched FIFO by ``created_at`` (oldest mission
+        first), then by ``sequence_order``.
 
         On success the task is marked ``CLAIMED`` and pinned to
         ``assigned_robot_id`` (robot session affinity).
@@ -83,7 +96,7 @@ class Database:
             row = await conn.fetchrow(
                 """
                     SELECT t.id, t.mission_id, t.sequence_order,
-                           t.primitive_type, t.target_node
+                           t.primitive_type, t.target_node, t.params
                     FROM tasks t
                     WHERE t.status = 'PENDING'
                       AND t.assigned_robot_id IS NULL
@@ -94,12 +107,14 @@ class Database:
                               WHERE t2.mission_id = t.mission_id
                                 AND t2.sequence_order = t.sequence_order - 1
                                 AND t2.status = 'COMPLETED'
+                                AND t2.assigned_robot_id = $1
                           )
                       )
-                    ORDER BY t.mission_id, t.sequence_order
+                    ORDER BY t.created_at ASC, t.sequence_order ASC
                     FOR UPDATE SKIP LOCKED
                     LIMIT 1
-                    """
+                    """,
+                robot_id,
             )
             if row is None:
                 return None
@@ -126,8 +141,12 @@ class Database:
     ) -> None:
         """Transition ``task_id`` to ``status``.
 
-        When ``status`` is ``COMPLETED`` the robot session affinity is
-        enforced: only the claiming robot may complete its own task.
+        * ``COMPLETED`` enforces robot session affinity: only the claiming
+          robot may complete its own task.
+        * ``PENDING`` is a full reset (unclaim): the robot pin, claim stamp,
+          and completion stamp are cleared, otherwise the task would remain
+          invisible to the claim query (``assigned_robot_id IS NULL``) and
+          become permanently unclaimable.
         """
         if self.pool is None:
             raise RuntimeError("Database pool is not connected")
@@ -145,6 +164,20 @@ class Database:
                     task_id,
                     robot_id,
                 )
+            elif status == "PENDING":
+                await conn.execute(
+                    """
+                    UPDATE tasks
+                    SET status = $1,
+                        assigned_robot_id = NULL,
+                        claimed_at = NULL,
+                        completed_at = NULL,
+                        updated_at = NOW()
+                    WHERE id = $2
+                    """,
+                    status,
+                    task_id,
+                )
             else:
                 await conn.execute(
                     """
@@ -156,6 +189,15 @@ class Database:
                     status,
                     task_id,
                 )
+
+    async def unclaim_task(self, task_id: str) -> None:
+        """Release ``task_id`` back to the dispatchable pool.
+
+        Resets the task to ``PENDING`` and clears ``assigned_robot_id`` (and
+        the claim/completion stamps) so it becomes claimable again by any
+        robot. Used when segment locks cannot be acquired or on retry.
+        """
+        await self.update_task_status(task_id, "PENDING")
 
     async def update_robot_telemetry(
         self,
