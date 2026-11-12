@@ -43,10 +43,12 @@ class Dispatcher:
         topo_graph=None,
         sweep_interval: float | None = None,
         excluded_edges: set[str] | None = None,
+        rosbridge_client=None,
     ) -> None:
         self.db = db
         self.redis = redis_client
         self.topo_graph = topo_graph
+        self.rosbridge_client = rosbridge_client
         self.sweep_interval = (
             sweep_interval
             if sweep_interval is not None
@@ -136,6 +138,16 @@ class Dispatcher:
                     len(edge_keys),
                     junction_node,
                 )
+                if self.rosbridge_client is not None:
+                    asyncio.create_task(
+                        self._execute_claimed_task(
+                            robot_id=robot["id"],
+                            task=task,
+                            edge_keys=edge_keys,
+                            junction_node=junction_node,
+                            source_node=robot.get("current_node"),
+                        )
+                    )
             else:
                 # Segment locks blocked: revert to PENDING and clear the
                 # robot pin so the task can be re-claimed later.
@@ -230,3 +242,85 @@ class Dispatcher:
         finally:
             with contextlib.suppress(Exception):
                 await pubsub.aclose()
+
+    async def _execute_claimed_task(
+        self,
+        robot_id: str,
+        task: dict,
+        edge_keys: list[str],
+        junction_node: str,
+        source_node: str | None,
+    ) -> None:
+        """Execute one claimed task through rosbridge and advance the mission pipeline."""
+        primitive = task.get("primitive_type")
+        target_node = task.get("target_node")
+        task_id = task["id"]
+        mission_id = task.get("mission_id")
+
+        try:
+            if primitive == "NAVIGATE_TO" and target_node and self.rosbridge_client is not None:
+                from cyberscape.rosbridge_client import SegmentLease
+                lease = SegmentLease(
+                    robot_id=robot_id,
+                    edge_keys=edge_keys,
+                    junction_node=junction_node,
+                )
+                result = await self.rosbridge_client.dispatch_navigate_to_node(
+                    namespace=robot_id,
+                    node_id=target_node,
+                    segment_lease=lease,
+                    source_node=source_node,
+                )
+                if result.success:
+                    await self.db.update_task_status(task_id, "COMPLETED", robot_id=robot_id)
+                    await self.db.update_robot_telemetry(robot_id, current_node=target_node)
+                    logger.info("Robot %s arrived at %s; task %s COMPLETED", robot_id, target_node, task_id)
+                else:
+                    await self.db.update_task_status(task_id, "FAILED")
+                    logger.warning(
+                        "Robot %s navigation to %s FAILED (status=%s)",
+                        robot_id,
+                        target_node,
+                        result.status,
+                    )
+                    failure_ctx = {
+                        "robot_id": robot_id,
+                        "mission_id": mission_id,
+                        "task_id": task_id,
+                        "blocked_node": target_node,
+                        "failure_type": "nav2_failure",
+                        "error_message": f"Navigation failed or aborted (status={result.status})",
+                    }
+                    with contextlib.suppress(Exception):
+                        await self.redis.publish_nav2_failure(failure_ctx)
+            elif primitive in ("WAIT_FOR_LOAD", "WAIT_FOR_UNLOAD"):
+                await asyncio.sleep(2.0)
+                await self.db.update_task_status(task_id, "COMPLETED", robot_id=robot_id)
+                logger.info(
+                    "Robot %s finished %s at %s; task %s COMPLETED",
+                    robot_id,
+                    primitive,
+                    target_node,
+                    task_id,
+                )
+            elif primitive == "REPORT_STATUS":
+                await self.db.update_task_status(task_id, "COMPLETED", robot_id=robot_id)
+                logger.info("Robot %s finished REPORT_STATUS; task %s COMPLETED", robot_id, task_id)
+                if mission_id:
+                    tasks = await self.db.list_mission_tasks(mission_id)
+                    if all(t.get("status") == "COMPLETED" for t in tasks):
+                        await self.db.update_mission_status(mission_id, "COMPLETED")
+                        logger.info("Mission %s fully COMPLETED!", mission_id)
+            else:
+                await self.db.update_task_status(task_id, "COMPLETED", robot_id=robot_id)
+        except Exception:
+            logger.exception("Error executing task %s on robot %s", task_id, robot_id)
+            with contextlib.suppress(Exception):
+                await self.db.update_task_status(task_id, "FAILED")
+        finally:
+            with contextlib.suppress(Exception):
+                await self.redis.release_segment_lock(robot_id, edge_keys, junction_node)
+            with contextlib.suppress(Exception):
+                await self.db.set_robot_status(robot_id, "IDLE")
+            with contextlib.suppress(Exception):
+                await self.redis.publish_robot_idle(robot_id)

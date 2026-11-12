@@ -33,7 +33,7 @@ class MissionIntent(BaseModel):
     notes: str | None = None
 
 
-_ITEM_VERB = r"(?:move|carry|bring|transport|take|shuttle|ferry)\b"
+_ITEM_VERB = r"(?:move|carry|bring|transport|take|shuttle|ferry|deliver)\b"
 _GO_TO = r"(?:go|navigate|drive|head|travel)\s+to\b"
 
 
@@ -187,8 +187,12 @@ def make_interpretation_node(
         try:
             if llm is not None:
                 messages = build_interpretation_messages(text, summary)
-                response = await llm.ainvoke(messages)
-                raw = extract_json(response.content)
+                try:
+                    response = await llm.ainvoke(messages)
+                    raw = extract_json(response.content)
+                except Exception as llm_exc:
+                    logger.warning("LLM invocation failed (%s); falling back to regex intent", llm_exc)
+                    raw = regex_intent(text)
             else:
                 raw = regex_intent(text)
             parsed = MissionIntent.model_validate(raw)

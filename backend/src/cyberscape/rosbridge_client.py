@@ -422,7 +422,20 @@ class RosBridgeClient:
         if self.topo_graph is None:
             return None
         try:
-            node = self.topo_graph.nodes[node_id]
+            tg = getattr(self.topo_graph, "ensure_loaded", None)
+            graph = tg() if callable(tg) else self.topo_graph
+            nodes = getattr(graph, "nodes", {})
+            node = nodes[node_id]
+            # If the target is a physical rack, navigate to its accessible aisle waypoint
+            if node.get("type") == "rack":
+                edges = getattr(graph, "edges", [])
+                for edge in edges:
+                    if edge.get("from") == node_id and edge.get("to") in nodes:
+                        neighbor = nodes[edge["to"]]
+                        return float(neighbor["x"]), float(neighbor["y"])
+                    if edge.get("to") == node_id and edge.get("from") in nodes:
+                        neighbor = nodes[edge["from"]]
+                        return float(neighbor["x"]), float(neighbor["y"])
             return float(node["x"]), float(node["y"])
         except (KeyError, TypeError, ValueError):
             return None

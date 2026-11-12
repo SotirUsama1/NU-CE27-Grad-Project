@@ -85,19 +85,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         logger.info("HeartbeatMonitor background task started")
     app.state.heartbeat_monitor = heartbeat_monitor
 
-    # 5. Event-driven Dispatcher background tasks (sweep + pubsub)
-    dispatcher = Dispatcher(
-        db=db,
-        redis_client=redis_client,
-        topo_graph=topo_graph,
-        excluded_edges=heartbeat_monitor.excluded_edges,
-    )
-    if db.pool is not None:
-        await dispatcher.start()
-        logger.info("Dispatcher background tasks started")
-    app.state.dispatcher = dispatcher
-
-    # 6. ROSBridge WebSocket client (best-effort; non-fatal if Gazebo/ROS is offline)
+    # 5. ROSBridge WebSocket client (best-effort; non-fatal if Gazebo/ROS is offline)
     async def _on_heartbeat(
         robot_id: str,
         sim_time: float,
@@ -130,6 +118,19 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     except Exception as exc:  # noqa: BLE001
         logger.info("ROSBridge connection skipped (%s); running in headless mode", exc)
     app.state.rosbridge = rosbridge_client
+
+    # 6. Event-driven Dispatcher background tasks (sweep + pubsub + rosbridge execution)
+    dispatcher = Dispatcher(
+        db=db,
+        redis_client=redis_client,
+        topo_graph=topo_graph,
+        excluded_edges=heartbeat_monitor.excluded_edges,
+        rosbridge_client=rosbridge_client if getattr(rosbridge_client, "connected", False) else None,
+    )
+    if db.pool is not None:
+        await dispatcher.start()
+        logger.info("Dispatcher background tasks started")
+    app.state.dispatcher = dispatcher
 
     yield
 

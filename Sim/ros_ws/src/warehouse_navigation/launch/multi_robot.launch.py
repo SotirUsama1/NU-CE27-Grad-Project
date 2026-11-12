@@ -128,9 +128,9 @@ def generate_launch_description() -> LaunchDescription:
         DeclareLaunchArgument('rviz', default_value='false', description='Open RViz for the first robot'),
         DeclareLaunchArgument('rosbridge_port', default_value='9090',
                               description='rosbridge_server WebSocket port'),
-        DeclareLaunchArgument('topo_graph_path', default_value='',
+        DeclareLaunchArgument('topo_graph_path', default_value='/main/topo_graph.json',
                               description='Absolute path of topo_graph.json for the heartbeat nodes '
-                                          '(default: <project root>/backend/data/topo_graph.json)'),
+                                          '(default: /main/topo_graph.json)'),
         rosbridge,
         OpaqueFunction(function=_fleet),
     ])
