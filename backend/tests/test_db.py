@@ -303,11 +303,34 @@ async def test_update_robot_telemetry_updates_position(db: Database, mock_pool):
     await db.update_robot_telemetry("husky1", x=10.5, y=20.3, yaw=1.57)
 
     call = conn.execute.await_args
-    assert "SET x = $2, y = $3, yaw = $4" in call.args[0]
+    sql = " ".join(call.args[0].split())
+    assert "SET x = $2, y = $3, yaw = $4" in sql
+    assert "sim_time_last_seen = COALESCE($5::double precision, sim_time_last_seen)" in sql
+    assert "current_node = COALESCE($6::text, current_node)" in sql
     assert call.args[1] == "husky1"
     assert call.args[2] == 10.5
     assert call.args[3] == 20.3
     assert call.args[4] == 1.57
+    assert call.args[5] is None  # sim_time left untouched
+    assert call.args[6] is None  # current_node left untouched
+
+
+@pytest.mark.asyncio
+async def test_update_robot_telemetry_records_sim_time_and_node(db: Database, mock_pool):
+    _pool, conn = mock_pool
+    conn.execute = AsyncMock()
+
+    await db.update_robot_telemetry(
+        "husky1", sim_time=42.5, current_node="junction_A_1_1"
+    )
+
+    call = conn.execute.await_args
+    assert call.args[1] == "husky1"
+    assert call.args[2] is None  # x
+    assert call.args[3] is None  # y
+    assert call.args[4] is None  # yaw
+    assert call.args[5] == 42.5
+    assert call.args[6] == "junction_A_1_1"
 
 
 # ---------------------------------------------------------------------------
@@ -608,3 +631,100 @@ async def test_integration_task_params_round_trip(real_db: asyncpg.Pool):
     claimed2 = await db.claim_next_task("husky1")
     assert claimed2 is not None and claimed2["id"] == "t2"
     assert claimed2["params"] == {}
+
+
+# ---------------------------------------------------------------------------
+# Integration: Phase 4 fleet/claim helpers (dispatcher & heartbeat support)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.asyncio
+async def test_integration_unclaim_robot_tasks_resets_all_claims(real_db: asyncpg.Pool):
+    """unclaim_robot_tasks() releases every CLAIMED task of one robot only."""
+    pool = real_db
+    async with pool.acquire() as conn:
+        await conn.executemany(
+            "INSERT INTO robots (id) VALUES ($1)", [("husky1",), ("husky2",)]
+        )
+    await _seed_mission(pool, "m1", ["t1", "t2", "t3"],
+                        ["NAVIGATE_TO", "NAVIGATE_TO", "NAVIGATE_TO"])
+    db = _make_db(pool)
+
+    # husky1 claims t1 (gating keeps t2/t3 away); husky2 gets nothing yet
+    assert (await db.claim_next_task("husky1"))["id"] == "t1"
+    # Simulate husky2 also holding a claim (direct DB pin)
+    async with pool.acquire() as conn:
+        await conn.execute(
+            "UPDATE tasks SET status = 'CLAIMED', assigned_robot_id = 'husky2',"
+            " claimed_at = NOW() WHERE id = 't2'"
+        )
+
+    assert await db.count_claimed_tasks("husky1") == 1
+    assert await db.count_claimed_tasks("husky2") == 1
+    assert await db.count_claimed_tasks("husky3") == 0
+
+    released = await db.unclaim_robot_tasks("husky1")
+    assert released == 1
+
+    async with pool.acquire() as conn:
+        rows = await conn.fetch(
+            "SELECT id, status, assigned_robot_id, claimed_at FROM tasks ORDER BY id"
+        )
+    by_id = {r["id"]: r for r in rows}
+    assert by_id["t1"]["status"] == "PENDING"
+    assert by_id["t1"]["assigned_robot_id"] is None
+    assert by_id["t1"]["claimed_at"] is None
+    # husky2's claim is untouched
+    assert by_id["t2"]["status"] == "CLAIMED"
+    assert by_id["t2"]["assigned_robot_id"] == "husky2"
+    assert await db.count_claimed_tasks("husky1") == 0
+
+
+@pytest.mark.asyncio
+async def test_integration_get_robot_list_idle_and_set_status(real_db: asyncpg.Pool):
+    """get_robot / list_idle_robots / set_robot_status round-trip."""
+    pool = real_db
+    async with pool.acquire() as conn:
+        await conn.executemany(
+            "INSERT INTO robots (id, current_node) VALUES ($1, $2)",
+            [("husky1", "n_a"), ("husky2", "n_b")],
+        )
+    db = _make_db(pool)
+
+    robot = await db.get_robot("husky1")
+    assert robot is not None
+    assert robot["id"] == "husky1"
+    assert robot["current_node"] == "n_a"
+    assert robot["sim_time_last_seen"] is None
+    assert await db.get_robot("nobody") is None
+
+    idle = await db.list_idle_robots()
+    assert {r["id"] for r in idle} == {"husky1", "husky2"}
+
+    await db.set_robot_status("husky1", "BUSY")
+    assert (await db.get_robot("husky1"))["status"] == "BUSY"
+    idle = await db.list_idle_robots()
+    assert {r["id"] for r in idle} == {"husky2"}
+
+
+@pytest.mark.asyncio
+async def test_integration_get_monitored_robots_filters_states(real_db: asyncpg.Pool):
+    """Monitored set = IDLE/BUSY/UNRESPONSIVE (QUARANTINED is excluded)."""
+    pool = real_db
+    async with pool.acquire() as conn:
+        await conn.executemany(
+            "INSERT INTO robots (id, status, sim_time_last_seen) VALUES ($1, $2, $3)",
+            [
+                ("r_idle", "IDLE", 1.0),
+                ("r_busy", "BUSY", 2.0),
+                ("r_stale", "UNRESPONSIVE", None),
+                ("r_quar", "QUARANTINED", 3.0),
+                ("r_maint", "MAINTENANCE", 4.0),
+            ],
+        )
+    db = _make_db(pool)
+
+    monitored = await db.get_monitored_robots()
+    assert {r["id"] for r in monitored} == {"r_idle", "r_busy", "r_stale"}
+    stale = next(r for r in monitored if r["id"] == "r_stale")
+    assert stale["sim_time_last_seen"] is None

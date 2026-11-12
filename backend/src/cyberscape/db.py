@@ -202,22 +202,136 @@ class Database:
     async def update_robot_telemetry(
         self,
         robot_id: str,
-        x: float,
-        y: float,
-        yaw: float,
+        x: float | None = None,
+        y: float | None = None,
+        yaw: float | None = None,
+        sim_time: float | None = None,
+        current_node: str | None = None,
     ) -> None:
-        """Record the latest robot position telemetry."""
+        """Record the latest robot position telemetry.
+
+        ``sim_time`` is the SIMULATION timestamp (Gazebo ``/clock``) of the
+        heartbeat, stored as ``sim_time_last_seen``. ``None`` fields leave the
+        previously recorded value untouched (COALESCE).
+        """
         if self.pool is None:
             raise RuntimeError("Database pool is not connected")
         async with self.pool.acquire() as conn:
             await conn.execute(
                 """
                 UPDATE robots
-                SET x = $2, y = $3, yaw = $4, updated_at = NOW()
+                SET x = $2,
+                    y = $3,
+                    yaw = $4,
+                    sim_time_last_seen = COALESCE($5::double precision, sim_time_last_seen),
+                    current_node = COALESCE($6::text, current_node),
+                    updated_at = NOW()
                 WHERE id = $1
                 """,
                 robot_id,
                 x,
                 y,
                 yaw,
+                sim_time,
+                current_node,
             )
+
+    # ------------------------------------------------------------------
+    # Fleet queries & state transitions (dispatcher / heartbeat support)
+    # ------------------------------------------------------------------
+
+    async def get_robot(self, robot_id: str) -> dict[str, Any] | None:
+        """Return one robot record (or ``None`` if unknown)."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            row = await conn.fetchrow(
+                """
+                SELECT id, status, current_node, x, y, yaw,
+                       sim_time_last_seen, assigned_mission_id
+                FROM robots WHERE id = $1
+                """,
+                robot_id,
+            )
+            return dict(row) if row else None
+
+    async def list_idle_robots(self) -> list[dict[str, Any]]:
+        """Return all IDLE robots with their last known topological node."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            rows = await conn.fetch(
+                """
+                SELECT id, current_node
+                FROM robots
+                WHERE status = 'IDLE'
+                ORDER BY id
+                """
+            )
+            return [dict(r) for r in rows]
+
+    async def set_robot_status(self, robot_id: str, status: str) -> None:
+        """Set a robot's fleet status (IDLE, BUSY, UNRESPONSIVE, ...)."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            await conn.execute(
+                """
+                UPDATE robots SET status = $2, updated_at = NOW() WHERE id = $1
+                """,
+                robot_id,
+                status,
+            )
+
+    async def get_monitored_robots(self) -> list[dict[str, Any]]:
+        """Return robots subject to liveness monitoring (not QUARANTINED/MAINTENANCE)."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            rows = await conn.fetch(
+                """
+                SELECT id, status, current_node, sim_time_last_seen
+                FROM robots
+                WHERE status IN ('IDLE', 'BUSY', 'UNRESPONSIVE')
+                ORDER BY id
+                """
+            )
+            return [dict(r) for r in rows]
+
+    async def count_claimed_tasks(self, robot_id: str) -> int:
+        """Count tasks currently CLAIMED by ``robot_id``."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            return int(
+                await conn.fetchval(
+                    """
+                    SELECT COUNT(*) FROM tasks
+                    WHERE assigned_robot_id = $1 AND status = 'CLAIMED'
+                    """,
+                    robot_id,
+                )
+            )
+
+    async def unclaim_robot_tasks(self, robot_id: str) -> int:
+        """Release every CLAIMED task of ``robot_id`` back to the pool.
+
+        Used when a robot becomes QUARANTINED: its in-flight primitives can
+        no longer progress, so they are reset to PENDING (with the robot pin
+        cleared) and re-dispatched to the rest of the fleet.
+        """
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            result = await conn.execute(
+                """
+                UPDATE tasks
+                SET status = 'PENDING',
+                    assigned_robot_id = NULL,
+                    claimed_at = NULL,
+                    updated_at = NOW()
+                WHERE assigned_robot_id = $1 AND status = 'CLAIMED'
+                """,
+                robot_id,
+            )
+            return int(result.split()[-1])

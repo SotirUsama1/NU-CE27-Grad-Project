@@ -3,6 +3,8 @@
 -- PostgreSQL 16 initializes this file from /docker-entrypoint-initdb.d/init.sql on first startup.
 
 -- Robots: fleet members with session affinity and liveness state.
+-- sim_time_last_seen: last heartbeat timestamp in SIMULATION time (Gazebo /clock),
+-- so liveness timeouts never produce RTF-lag false positives.
 CREATE TABLE IF NOT EXISTS robots (
     id TEXT PRIMARY KEY,
     status TEXT NOT NULL DEFAULT 'IDLE',
@@ -10,6 +12,7 @@ CREATE TABLE IF NOT EXISTS robots (
     x REAL,
     y REAL,
     yaw REAL,
+    sim_time_last_seen DOUBLE PRECISION,
     assigned_mission_id TEXT,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()

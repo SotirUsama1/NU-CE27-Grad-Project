@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     ROSBRIDGE_WS_URL: str = "ws://localhost:9090"
     TOPO_MAP_PATH: str = "data/topo_graph.json"
     HEARTBEAT_TIMEOUT_S: float = 3.0
+    HEARTBEAT_QUARANTINE_S: float = 10.0
+    SEGMENT_LOCK_TTL_S: float = 5.0
     DISPATCH_SWEEP_INTERVAL_S: float = 7.0
     AUTH_API_KEY: str = "cyberscape-secret-key"
 
