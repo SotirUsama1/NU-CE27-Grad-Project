@@ -9,7 +9,11 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    model_config = SettingsConfigDict(
+        env_file=(".env", "backend/.env"),
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
 
     DATABASE_URL: str = "postgresql://cyberscape:cyberscape@localhost:5432/cyberscape"
     REDIS_URL: str = "redis://localhost:6379/0"
@@ -26,6 +30,7 @@ class Settings(BaseSettings):
     # failure triage) so no OpenAI key is needed in CI or offline development.
     OPENAI_API_KEY: str = ""
     OPENAI_MODEL: str = "gpt-4o-mini"
+    OPENAI_BASE_URL: str | None = None
     PROMPT_MAX_BOXES_PER_ZONE: int = 6
     SUPERVISOR_MAX_RETRIES: int = 2
 

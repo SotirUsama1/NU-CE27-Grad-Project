@@ -15,6 +15,7 @@ execution,supervisory}``; this module only wires state, routing and edges.
 from __future__ import annotations
 
 import logging
+from typing import Any
 
 from langgraph.graph import END, START, StateGraph
 
@@ -75,11 +76,14 @@ def build_llm():
     except ImportError:  # pragma: no cover - depends on the local install
         logger.warning("OPENAI_API_KEY set but langchain-openai is not installed")
         return None
-    return ChatOpenAI(
-        model=settings.OPENAI_MODEL,
-        temperature=0,
-        api_key=settings.OPENAI_API_KEY,
-    )
+    kwargs: dict[str, Any] = {
+        "model": settings.OPENAI_MODEL,
+        "temperature": 0,
+        "api_key": settings.OPENAI_API_KEY,
+    }
+    if settings.OPENAI_BASE_URL:
+        kwargs["base_url"] = settings.OPENAI_BASE_URL
+    return ChatOpenAI(**kwargs)
 
 
 def build_graph(

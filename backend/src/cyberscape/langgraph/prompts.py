@@ -29,9 +29,10 @@ Respond with STRICT JSON only - no prose, no markdown fences:
 }}
 
 Rules:
-- "Move box A-001 from rack A2_0 to the shipping dock" -> item="box A-001", source="rack A2_0", destination="<the dock's label from the index>".
-- With no source location, set source to null (the robot only navigates to the destination).
-- Copy labels EXACTLY as they appear in the index."""
+- "Move box A-001 from rack A2 to the shipping dock" -> item="box A-001", source="rack A2_0" (or "rack A2"), destination="shipping dock conveyor".
+- If the user refers to a rack generally (e.g., "rack A2"), pick the matching bay from the index (e.g., "rack A2_0").
+- With no source location mentioned, set source to null (the robot only navigates to the destination).
+- Copy labels or IDs from the index whenever possible."""
 
 
 SUPERVISORY_SYSTEM_TEMPLATE = """You are the supervisory exception-triage agent of the CyberScape warehouse fleet.
