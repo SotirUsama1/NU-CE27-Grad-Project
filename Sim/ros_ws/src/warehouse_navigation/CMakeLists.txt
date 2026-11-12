@@ -16,4 +16,10 @@ install(PROGRAMS scripts/go_far.py scripts/go_to.py scripts/generate_waypoints.p
   DESTINATION lib/${PROJECT_NAME}
 )
 
+# Phase 5: /{namespace}/heartbeat at 1 Hz (sim-time Header + nearest topo node),
+# consumed by the CyberScape orchestrator through rosbridge
+install(PROGRAMS scripts/heartbeat_publisher.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()

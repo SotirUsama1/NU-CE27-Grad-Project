@@ -26,6 +26,7 @@
   <exec_depend>nav2_mppi_controller</exec_depend>
   <exec_depend>nav2_rviz_plugins</exec_depend>
   <exec_depend>rclcpp_components</exec_depend>
+  <exec_depend>rosbridge_server</exec_depend>
   <exec_depend>python3-numpy</exec_depend>
   <exec_depend>python3-yaml</exec_depend>
   <exec_depend>rclpy</exec_depend>
