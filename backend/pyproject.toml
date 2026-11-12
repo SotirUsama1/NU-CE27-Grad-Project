@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cyberscape-backend"
+version = "0.1.0"
+description = "CyberScape backend orchestrator: FastAPI deterministic fast loop plus LangGraph agent worker for multi-robot warehouse coordination."
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "NU-CE27 Grad Project"}]
+keywords = ["fastapi", "langgraph", "ros", "warehouse", "multi-robot"]
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "asyncpg",
+    "redis[hiredis]",
+    "langgraph",
+    "langchain-core",
+    "langchain-openai",
+    "websockets",
+    "pydantic>=2.0",
+    "pydantic-settings",
+    "pyyaml",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "httpx",
+    "ruff",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

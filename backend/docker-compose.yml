@@ -1,0 +1,63 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: cyberscape
+      POSTGRES_PASSWORD: cyberscape
+      POSTGRES_DB: cyberscape
+    volumes:
+      - ./sql/schema.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cyberscape -d cyberscape"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  orchestrator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    command: uvicorn cyberscape.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://cyberscape:cyberscape@postgres:5432/cyberscape
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  agent_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    command: python -m cyberscape.langgraph.worker
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://cyberscape:cyberscape@postgres:5432/cyberscape
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
