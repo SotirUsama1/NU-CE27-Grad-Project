@@ -4,3 +4,18 @@ Sim/ros_ws/install/
 Sim/ros_ws/log/
 __pycache__/
 Sim/gzScripts/cyclonedds-local.xml
+
+# Backend orchestrator local environment and build artifacts (not committed)
+backend/.env
+backend/__pycache__/
+backend/*.egg-info/
+backend/src/*.egg-info/
+backend/.ruff_cache/
+backend/dist/
+backend/build/
+backend/.pytest_cache/
+
+# Local working documents — reports, plans, designs (kept out of the repo)
+/*.md
+/docs/
+Sim/**/README.md
