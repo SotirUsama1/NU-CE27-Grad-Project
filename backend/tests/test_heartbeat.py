@@ -18,11 +18,11 @@ from collections import defaultdict
 
 import pytest
 import pytest_asyncio
+import redis.asyncio as aioredis
 
 from cyberscape.heartbeat import HeartbeatMonitor
 from cyberscape.redis_client import RedisClient
 from cyberscape.topo_graph import TopoGraph
-
 
 # ---------------------------------------------------------------------------
 # Fakes
@@ -397,7 +397,7 @@ async def real_redis():
     await client.connect()
     try:
         await client.redis.ping()
-    except Exception as exc:  # pragma: no cover - env dependent
+    except (OSError, aioredis.RedisError) as exc:  # pragma: no cover - env dependent
         await client.disconnect()
         pytest.skip(f"Redis not reachable: {exc}")
     await client.redis.flushdb()

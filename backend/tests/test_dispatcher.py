@@ -16,6 +16,7 @@ from pathlib import Path
 import asyncpg
 import pytest
 import pytest_asyncio
+import redis.asyncio as aioredis
 
 from cyberscape.config import settings
 from cyberscape.db import Database
@@ -42,10 +43,13 @@ class FakeDB:
         self.statuses: dict[str, str] = {}
 
     async def list_idle_robots(self):
-        return list(self.idle_robots)
+        return [
+            r for r in self.idle_robots
+            if self.statuses.get(r["id"], "IDLE") == "IDLE"
+        ]
 
     async def claim_next_task(self, robot_id):
-        return self.claimable.get(robot_id)
+        return self.claimable.pop(robot_id, None)
 
     async def set_robot_status(self, robot_id, status):
         self.statuses[robot_id] = status
@@ -163,6 +167,48 @@ async def test_dispatch_with_no_idle_robots_is_noop():
     assert await d.dispatch_once() == 0
 
 
+@pytest.mark.asyncio
+async def test_dispatch_unlocalized_robot_reverts_task():
+    """A robot with current_node=None must NOT be dispatched with 0 edge locks."""
+    db, fake_redis = FakeDB(), FakeRedis()
+    db.idle_robots = [{"id": "husky1", "current_node": None}]
+    db.claimable["husky1"] = {
+        "id": "t1",
+        "mission_id": "m1",
+        "sequence_order": 1,
+        "primitive_type": "NAVIGATE_TO",
+        "target_node": "n_c",
+    }
+    d = _make_dispatcher(db, fake_redis, _mini_graph())
+
+    dispatched = await d.dispatch_once()
+
+    assert dispatched == 0
+    assert "t1" in db.unclaimed
+    assert fake_redis.acquire_calls == []
+    assert d.stats["unroutable"] == 1
+
+
+@pytest.mark.asyncio
+async def test_dispatch_coalesces_triggers():
+    """Concurrent dispatch triggers are coalesced without dropping passes."""
+    db, fake_redis = FakeDB(), FakeRedis()
+    db.idle_robots = [{"id": "husky1", "current_node": "n_a"}]
+    db.claimable["husky1"] = {
+        "id": "t1",
+        "mission_id": "m1",
+        "sequence_order": 1,
+        "primitive_type": "NAVIGATE_TO",
+        "target_node": "n_a",
+    }
+    d = _make_dispatcher(db, fake_redis, _mini_graph())
+
+    # Trigger multiple concurrent dispatches
+    res = await asyncio.gather(d.dispatch_once(), d.dispatch_once())
+    assert sum(res) == 1
+    assert db.statuses.get("husky1") == "BUSY"
+
+
 # ---------------------------------------------------------------------------
 # Integration tests (live Redis + live PostgreSQL)
 # ---------------------------------------------------------------------------
@@ -189,7 +235,7 @@ async def redis_client():
     await client.connect()
     try:
         await client.redis.ping()
-    except Exception as exc:  # pragma: no cover
+    except (OSError, aioredis.RedisError) as exc:  # pragma: no cover
         await client.disconnect()
         pytest.skip(f"Redis not reachable: {exc}")
     await client.redis.flushdb()
@@ -311,6 +357,7 @@ async def test_integration_segment_released_pubsub_triggers_dispatch(real_db, re
         # Publish the release event; re-publish while polling so a slow
         # subscription or a message published before it cannot lose the test.
         task_status = None
+        robot_status = None
         deadline = time.monotonic() + 5.0
         while time.monotonic() < deadline:
             await redis_client.redis.publish(CHANNEL_SEGMENT_RELEASED, "n_c")
@@ -319,7 +366,10 @@ async def test_integration_segment_released_pubsub_triggers_dispatch(real_db, re
                 task_status = await conn.fetchval(
                     "SELECT status FROM tasks WHERE id = 't1'"
                 )
-                if task_status == "CLAIMED":
+                robot_status = await conn.fetchval(
+                    "SELECT status FROM robots WHERE id = 'husky1'"
+                )
+                if task_status == "CLAIMED" and robot_status == "BUSY":
                     break
 
         async with pool.acquire() as conn:

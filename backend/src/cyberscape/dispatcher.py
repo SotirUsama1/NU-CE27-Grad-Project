@@ -18,6 +18,7 @@ or a later sweep) can retry it.
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import logging
 
 from cyberscape.config import settings
@@ -41,6 +42,7 @@ class Dispatcher:
         redis_client: RedisClient,
         topo_graph=None,
         sweep_interval: float | None = None,
+        excluded_edges: set[str] | None = None,
     ) -> None:
         self.db = db
         self.redis = redis_client
@@ -52,12 +54,15 @@ class Dispatcher:
         )
         # Edge lock keys excluded from routing (wired to the heartbeat
         # monitor's quarantine set by the application in main.py).
-        self.excluded_edges: set[str] = set()
+        self.excluded_edges: set[str] = (
+            excluded_edges if excluded_edges is not None else set()
+        )
         self.stats = {"dispatched": 0, "blocked": 0, "unroutable": 0}
         self._stopping = asyncio.Event()
         self._sweep_task: asyncio.Task | None = None
         self._pubsub_task: asyncio.Task | None = None
         self._dispatching = False
+        self._rerun_requested = False
 
     # ------------------------------------------------------------------
     # Dispatching
@@ -67,13 +72,22 @@ class Dispatcher:
         """One dispatch pass over all IDLE robots.
 
         Returns the number of robots that were dispatched (locked a
-        segment and set BUSY). Re-entrant calls are ignored.
+        segment and set BUSY). Coalesces concurrent calls so triggers are
+        never dropped.
         """
         if self._dispatching:
+            self._rerun_requested = True
             return 0
         self._dispatching = True
+        dispatched_total = 0
         try:
-            return await self._dispatch_inner()
+            while True:
+                self._rerun_requested = False
+                dispatched = await self._dispatch_inner()
+                dispatched_total += dispatched
+                if not self._rerun_requested or self._stopping.is_set():
+                    break
+            return dispatched_total
         finally:
             self._dispatching = False
 
@@ -94,13 +108,23 @@ class Dispatcher:
                 continue
 
             edge_keys, junction_node, capacity = route
-            acquired = await self.redis.acquire_segment_lock(
-                robot["id"],
-                edge_keys,
-                junction_node,
-                ttl=settings.SEGMENT_LOCK_TTL_S,
-                junction_capacity=capacity,
-            )
+            try:
+                acquired = await self.redis.acquire_segment_lock(
+                    robot["id"],
+                    edge_keys,
+                    junction_node,
+                    ttl=settings.SEGMENT_LOCK_TTL_S,
+                    junction_capacity=capacity,
+                )
+            except Exception:
+                await self.db.unclaim_task(task["id"])
+                logger.exception(
+                    "Error acquiring segment lock for %s on task %s; reverted to PENDING",
+                    robot["id"],
+                    task["id"],
+                )
+                continue
+
             if acquired:
                 await self.db.set_robot_status(robot["id"], "BUSY")
                 dispatched += 1
@@ -130,9 +154,9 @@ class Dispatcher:
         """Plan one segment: edge lock keys + destination junction capacity.
 
         Returns ``None`` when the segment cannot be planned (unknown or
-        unreachable target, no graph available).
+        unreachable target, unlocalized source, no graph available).
         """
-        if target is None:
+        if target is None or source is None:
             return None
 
         graph = self.topo_graph.ensure_loaded() if self.topo_graph is not None else None
@@ -140,7 +164,7 @@ class Dispatcher:
         if graph is not None and target in graph.nodes:
             capacity = int(graph.nodes[target].get("capacity", 2))
 
-        if not source or source == target:
+        if source == target:
             # Already at the destination: reserve its node capacity only.
             return [], target, capacity
 
@@ -180,7 +204,7 @@ class Dispatcher:
                     self._stopping.wait(), timeout=self.sweep_interval
                 )
                 break  # stopping set
-            except asyncio.TimeoutError:
+            except (asyncio.TimeoutError, TimeoutError):  # noqa: UP041 - distinct on py3.10
                 pass
             try:
                 await self.dispatch_once()
@@ -203,10 +227,6 @@ class Dispatcher:
                         await self.dispatch_once()
                     except Exception:  # pragma: no cover
                         logger.exception("Dispatcher trigger failed")
-        except asyncio.CancelledError:
-            raise
         finally:
-            try:
+            with contextlib.suppress(Exception):
                 await pubsub.aclose()
-            except Exception:  # pragma: no cover - redis-py version differences
-                pass

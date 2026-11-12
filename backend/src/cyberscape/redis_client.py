@@ -127,6 +127,9 @@ return {renewed, junction_held}
 """
 
 
+CHANNEL_SEGMENT_RELEASED = "cyberscape:segment:released"
+
+
 class RedisClient:
     """Async Redis wrapper with atomic Lua segment-locking primitives."""
 
@@ -267,9 +270,12 @@ class RedisClient:
         renewed, junction_held = await self._renew_script(keys=keys, args=args)
         if int(renewed) != len(edge_keys):
             return False
-        if junction_node is not None and int(junction_held) != 1:
-            return False
-        return True
+        return not (junction_node is not None and int(junction_held) != 1)
+
+    async def publish_segment_released(self, node: str) -> int:
+        """Broadcast a corridor release event on Redis Pub/Sub."""
+        redis = self._require_connected()
+        return await redis.publish(CHANNEL_SEGMENT_RELEASED, node)
 
     # ------------------------------------------------------------------
     # Quarantine (Tier 2 safety state)

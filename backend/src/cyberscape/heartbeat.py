@@ -193,5 +193,5 @@ class HeartbeatMonitor:
                 await asyncio.wait_for(
                     self._stopping.wait(), timeout=MONITOR_SWEEP_INTERVAL_S
                 )
-            except asyncio.TimeoutError:
+            except (asyncio.TimeoutError, TimeoutError):  # noqa: UP041 - distinct on py3.10
                 continue

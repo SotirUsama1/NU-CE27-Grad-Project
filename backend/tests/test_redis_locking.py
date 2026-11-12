@@ -12,10 +12,10 @@ from __future__ import annotations
 
 import pytest
 import pytest_asyncio
+import redis.asyncio as aioredis
 
 from cyberscape.config import settings
 from cyberscape.redis_client import RedisClient
-
 
 # ---------------------------------------------------------------------------
 # Mocked unit tests (key semantics & connection guards)
@@ -60,7 +60,7 @@ async def redis_client():
     await client.connect()
     try:
         await client.redis.ping()
-    except Exception as exc:  # pragma: no cover - env dependent
+    except (OSError, aioredis.RedisError) as exc:  # pragma: no cover - env dependent
         await client.disconnect()
         pytest.skip(f"Redis not reachable: {exc}")
     await client.redis.flushdb()
