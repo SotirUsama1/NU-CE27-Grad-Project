@@ -18,6 +18,7 @@ Concurrency rules enforced inside the scripts (all-or-nothing):
 
 from __future__ import annotations
 
+import json
 from typing import Any
 
 import redis.asyncio as aioredis
@@ -127,6 +128,9 @@ return {renewed, junction_held}
 """
 
 
+CHANNEL_MISSION_NEW = "cyberscape:mission:new"
+CHANNEL_NAV2_FAILURE = "cyberscape:failure:nav2"
+CHANNEL_ROBOT_IDLE = "cyberscape:robot:idle"
 CHANNEL_SEGMENT_RELEASED = "cyberscape:segment:released"
 
 
@@ -276,6 +280,32 @@ class RedisClient:
         """Broadcast a corridor release event on Redis Pub/Sub."""
         redis = self._require_connected()
         return await redis.publish(CHANNEL_SEGMENT_RELEASED, node)
+
+    async def publish_mission_new(self, mission_id: str) -> int:
+        """Notify the dispatcher that a mission's tasks are ready to claim.
+
+        The agent worker's execution node calls this after persisting a task
+        sequence; the dispatcher (and worker echo) both listen on
+        ``cyberscape:mission:new``.
+        """
+        redis = self._require_connected()
+        return await redis.publish(
+            CHANNEL_MISSION_NEW, json.dumps({"mission_id": mission_id})
+        )
+
+    async def publish_robot_idle(self, robot_id: str) -> int:
+        """Broadcast a robot IDLE transition on Redis Pub/Sub."""
+        redis = self._require_connected()
+        return await redis.publish(CHANNEL_ROBOT_IDLE, robot_id)
+
+    async def publish_nav2_failure(self, payload: dict) -> int:
+        """Forward a Nav2 STATUS_ABORTED (6) failure event to the supervisor.
+
+        ``payload`` carries the ``FailureContext`` fields plus ``task_id``,
+        ``mission_id`` and ``attempts`` (see langgraph/worker.py).
+        """
+        redis = self._require_connected()
+        return await redis.publish(CHANNEL_NAV2_FAILURE, json.dumps(payload))
 
     # ------------------------------------------------------------------
     # Quarantine (Tier 2 safety state)

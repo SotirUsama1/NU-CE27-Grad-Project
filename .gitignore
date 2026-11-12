@@ -14,6 +14,7 @@ backend/.ruff_cache/
 backend/dist/
 backend/build/
 backend/.pytest_cache/
+backend/tests/
 
 # Local working documents — reports, plans, designs (kept out of the repo)
 /*.md

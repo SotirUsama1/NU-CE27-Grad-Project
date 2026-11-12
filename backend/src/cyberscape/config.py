@@ -21,5 +21,13 @@ class Settings(BaseSettings):
     DISPATCH_SWEEP_INTERVAL_S: float = 7.0
     AUTH_API_KEY: str = "cyberscape-secret-key"
 
+    # Agent worker (Phase 6): LangGraph LLM settings. An empty OPENAI_API_KEY
+    # keeps the worker fully deterministic (regex mission parsing + heuristic
+    # failure triage) so no OpenAI key is needed in CI or offline development.
+    OPENAI_API_KEY: str = ""
+    OPENAI_MODEL: str = "gpt-4o-mini"
+    PROMPT_MAX_BOXES_PER_ZONE: int = 6
+    SUPERVISOR_MAX_RETRIES: int = 2
+
 
 settings = Settings()

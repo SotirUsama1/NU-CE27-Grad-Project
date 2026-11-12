@@ -19,13 +19,19 @@ CREATE TABLE IF NOT EXISTS robots (
 );
 
 -- Missions: top-level mission records submitted via natural language.
+-- plan: the interpreted, grounded intent persisted by the Phase 6 agent
+-- worker so failure replans can rebuild the task sequence without re-parsing.
 CREATE TABLE IF NOT EXISTS missions (
     id TEXT PRIMARY KEY,
     text TEXT NOT NULL,
     status TEXT NOT NULL DEFAULT 'SUBMITTED',
+    plan JSONB,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Idempotent upgrade for databases created before the plan column existed.
+ALTER TABLE missions ADD COLUMN IF NOT EXISTS plan JSONB;
 
 -- Tasks: primitive-level units of work within a mission.
 --   prerequisite gating: task N is claimable only when task N-1 is COMPLETED.

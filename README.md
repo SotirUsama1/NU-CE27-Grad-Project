@@ -1,4 +1,27 @@
-# NU-CE27-Grad-Project
+# NU-CE27-Grad-Project Blueprint
+
+## System Overview
+Multi-robot autonomous warehouse simulation and coordination system. The project integrates Clearpath mobile robot bases (Husky, Jackal) and Universal Robots manipulators with ROS 2 Humble Nav2 autonomous navigation inside Gazebo Classic 11. It provides deterministic operational routing, obstacle dilation, AMCL localization with patched deadlock-free transform buffers, dynamic multi-robot costmap injection, and containerized runtime environments.
+
+## Subdirectories & System Boundaries
+- [Sim](./Sim/README.md) - Simulation Subsystem containing Docker runtime scripts, Gazebo worlds and models, and the ROS 2 colcon workspace (`warehouse_navigation`, `warehouse_husky`, `warehouse_jackal`, and `tf2_ros`).
+
+## Global Invariants
+- All simulated nodes and controllers must operate with `use_sim_time: true` synchronized to the Gazebo simulation clock (`/clock`).
+- Robot topics, TF streams, and controller nodes must be strictly namespaced (e.g., `/husky1`, `/husky2`, `/jackal1`) with `/tf` and `/tf_static` remapped locally to prevent inter-robot frame collisions.
+- Odometry TF (`odom -> base_link`) is exclusively broadcast by `robot_localization` EKF filter nodes; controller odometry TF broadcasting must remain disabled.
+- Manual teleoperation (`/cmd_vel`, priority 7) strictly preempts autonomous Nav2 velocity commands (`/cmd_vel_nav`, priority 5) via `twist_mux`.
+- The ROS 2 `tf2_ros` package in `Sim/ros_ws/src/tf2_ros` includes a verified project patch in `src/buffer.cpp` preventing an AB-BA mutex deadlock between AMCL laser scan callbacks and `TransformListener` updates.
+
+## Global Side Effects
+- Launching the simulation mounts host directories `Sim/models`, `Sim/worlds`, and `Sim/ros_ws` into the container at `/main/models`, `/main/worlds`, and `/main/ros_ws`.
+- Interactive container execution compiles workspace packages via `colcon build`, generating `build`, `install`, and `log` directories on the host filesystem.
+- The simulation modifies host X11 permissions (`xhost +local:docker`) and binds host graphics drivers for OpenGL rendering.
+
+## System Verification
+- Run: `./Sim/gzScripts/runGzClassic-Robots bash`
+
+---
 
 ## Running the robots in simulation
 
@@ -181,3 +204,116 @@ It finds the point of the warehouse furthest from the robot (in a straight line)
 ### 8. Stop
 
 Press `Ctrl+C` in the launch terminal. Do not use `Ctrl+P` `P` (detach): it leaves the simulation half-stopped.
+
+---
+
+## Backend Orchestrator & Multi-Robot Coordination
+
+The CyberScape backend orchestrator coordinates multi-robot warehouse fleets through a decoupled architecture:
+- **FastAPI Fast-Loop Orchestrator**: Manages fleet status, REST endpoints with `X-API-Key` authentication middleware, and background task loops.
+- **PostgreSQL 16 Task Queue**: Concurrency task claiming via `SELECT FOR UPDATE SKIP LOCKED`, task prerequisite gating, and robot session affinity.
+- **Redis 7 Segment Locking**: Atomic Lua-based undirected edge locking, junction slot reservation, and rolling leases to prevent corridor deadlocks.
+- **Simulation-Time Heartbeat Monitor**: Evaluates robot liveness against Gazebo `/clock` simulation timestamps (Tier 1 `UNRESPONSIVE` hold, Tier 2 `QUARANTINED` isolation).
+- **LangGraph Multi-Agent Worker**: Decoupled natural language parsing grounded to warehouse landmarks, deterministic primitive sequencing (`NAVIGATE_TO`, `WAIT_FOR_LOAD`, `WAIT_FOR_UNLOAD`, `REPORT_STATUS`), and supervisory Nav2 failure triage.
+
+### 1. Start Infrastructure with Docker Compose
+
+From the repository root (or inside `backend/`):
+
+```bash
+docker compose up -d
+```
+
+This boots:
+- PostgreSQL 16 on port `5432` (schema initialized from `backend/sql/schema.sql`)
+- Redis 7 on port `6379`
+- Backend Orchestrator on `http://localhost:8000`
+- LangGraph Agent Worker running in the background
+
+To view service logs:
+```bash
+docker compose logs -f orchestrator agent-worker
+```
+
+### 2. Run Backend Test Suite
+
+To run all unit, concurrency, and integration tests across the backend:
+
+```bash
+cd backend
+pytest -v
+```
+
+To run a specific test subsystem:
+```bash
+pytest tests/test_api.py -v             # REST API & authentication integration tests
+pytest tests/test_langgraph.py -v       # LangGraph multi-agent workflow tests
+pytest tests/test_redis_locking.py -v   # Redis atomic Lua segment locking tests
+pytest tests/test_dispatcher.py -v      # Task claiming & route dispatching tests
+pytest tests/test_heartbeat.py -v       # Simulation-time liveness monitor tests
+pytest tests/test_db.py -v              # Database concurrency & SKIP LOCKED tests
+```
+
+### 3. Dispatch Missions to Robots via REST API
+
+Submit a natural language mission string with the `X-API-Key` authentication header:
+
+```bash
+curl -X POST http://localhost:8000/missions \
+     -H "Content-Type: application/json" \
+     -H "X-API-Key: cyberscape-secret-key" \
+     -d '{"text": "Move box A-001 from rack A2 to shipping dock"}'
+```
+
+Response (HTTP 201 Created):
+```json
+{
+  "id": "e4b3c2a1-0000-0000-0000-000000000000",
+  "text": "Move box A-001 from rack A2 to shipping dock",
+  "status": "SUBMITTED",
+  "created_at": "2026-11-12T15:00:00Z"
+}
+```
+
+### 4. Monitor Mission Status & Task Sequence
+
+Poll the mission execution state and its sequenced primitives:
+
+```bash
+curl -H "X-API-Key: cyberscape-secret-key" http://localhost:8000/missions/{mission_id}
+```
+
+### 5. Fleet Management
+
+Inspect the current status, location, and telemetry of all robots in the fleet:
+
+```bash
+curl -H "X-API-Key: cyberscape-secret-key" http://localhost:8000/robots
+```
+
+Register a newly spawned robot into the fleet:
+
+```bash
+curl -X POST http://localhost:8000/robots \
+     -H "Content-Type: application/json" \
+     -H "X-API-Key: cyberscape-secret-key" \
+     -d '{"robot_id": "husky1", "current_node": "junction_A_1_1"}'
+```
+
+Re-commission a robot from `MAINTENANCE` back to `IDLE` after manual inspection:
+
+```bash
+curl -X POST http://localhost:8000/robots/husky1/resume \
+     -H "X-API-Key: cyberscape-secret-key"
+```
+
+### 6. Emergency Safety Override
+
+Lift an active Tier 2 quarantine zone (node and its incident corridor edges) using the administrative token:
+
+```bash
+curl -X POST http://localhost:8000/override \
+     -H "Content-Type: application/json" \
+     -d '{"node": "junction_A_1_1", "admin_token": "cyberscape-secret-key"}'
+```
+

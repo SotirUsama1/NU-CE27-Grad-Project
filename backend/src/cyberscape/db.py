@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import json
 from typing import Any
+from uuid import uuid4
 
 import asyncpg
 
@@ -255,6 +256,21 @@ class Database:
             )
             return dict(row) if row else None
 
+    async def list_all_robots(self) -> list[dict[str, Any]]:
+        """Return all robots in the fleet table."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            rows = await conn.fetch(
+                """
+                SELECT id, status, current_node, x, y, yaw,
+                       sim_time_last_seen, assigned_mission_id, updated_at, created_at
+                FROM robots
+                ORDER BY id
+                """
+            )
+            return [dict(r) for r in rows]
+
     async def list_idle_robots(self) -> list[dict[str, Any]]:
         """Return all IDLE robots with their last known topological node."""
         if self.pool is None:
@@ -335,3 +351,249 @@ class Database:
                 robot_id,
             )
             return int(result.split()[-1])
+
+    # ------------------------------------------------------------------
+    # Missions & task creation (Phase 6 agent worker)
+    # ------------------------------------------------------------------
+
+    async def create_mission(
+        self,
+        text: str,
+        status: str = "SUBMITTED",
+    ) -> dict[str, Any]:
+        """Insert a mission record and return it (id, text, status, stamps)."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        mission_id = str(uuid4())
+        async with self.pool.acquire() as conn:
+            row = await conn.fetchrow(
+                """
+                INSERT INTO missions (id, text, status)
+                VALUES ($1, $2, $3)
+                RETURNING id, text, status, created_at, updated_at
+                """,
+                mission_id,
+                text,
+                status,
+            )
+            return dict(row)
+
+    async def get_mission(self, mission_id: str) -> dict[str, Any] | None:
+        """Return one mission record (or ``None`` if unknown)."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            row = await conn.fetchrow(
+                """
+                SELECT id, text, status, plan, created_at, updated_at
+                FROM missions WHERE id = $1
+                """,
+                mission_id,
+            )
+            return dict(row) if row else None
+
+    async def list_submitted_missions(self) -> list[dict[str, Any]]:
+        """Return all missions currently in SUBMITTED status (FIFO by created_at)."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            rows = await conn.fetch(
+                """
+                SELECT id, text, status, plan, created_at, updated_at
+                FROM missions
+                WHERE status = 'SUBMITTED'
+                ORDER BY created_at ASC
+                """
+            )
+            return [dict(r) for r in rows]
+
+    async def update_mission_status(self, mission_id: str, status: str) -> None:
+        """Transition a mission's status (SUBMITTED, PARSED, PLANNED, ...)."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            await conn.execute(
+                """
+                UPDATE missions SET status = $2, updated_at = NOW() WHERE id = $1
+                """,
+                mission_id,
+                status,
+            )
+
+    async def set_mission_plan(self, mission_id: str, plan: dict[str, Any]) -> None:
+        """Persist the interpreted (grounded) mission intent for later replans."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            await conn.execute(
+                "UPDATE missions SET plan = $2, updated_at = NOW() WHERE id = $1",
+                mission_id,
+                plan,
+            )
+
+    async def get_mission_plan(self, mission_id: str) -> dict[str, Any] | None:
+        """Return the persisted mission intent (or ``None`` when unparsed)."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            return await conn.fetchval(
+                "SELECT plan FROM missions WHERE id = $1", mission_id
+            )
+
+    async def create_task(
+        self,
+        mission_id: str,
+        sequence_order: int,
+        primitive_type: str,
+        target_node: str | None = None,
+        params: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        """Insert one PENDING primitive task and return the row."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        task_id = str(uuid4())
+        async with self.pool.acquire() as conn:
+            row = await conn.fetchrow(
+                """
+                INSERT INTO tasks
+                    (id, mission_id, sequence_order, status, primitive_type,
+                     target_node, params)
+                VALUES ($1, $2, $3, 'PENDING', $4, $5, $6)
+                RETURNING id, mission_id, sequence_order, status, primitive_type,
+                          target_node, params
+                """,
+                task_id,
+                mission_id,
+                int(sequence_order),
+                primitive_type,
+                target_node,
+                params or {},
+            )
+            return dict(row)
+
+    async def create_tasks_batch(
+        self,
+        mission_id: str,
+        tasks: list[dict[str, Any]],
+        mission_status: str | None = None,
+        delete_from_sequence_order: int | None = None,
+    ) -> list[dict[str, Any]]:
+        """Atomically persist multiple primitive tasks within a transaction.
+
+        If ``delete_from_sequence_order`` is provided, any non-COMPLETED tasks
+        for ``mission_id`` with ``sequence_order >= delete_from_sequence_order``
+        are deleted within the transaction before inserting the new tasks.
+        If ``mission_status`` is provided, the mission record is updated.
+        """
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        rows: list[dict[str, Any]] = []
+        async with self.pool.acquire() as conn, conn.transaction():
+            if delete_from_sequence_order is not None:
+                await conn.execute(
+                    """
+                    DELETE FROM tasks
+                    WHERE mission_id = $1 AND sequence_order >= $2
+                      AND status <> 'COMPLETED'
+                    """,
+                    mission_id,
+                    int(delete_from_sequence_order),
+                )
+            for t in tasks:
+                task_id = str(uuid4())
+                row = await conn.fetchrow(
+                    """
+                    INSERT INTO tasks
+                        (id, mission_id, sequence_order, status, primitive_type,
+                         target_node, params)
+                    VALUES ($1, $2, $3, 'PENDING', $4, $5, $6)
+                    RETURNING id, mission_id, sequence_order, status, primitive_type,
+                              target_node, params
+                    """,
+                    task_id,
+                    mission_id,
+                    int(t["sequence_order"]),
+                    t["primitive_type"],
+                    t.get("target_node"),
+                    t.get("params") or {},
+                )
+                rows.append(dict(row))
+            if mission_status:
+                await conn.execute(
+                    "UPDATE missions SET status = $2, updated_at = NOW() WHERE id = $1",
+                    mission_id,
+                    mission_status,
+                )
+        return rows
+
+    async def list_mission_tasks(self, mission_id: str) -> list[dict[str, Any]]:
+        """Return every task of a mission, ordered by sequence_order."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            rows = await conn.fetch(
+                """
+                SELECT id, mission_id, sequence_order, status, primitive_type,
+                       target_node, params
+                FROM tasks WHERE mission_id = $1
+                ORDER BY sequence_order
+                """,
+                mission_id,
+            )
+            return [dict(r) for r in rows]
+
+    async def get_task(self, task_id: str) -> dict[str, Any] | None:
+        """Return one task row (or ``None`` if unknown)."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            row = await conn.fetchrow(
+                """
+                SELECT id, mission_id, sequence_order, status, primitive_type,
+                       target_node, params
+                FROM tasks WHERE id = $1
+                """,
+                task_id,
+            )
+            return dict(row) if row else None
+
+    async def delete_tasks_from(self, mission_id: str, sequence_order: int) -> int:
+        """Delete a mission's non-COMPLETED tasks from ``sequence_order`` on.
+
+        Used by the supervisory REPLAN path: the failed task and any stale
+        pending tail are replaced by a fresh sequence reusing those order
+        numbers (COMPLETED tasks are kept for the claim-gating prefix).
+        """
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            result = await conn.execute(
+                """
+                DELETE FROM tasks
+                WHERE mission_id = $1 AND sequence_order >= $2
+                  AND status <> 'COMPLETED'
+                """,
+                mission_id,
+                int(sequence_order),
+            )
+            return int(result.split()[-1])
+
+    async def increment_task_attempts(self, task_id: str) -> int:
+        """Bump ``params.attempts`` and return the new count (0 if no task)."""
+        if self.pool is None:
+            raise RuntimeError("Database pool is not connected")
+        async with self.pool.acquire() as conn:
+            attempts = await conn.fetchval(
+                """
+                UPDATE tasks
+                SET params = COALESCE(params, '{}'::jsonb)
+                               || jsonb_build_object(
+                                    'attempts',
+                                    COALESCE((params->>'attempts')::int, 0) + 1),
+                    updated_at = NOW()
+                WHERE id = $1
+                RETURNING (params->>'attempts')::int
+                """,
+                task_id,
+            )
+            return int(attempts or 0)
