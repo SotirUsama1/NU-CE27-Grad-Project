@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images>
+    <image id="logo" name="logo"><init_from>nu_badge.png</init_from></image>
+  </library_images>
+  <library_effects>
+    <effect id="effect">
+      <profile_COMMON>
+        <newparam sid="surf"><surface type="2D"><init_from>logo</init_from></surface></newparam>
+        <newparam sid="samp"><sampler2D><source>surf</source></sampler2D></newparam>
+        <technique sid="common">
+          <lambert>
+            <diffuse><texture texture="samp" texcoord="UVMap"/></diffuse>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_materials>
+    <material id="mat" name="mat"><instance_effect url="#effect"/></material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="plate" name="plate">
+      <mesh>
+        <source id="pos">
+          <float_array id="pos-array" count="12">-0.20 -0.115 0  0.20 -0.115 0  0.20 0.115 0  -0.20 0.115 0</float_array>
+          <technique_common>
+            <accessor source="#pos-array" count="4" stride="3">
+              <param name="X" type="float"/><param name="Y" type="float"/><param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="uv">
+          <float_array id="uv-array" count="8">0 0  1 0  1 1  0 1</float_array>
+          <technique_common>
+            <accessor source="#uv-array" count="4" stride="2">
+              <param name="S" type="float"/><param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="verts"><input semantic="POSITION" source="#pos"/></vertices>
+        <triangles material="mat" count="2">
+          <input semantic="VERTEX" source="#verts" offset="0"/>
+          <input semantic="TEXCOORD" source="#uv" offset="1" set="0"/>
+          <p>0 0 1 1 2 2  0 0 2 2 3 3</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="scene">
+      <node id="plate">
+        <instance_geometry url="#plate">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="mat" target="#mat">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene><instance_visual_scene url="#scene"/></scene>
+</COLLADA>

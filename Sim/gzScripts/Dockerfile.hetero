@@ -1,0 +1,24 @@
+# Heterogeneous warehouse image: Clearpath Husky/Jackal (from :devvv) + MiR suction stack.
+# Build once:
+#   docker build -f Sim/gzScripts/Dockerfile.hetero -t gzclassic-hetero:latest Sim/gzScripts
+FROM sotirusama/gzclassic:devvv
+
+ARG ROS_MIRROR=http://packages.ros.org/ros2/ubuntu
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] ${ROS_MIRROR} $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2.list
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-colcon-common-extensions \
+    ros-humble-gazebo-ros2-control \
+    ros-humble-ros2-control \
+    ros-humble-ros2-controllers \
+    ros-humble-xacro \
+    ros-humble-camera-info-manager \
+    ros-humble-realsense2-camera-msgs \
+    ros-humble-pcl-ros \
+    ros-humble-laser-geometry \
+    ros-humble-teleop-twist-keyboard \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN echo "[ -f /opt/ros2_robots/install/setup.bash ] && source /opt/ros2_robots/install/setup.bash" >> /root/.bashrc \
+ && echo "[ -f /main/ros_ws/install/setup.bash ] && source /main/ros_ws/install/setup.bash" >> /root/.bashrc \
+ && echo "[ -f /workspace/ros2_ws/install/setup.bash ] && source /workspace/ros2_ws/install/setup.bash" >> /root/.bashrc

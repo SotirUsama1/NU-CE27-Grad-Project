@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!-- Standalone UR arm + vacuum suction EE (fixed base on link "world").
+
+     Husky and Jackal in this repo are Clearpath mobile bases only — no arm to
+     mount a gripper on. Use this when you want the MiR suction tool on the
+     standalone UR path from sotirusama/gzclassic:devvv.
+
+     xacro ur_with_suction.urdf.xacro ur_type:=ur5e gripper:=small
+-->
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur_with_suction">
+  <xacro:arg name="ur_type" default="ur5e"/>
+  <xacro:arg name="gripper" default="large"/>
+  <xacro:arg name="tf_prefix" default=""/>
+  <xacro:arg name="ros_namespace" default=""/>
+  <xacro:arg name="sim_gazebo" default="true"/>
+  <xacro:arg name="joint_limit_params" default="$(find ur_description)/config/$(arg ur_type)/joint_limits.yaml"/>
+  <xacro:arg name="kinematics_params" default="$(find ur_description)/config/$(arg ur_type)/default_kinematics.yaml"/>
+  <xacro:arg name="physical_params" default="$(find ur_description)/config/$(arg ur_type)/physical_parameters.yaml"/>
+  <xacro:arg name="visual_params" default="$(find ur_description)/config/$(arg ur_type)/visual_parameters.yaml"/>
+  <xacro:arg name="initial_positions_file" default="$(find ur_description)/config/initial_positions.yaml"/>
+  <xacro:property name="initial_positions_file" value="$(arg initial_positions_file)"/>
+
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
+  <xacro:include filename="$(find mir_ur_warehouse)/urdf/suction_gripper.xacro"/>
+
+  <link name="world"/>
+
+  <xacro:ur_robot
+    name="ur"
+    tf_prefix="$(arg tf_prefix)"
+    parent="world"
+    joint_limits_parameters_file="$(arg joint_limit_params)"
+    kinematics_parameters_file="$(arg kinematics_params)"
+    physical_parameters_file="$(arg physical_params)"
+    visual_parameters_file="$(arg visual_params)"
+    transmission_hw_interface=""
+    safety_limits="false"
+    safety_pos_margin="0.15"
+    safety_k_position="20"
+    use_fake_hardware="false"
+    fake_sensor_commands="false"
+    sim_gazebo="$(arg sim_gazebo)"
+    sim_ignition="false"
+    headless_mode="false"
+    initial_positions="${xacro.load_yaml(initial_positions_file)}"
+    use_tool_communication="false"
+    tool_voltage="0"
+    tool_parity="0"
+    tool_baud_rate="115200"
+    tool_stop_bits="1"
+    tool_rx_idle_chars="1.5"
+    tool_tx_idle_chars="3.5"
+    tool_device_name="/tmp/ttyUR"
+    tool_tcp_port="54321"
+    robot_ip="0.0.0.0"
+    script_filename=""
+    output_recipe_filename=""
+    input_recipe_filename=""
+    reverse_ip="0.0.0.0"
+    script_command_port="50004"
+    reverse_port="50001"
+    script_sender_port="50002"
+    trajectory_port="50003">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:ur_robot>
+
+  <xacro:suction_gripper
+    parent="$(arg tf_prefix)tool0"
+    prefix="$(arg tf_prefix)"
+    gripper="$(arg gripper)"
+    ros_namespace="$(arg ros_namespace)"
+    pad_link="$(arg tf_prefix)wrist_3_link"/>
+</robot>

@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<!-- Reusable vacuum suction end-effector for any UR tool0 / flange.
+     Include from a parent robot xacro, then call:
+       <xacro:suction_gripper parent="ur_tool0" prefix="" gripper="large"
+                              ros_namespace="" pad_link="ur_wrist_3_link"/>
+     gripper:=large → 12 cups (8 kg cartons); gripper:=small → 6 cups.
+-->
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:macro name="suction_gripper"
+               params="parent prefix:='' gripper:=large ros_namespace:='' pad_link:=ur_wrist_3_link">
+
+    <link name="${prefix}suction_body">
+      <visual>
+        <origin xyz="0 0 0.035" rpy="0 0 0"/>
+        <geometry><cylinder radius="0.035" length="0.07"/></geometry>
+        <material name="${prefix}suction_grey"><color rgba="0.3 0.3 0.3 1"/></material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.035" rpy="0 0 0"/>
+        <geometry><cylinder radius="0.035" length="0.07"/></geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.035" rpy="0 0 0"/>
+        <mass value="1.0"/>
+        <inertia ixx="7.1e-4" iyy="7.1e-4" izz="6.1e-4" ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+    <joint name="${prefix}suction_body_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${prefix}suction_body"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <xacro:macro name="cup_visual" params="x y">
+      <visual>
+        <origin xyz="${x} ${y} 0.015" rpy="0 0 0"/>
+        <geometry><cylinder radius="0.03" length="0.01"/></geometry>
+        <material name="${prefix}suction_black"><color rgba="0.05 0.05 0.05 1"/></material>
+      </visual>
+    </xacro:macro>
+
+    <xacro:property name="large_gripper" value="${gripper == 'large'}"/>
+    <xacro:if value="${large_gripper}">
+      <xacro:property name="plate_height" value="0.40"/>
+      <xacro:property name="cup_row" value="-0.1 -0.05  0.0 -0.05  0.1 -0.05  -0.1 0.05  0.0 0.05  0.1 0.05  -0.1 -0.15  0.0 -0.15  0.1 -0.15  -0.1 0.15  0.0 0.15  0.1 0.15"/>
+    </xacro:if>
+    <xacro:unless value="${large_gripper}">
+      <xacro:property name="plate_height" value="0.18"/>
+      <xacro:property name="cup_row" value="-0.1 -0.05  0.0 -0.05  0.1 -0.05  -0.1 0.05  0.0 0.05  0.1 0.05"/>
+    </xacro:unless>
+
+    <link name="${prefix}suction_pad">
+      <visual>
+        <origin xyz="0 0 0.005" rpy="0 0 0"/>
+        <geometry><box size="0.30 ${plate_height} 0.008"/></geometry>
+        <material name="${prefix}suction_grey2"><color rgba="0.3 0.3 0.3 1"/></material>
+      </visual>
+      <xacro:cup_visual x="-0.1" y="-0.05"/>
+      <xacro:cup_visual x="0.0" y="-0.05"/>
+      <xacro:cup_visual x="0.1" y="-0.05"/>
+      <xacro:cup_visual x="-0.1" y="0.05"/>
+      <xacro:cup_visual x="0.0" y="0.05"/>
+      <xacro:cup_visual x="0.1" y="0.05"/>
+      <xacro:if value="${large_gripper}">
+        <xacro:cup_visual x="-0.1" y="-0.15"/>
+        <xacro:cup_visual x="0.0" y="-0.15"/>
+        <xacro:cup_visual x="0.1" y="-0.15"/>
+        <xacro:cup_visual x="-0.1" y="0.15"/>
+        <xacro:cup_visual x="0.0" y="0.15"/>
+        <xacro:cup_visual x="0.1" y="0.15"/>
+      </xacro:if>
+      <collision>
+        <origin xyz="0 0 0.005" rpy="0 0 0"/>
+        <geometry><box size="0.30 0.18 0.01"/></geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0.005" rpy="0 0 0"/>
+        <mass value="0.3"/>
+        <inertia ixx="8.1e-4" iyy="2.25e-3" izz="3.06e-3" ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+    <joint name="${prefix}suction_pad_joint" type="fixed">
+      <parent link="${prefix}suction_body"/>
+      <child link="${prefix}suction_pad"/>
+      <origin xyz="0 0 0.07" rpy="0 0 0"/>
+    </joint>
+    <gazebo reference="${prefix}suction_pad">
+      <mu1>0.0</mu1>
+      <mu2>0.0</mu2>
+      <maxContacts>8</maxContacts>
+    </gazebo>
+
+    <gazebo>
+      <plugin name="${prefix}vacuum_gripper" filename="libvacuum_gripper.so">
+        <xacro:if value="${ros_namespace != ''}">
+          <ros><namespace>/${ros_namespace}</namespace></ros>
+        </xacro:if>
+        <pad_link>${pad_link}</pad_link>
+        <pad_offset>0.08</pad_offset>
+        <cups>${cup_row}</cups>
+        <cup_radius>0.03</cup_radius>
+        <max_vacuum>40000</max_vacuum>
+        <stroke>0.01</stroke>
+        <seal_gap>0.002</seal_gap>
+        <bellows_stiffness>20000</bellows_stiffness>
+        <bellows_damping>150</bellows_damping>
+        <full_seal_angle>0.09</full_seal_angle>
+        <max_seal_angle>0.26</max_seal_angle>
+        <evacuation_time>0.15</evacuation_time>
+        <release_time>0.25</release_time>
+        <switch_ratio>0.6</switch_ratio>
+        <friction>0.6</friction>
+        <lip_stiffness>5000</lip_stiffness>
+        <lip_damping>50</lip_damping>
+      </plugin>
+    </gazebo>
+  </xacro:macro>
+</robot>

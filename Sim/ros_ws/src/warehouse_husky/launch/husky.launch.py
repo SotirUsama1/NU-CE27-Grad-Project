@@ -11,6 +11,8 @@ Compared with husky_gazebo/launch/gazebo.launch.py it:
 Usage (inside the container):
   ros2 launch warehouse_husky husky.launch.py world_path:=Our_Structured_Warehouse/Our_Structured_Warehouse.world
   ros2 launch warehouse_husky husky.launch.py world_path:=... gui:=false x:=2.0 y:=0.0 yaw:=0.0
+  # Join an already-running hetero Gazebo (MiRs already spawned):
+  ros2 launch warehouse_husky husky.launch.py start_gazebo:=false
 """
 import os
 
@@ -20,7 +22,8 @@ from launch.actions import (DeclareLaunchArgument, ExecuteProcess, RegisterEvent
                             SetEnvironmentVariable)
 from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessExit
-from launch.substitutions import Command, EnvironmentVariable, FindExecutable, LaunchConfiguration
+from launch.substitutions import (Command, EnvironmentVariable, FindExecutable,
+                                  LaunchConfiguration, PythonExpression)
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 
@@ -48,13 +51,21 @@ def generate_launch_description():
         os.path.dirname(description_share),
     ])
 
+    start_gz = LaunchConfiguration('start_gazebo')
+    gui = LaunchConfiguration('gui')
+
     gzserver = ExecuteProcess(
         cmd=['gzserver', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so',
              LaunchConfiguration('world_path')],
         output='screen',
+        condition=IfCondition(start_gz),
     )
-    gzclient = ExecuteProcess(cmd=['gzclient'], output='screen',
-                              condition=IfCondition(LaunchConfiguration('gui')))
+    gzclient = ExecuteProcess(
+        cmd=['gzclient'], output='screen',
+        condition=IfCondition(PythonExpression([
+            "'", start_gz, "' == 'true' and '", gui, "' == 'true'"
+        ])),
+    )
 
     robot_state_publisher = Node(
         package='robot_state_publisher',
@@ -108,6 +119,9 @@ def generate_launch_description():
         DeclareLaunchArgument('world_path', default_value='',
                               description='World file, relative to Sim/worlds or absolute; empty world if unset'),
         DeclareLaunchArgument('gui', default_value='true', description='Open the Gazebo window'),
+        DeclareLaunchArgument(
+            'start_gazebo', default_value='true',
+            description='Set false to spawn into an already-running Gazebo (hetero world)'),
         DeclareLaunchArgument('x', default_value='0.0'),
         DeclareLaunchArgument('y', default_value='0.0'),
         DeclareLaunchArgument('yaw', default_value='0.0'),

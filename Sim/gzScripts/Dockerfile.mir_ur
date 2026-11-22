@@ -1,0 +1,23 @@
+FROM sotirusama/gzclassic:latest
+
+# Test image for the MiR 250 + UR10e mobile manipulator (Sim/ros2_ws).
+# Adds only what the robot needs on top of the main image; the main image is unchanged.
+# If packages.ros.org is slow, build with a mirror:
+#   --build-arg ROS_MIRROR=https://mirrors.aliyun.com/ros2/ubuntu
+ARG ROS_MIRROR=http://packages.ros.org/ros2/ubuntu
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] ${ROS_MIRROR} $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2.list
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-colcon-common-extensions \
+    ros-humble-gazebo-ros2-control \
+    ros-humble-ros2-control \
+    ros-humble-ros2-controllers \
+    ros-humble-xacro \
+    ros-humble-camera-info-manager \
+    ros-humble-realsense2-camera-msgs \
+    ros-humble-pcl-ros \
+    ros-humble-laser-geometry \
+    ros-humble-teleop-twist-keyboard \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN echo "[ -f /workspace/ros2_ws/install/setup.bash ] && source /workspace/ros2_ws/install/setup.bash" >> /root/.bashrc

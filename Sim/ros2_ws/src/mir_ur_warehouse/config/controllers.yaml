@@ -1,0 +1,74 @@
+# Controllers for mir_ur.urdf.xacro: mir_description's diffdrive_controller.yaml plus the arm trajectory controller.
+controller_manager:
+  ros__parameters:
+    # Once per physics step (1 ms). Gazebo applies velocity commands only when they are written,
+    # so at a lower rate the joints and wheels are free in between and loads push them around.
+    update_rate: 1000
+    use_sim_time: true
+
+    joint_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    diff_cont:
+      type: diff_drive_controller/DiffDriveController
+
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+diff_cont:
+  ros__parameters:
+    left_wheel_names: ["left_wheel_joint"]
+    right_wheel_names: ["right_wheel_joint"]
+    publish_rate: 41.2
+    pose_covariance_diagonal: [0.00001, 0.00001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+    twist_covariance_diagonal: [0.1, 0.1, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+    enable_odom_tf: true
+    wheel_separation: 0.445208
+    wheel_radius: 0.100
+    wheel_separation_multiplier: 1.0
+    wheel_radius_multiplier: 1.0
+    cmd_vel_timeout: 0.5
+    use_stamped_vel: false
+    base_frame_id: base_footprint
+    odom_frame_id: odom
+    linear:
+      x:
+        has_velocity_limits: true
+        max_velocity: 1.0
+        has_acceleration_limits: true
+        max_acceleration: 2.0
+    angular:
+      z:
+        has_velocity_limits: true
+        max_velocity: 1.5
+        has_acceleration_limits: true
+        max_acceleration: 2.5
+
+joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - ur_shoulder_pan_joint
+      - ur_shoulder_lift_joint
+      - ur_elbow_joint
+      - ur_wrist_1_joint
+      - ur_wrist_2_joint
+      - ur_wrist_3_joint
+    # gazebo_ros2_control moves position-commanded joints kinematically, an ideally stiff arm.
+    # Its velocity commands overwrite link velocities without a reaction on the base, which
+    # spins the MiR, so they are not used.
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.2
+      goal_time: 0.0
+      ur_shoulder_pan_joint: { trajectory: 0.2, goal: 0.1 }
+      ur_shoulder_lift_joint: { trajectory: 0.2, goal: 0.1 }
+      ur_elbow_joint: { trajectory: 0.2, goal: 0.1 }
+      ur_wrist_1_joint: { trajectory: 0.2, goal: 0.1 }
+      ur_wrist_2_joint: { trajectory: 0.2, goal: 0.1 }
+      ur_wrist_3_joint: { trajectory: 0.2, goal: 0.1 }

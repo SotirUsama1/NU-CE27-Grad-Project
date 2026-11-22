@@ -1,0 +1,7418 @@
+{
+  "zone_A_layout": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "zone_a_layout",
+    "frame_id": "world",
+    "position": {
+      "x": -0.040107,
+      "y": 0.052292,
+      "z": 0.0
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 11.41,
+      "length_y": 19.119,
+      "height_z": 5.347
+    },
+    "dimension_source": "visual_dae",
+    "elevation": {
+      "base_z": 0.0,
+      "top_z": 5.347
+    }
+  },
+  "rack_A1_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_6bay",
+    "frame_id": "world",
+    "position": {
+      "x": -1.1401,
+      "y": -3.0477,
+      "z": 0.0
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 5.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_A2_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 1.2599,
+      "y": -5.5477,
+      "z": 0.0
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_A2_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 1.2599,
+      "y": 3.2523,
+      "z": 0.0
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_A3_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 3.6599,
+      "y": -5.5477,
+      "z": 0.0
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_A3_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 3.6599,
+      "y": 3.2523,
+      "z": 0.0
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_A4_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 6.0599,
+      "y": -5.5477,
+      "z": 0.0
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_A4_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 6.0599,
+      "y": 3.2523,
+      "z": 0.0
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_A5_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 8.4599,
+      "y": -5.5477,
+      "z": 0.0
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_A5_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 8.4599,
+      "y": 3.2523,
+      "z": 0.0
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "zone_B_layout": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "zone_b_layout",
+    "frame_id": "world",
+    "position": {
+      "x": 20.062,
+      "y": 0.052292,
+      "z": 0.0
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 11.41,
+      "length_y": 19.119,
+      "height_z": 5.347
+    },
+    "dimension_source": "visual_dae",
+    "elevation": {
+      "base_z": 0.0,
+      "top_z": 5.347
+    }
+  },
+  "rack_B1_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_6bay",
+    "frame_id": "world",
+    "position": {
+      "x": 23.162,
+      "y": -1.0477,
+      "z": 0.0
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 5.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_B2_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 25.662,
+      "y": 1.3523,
+      "z": 0.0
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_B2_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 16.862,
+      "y": 1.3523,
+      "z": 0.0
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_B3_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 25.662,
+      "y": 3.7523,
+      "z": 0.0
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_B3_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 16.862,
+      "y": 3.7523,
+      "z": 0.0
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_B4_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 25.662,
+      "y": 6.1523,
+      "z": 0.0
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_B4_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 16.862,
+      "y": 6.1523,
+      "z": 0.0
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_B5_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 25.662,
+      "y": 8.5523,
+      "z": 0.0
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_B5_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_5lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 16.862,
+      "y": 8.5523,
+      "z": 0.0
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 5,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "zone_C_layout": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "zone_c_layout",
+    "frame_id": "world",
+    "position": {
+      "x": 20.062,
+      "y": 20.155,
+      "z": 0.0
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 11.41,
+      "length_y": 19.119,
+      "height_z": 5.347
+    },
+    "dimension_source": "visual_dae",
+    "elevation": {
+      "base_z": 0.0,
+      "top_z": 5.347
+    }
+  },
+  "rack_C1_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_6bay",
+    "frame_id": "world",
+    "position": {
+      "x": 21.162,
+      "y": 23.255,
+      "z": 0.0
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 5.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_C2_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 18.762,
+      "y": 25.755,
+      "z": 0.0
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_C2_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 18.762,
+      "y": 16.955,
+      "z": 0.0
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_C3_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 25.755,
+      "z": 0.0
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_C3_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 16.955,
+      "z": 0.0
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_C4_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 25.755,
+      "z": 0.0
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_C4_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 16.955,
+      "z": 0.0
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_C5_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 11.562,
+      "y": 25.755,
+      "z": 0.0
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_C5_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 11.562,
+      "y": 16.955,
+      "z": 0.0
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "zone_D_layout": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "zone_d_layout",
+    "frame_id": "world",
+    "position": {
+      "x": -0.040107,
+      "y": 20.155,
+      "z": 0.0
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 11.41,
+      "length_y": 19.119,
+      "height_z": 5.347
+    },
+    "dimension_source": "visual_dae",
+    "elevation": {
+      "base_z": 0.0,
+      "top_z": 5.347
+    }
+  },
+  "rack_D1_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_6bay",
+    "frame_id": "world",
+    "position": {
+      "x": -3.1401,
+      "y": 21.255,
+      "z": 0.0
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 5.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_D2_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": -5.6401,
+      "y": 18.855,
+      "z": 0.0
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_D2_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 3.1599,
+      "y": 18.855,
+      "z": 0.0
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_D3_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": -5.6401,
+      "y": 16.455,
+      "z": 0.0
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_D3_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 3.1599,
+      "y": 16.455,
+      "z": 0.0
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_D4_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": -5.6401,
+      "y": 14.055,
+      "z": 0.0
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_D4_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 3.1599,
+      "y": 14.055,
+      "z": 0.0
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_D5_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": -5.6401,
+      "y": 11.655,
+      "z": 0.0
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "rack_D5_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "warehouse_rack_4lvl_7bay",
+    "frame_id": "world",
+    "position": {
+      "x": 3.1599,
+      "y": 11.655,
+      "z": 0.0
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.83,
+      "length_y": 6.8,
+      "height_z": 2.0
+    },
+    "levels": 4,
+    "dimension_source": "include_rack",
+    "elevation": {
+      "rack_base_z": 0.0,
+      "rack_top_z": 2.0
+    }
+  },
+  "shipping_dock_layout": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "shipping_dock_layout",
+    "frame_id": "world",
+    "position": {
+      "x": -0.040107,
+      "y": 20.155,
+      "z": 0.0
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 9.54,
+      "length_y": 12.76,
+      "height_z": 5.522
+    },
+    "dimension_source": "visual_dae",
+    "elevation": {
+      "base_z": 0.0,
+      "top_z": 5.522
+    }
+  },
+  "dock_conveyor": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "dock_conveyor",
+    "frame_id": "world",
+    "position": {
+      "x": -1.3401,
+      "y": 28.38,
+      "z": 0.0
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 6.45,
+      "length_y": 1.06,
+      "height_z": 0.73
+    },
+    "dimension_source": "visual_dae",
+    "elevation": {
+      "base_z": 0.0,
+      "top_z": 0.73
+    }
+  },
+  "delivery_truck": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "delivery_truck",
+    "frame_id": "world",
+    "position": {
+      "x": -1.3401,
+      "y": 30.105,
+      "z": 0.0
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 7.5,
+      "length_y": 2.42,
+      "height_z": 2.96
+    },
+    "dimension_source": "visual_dae",
+    "elevation": {
+      "base_z": 0.0,
+      "top_z": 2.96
+    }
+  },
+  "box_A_002": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -1.3451,
+      "y": -5.4469,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-002",
+    "interactive": false
+  },
+  "box_A_003": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -0.93511,
+      "y": -5.4469,
+      "z": 2.052
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.202
+    },
+    "label": "A-003",
+    "interactive": false
+  },
+  "box_A_004": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -1.3451,
+      "y": -4.4977,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-004",
+    "interactive": false
+  },
+  "box_A_011": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -1.3451,
+      "y": -0.64854,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-011",
+    "interactive": false
+  },
+  "box_A_012": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -1.3451,
+      "y": -0.64854,
+      "z": 2.052
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.202
+    },
+    "label": "A-012",
+    "interactive": false
+  },
+  "box_A_013": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.4649,
+      "y": -8.4445,
+      "z": 0.252
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "A-013",
+    "interactive": false
+  },
+  "box_A_015": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.4649,
+      "y": -8.4445,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-015",
+    "interactive": false
+  },
+  "box_A_016": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.0549,
+      "y": -7.4906,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-016",
+    "interactive": false
+  },
+  "box_A_022": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.0549,
+      "y": -5.5477,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-022",
+    "interactive": false
+  },
+  "box_A_024": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.0549,
+      "y": -4.5763,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-024",
+    "interactive": false
+  },
+  "box_A_029": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.0549,
+      "y": -2.6509,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-029",
+    "interactive": false
+  },
+  "box_A_032": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.0549,
+      "y": 0.35551,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-032",
+    "interactive": false
+  },
+  "box_A_033": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.0549,
+      "y": 0.35551,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-033",
+    "interactive": false
+  },
+  "box_A_034": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.4649,
+      "y": 0.35551,
+      "z": 1.602
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.752
+    },
+    "label": "A-034",
+    "interactive": false
+  },
+  "box_A_035": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.0549,
+      "y": 1.3094,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-035",
+    "interactive": false
+  },
+  "box_A_042": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.4649,
+      "y": 4.2237,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-042",
+    "interactive": false
+  },
+  "box_A_043": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.4649,
+      "y": 5.1951,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-043",
+    "interactive": false
+  },
+  "box_A_046": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.0549,
+      "y": 6.1491,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-046",
+    "interactive": false
+  },
+  "box_A_049": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.8649,
+      "y": -8.4445,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-049",
+    "interactive": false
+  },
+  "box_A_050": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.4549,
+      "y": -8.4445,
+      "z": 1.602
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.752
+    },
+    "label": "A-050",
+    "interactive": false
+  },
+  "box_A_051": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.4549,
+      "y": -7.4906,
+      "z": 0.252
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "A-051",
+    "interactive": false
+  },
+  "box_A_053": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.8649,
+      "y": -6.5191,
+      "z": 2.052
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.202
+    },
+    "label": "A-053",
+    "interactive": false
+  },
+  "box_A_054": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.4549,
+      "y": -5.5477,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-054",
+    "interactive": false
+  },
+  "box_A_055": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.8649,
+      "y": -5.5477,
+      "z": 1.602
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.752
+    },
+    "label": "A-055",
+    "interactive": false
+  },
+  "box_A_056": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.4549,
+      "y": -5.5477,
+      "z": 2.052
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.202
+    },
+    "label": "A-056",
+    "interactive": false
+  },
+  "box_A_057": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.4549,
+      "y": -4.5763,
+      "z": 0.252
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "A-057",
+    "interactive": false
+  },
+  "box_A_059": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.4549,
+      "y": -4.5763,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-059",
+    "interactive": false
+  },
+  "box_A_061": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.4549,
+      "y": -3.6049,
+      "z": 1.602
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.752
+    },
+    "label": "A-061",
+    "interactive": false
+  },
+  "box_A_062": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.4549,
+      "y": -3.6049,
+      "z": 2.052
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.202
+    },
+    "label": "A-062",
+    "interactive": false
+  },
+  "box_A_067": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.4549,
+      "y": 0.35551,
+      "z": 1.602
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.752
+    },
+    "label": "A-067",
+    "interactive": false
+  },
+  "box_A_070": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.4549,
+      "y": 2.2809,
+      "z": 1.602
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.752
+    },
+    "label": "A-070",
+    "interactive": false
+  },
+  "box_A_074": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.4549,
+      "y": 4.2237,
+      "z": 1.602
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.752
+    },
+    "label": "A-074",
+    "interactive": false
+  },
+  "box_A_076": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.8649,
+      "y": 5.1951,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-076",
+    "interactive": false
+  },
+  "box_A_077": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.8649,
+      "y": 5.1951,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-077",
+    "interactive": false
+  },
+  "box_A_081": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 6.2649,
+      "y": -8.4445,
+      "z": 1.602
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.752
+    },
+    "label": "A-081",
+    "interactive": false
+  },
+  "box_A_082": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 5.8549,
+      "y": -7.4906,
+      "z": 2.052
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.202
+    },
+    "label": "A-082",
+    "interactive": false
+  },
+  "box_A_086": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 5.8549,
+      "y": -5.5477,
+      "z": 2.052
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.202
+    },
+    "label": "A-086",
+    "interactive": false
+  },
+  "box_A_087": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 6.2649,
+      "y": -3.6049,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-087",
+    "interactive": false
+  },
+  "box_A_090": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 5.8549,
+      "y": 0.35551,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-090",
+    "interactive": false
+  },
+  "box_A_091": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 6.2649,
+      "y": 0.35551,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-091",
+    "interactive": false
+  },
+  "box_A_092": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 6.2649,
+      "y": 0.35551,
+      "z": 1.602
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.752
+    },
+    "label": "A-092",
+    "interactive": false
+  },
+  "box_A_093": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 6.2649,
+      "y": 1.3094,
+      "z": 0.252
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "A-093",
+    "interactive": false
+  },
+  "box_A_096": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 6.2649,
+      "y": 2.2809,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-096",
+    "interactive": false
+  },
+  "box_A_099": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 5.8549,
+      "y": 3.2523,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-099",
+    "interactive": false
+  },
+  "box_A_102": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 5.8549,
+      "y": 5.1951,
+      "z": 0.252
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "A-102",
+    "interactive": false
+  },
+  "box_A_103": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 6.2649,
+      "y": 5.1951,
+      "z": 1.602
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.752
+    },
+    "label": "A-103",
+    "interactive": false
+  },
+  "box_A_104": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 6.2649,
+      "y": 5.1951,
+      "z": 2.052
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.202
+    },
+    "label": "A-104",
+    "interactive": false
+  },
+  "box_A_108": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 6.2649,
+      "y": 6.1491,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-108",
+    "interactive": false
+  },
+  "box_A_109": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 5.8549,
+      "y": 6.1491,
+      "z": 2.052
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.202
+    },
+    "label": "A-109",
+    "interactive": false
+  },
+  "box_A_111": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.2549,
+      "y": -8.4445,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-111",
+    "interactive": false
+  },
+  "box_A_112": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.6649,
+      "y": -8.4445,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-112",
+    "interactive": false
+  },
+  "box_A_113": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.2549,
+      "y": -6.5191,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-113",
+    "interactive": false
+  },
+  "box_A_116": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.6649,
+      "y": -5.5477,
+      "z": 2.052
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.202
+    },
+    "label": "A-116",
+    "interactive": false
+  },
+  "box_A_117": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.6649,
+      "y": -4.5763,
+      "z": 0.252
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "A-117",
+    "interactive": false
+  },
+  "box_A_122": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.6649,
+      "y": -3.6049,
+      "z": 1.602
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.752
+    },
+    "label": "A-122",
+    "interactive": false
+  },
+  "box_A_124": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.6649,
+      "y": -2.6509,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-124",
+    "interactive": false
+  },
+  "box_A_127": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.2549,
+      "y": 0.35551,
+      "z": 0.252
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "A-127",
+    "interactive": false
+  },
+  "box_A_128": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.2549,
+      "y": 0.35551,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-128",
+    "interactive": false
+  },
+  "box_A_129": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.6649,
+      "y": 0.35551,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-129",
+    "interactive": false
+  },
+  "box_A_131": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.2549,
+      "y": 2.2809,
+      "z": 1.602
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.752
+    },
+    "label": "A-131",
+    "interactive": false
+  },
+  "box_A_133": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.2549,
+      "y": 3.2523,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-133",
+    "interactive": false
+  },
+  "box_A_135": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.6649,
+      "y": 3.2523,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-135",
+    "interactive": false
+  },
+  "box_A_136": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.6649,
+      "y": 3.2523,
+      "z": 1.602
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.752
+    },
+    "label": "A-136",
+    "interactive": false
+  },
+  "box_A_137": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.2549,
+      "y": 3.2523,
+      "z": 2.052
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.202
+    },
+    "label": "A-137",
+    "interactive": false
+  },
+  "box_A_138": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.2549,
+      "y": 4.2237,
+      "z": 0.252
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "A-138",
+    "interactive": false
+  },
+  "box_A_140": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.2549,
+      "y": 4.2237,
+      "z": 2.052
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.202
+    },
+    "label": "A-140",
+    "interactive": false
+  },
+  "box_A_141": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.6649,
+      "y": 4.2237,
+      "z": 2.052
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.202
+    },
+    "label": "A-141",
+    "interactive": false
+  },
+  "box_A_142": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.2549,
+      "y": 5.1951,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-142",
+    "interactive": false
+  },
+  "box_A_143": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.6649,
+      "y": 6.1491,
+      "z": 0.702
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.852
+    },
+    "label": "A-143",
+    "interactive": false
+  },
+  "box_A_144": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.6649,
+      "y": 6.1491,
+      "z": 1.152
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.302
+    },
+    "label": "A-144",
+    "interactive": false
+  },
+  "box_A_145": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.2549,
+      "y": 6.1491,
+      "z": 1.602
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.752
+    },
+    "label": "A-145",
+    "interactive": false
+  },
+  "box_A_146": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 8.2549,
+      "y": 6.1491,
+      "z": 2.052
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.202
+    },
+    "label": "A-146",
+    "interactive": false
+  },
+  "box_A_147": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -1.6882,
+      "y": 5.9211,
+      "z": 0.4792
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.6292
+    },
+    "label": "A-147",
+    "interactive": false
+  },
+  "box_A_148": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -1.6882,
+      "y": 6.3711,
+      "z": 0.4792
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.6292
+    },
+    "label": "A-148",
+    "interactive": false
+  },
+  "box_A_149": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -1.6882,
+      "y": 6.8211,
+      "z": 0.4792
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.6292
+    },
+    "label": "A-149",
+    "interactive": false
+  },
+  "box_A_155": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -0.58817,
+      "y": 6.8211,
+      "z": 0.4792
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.6292
+    },
+    "label": "A-155",
+    "interactive": false
+  },
+  "box_A_162": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -4.7868,
+      "y": 1.5187,
+      "z": 0.4792
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.6292
+    },
+    "label": "A-162",
+    "interactive": false
+  },
+  "box_A_163": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -4.7868,
+      "y": 1.9687,
+      "z": 0.4792
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.6292
+    },
+    "label": "A-163",
+    "interactive": false
+  },
+  "box_B_001": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 25.562,
+      "y": -0.84271,
+      "z": 0.202
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "B-001",
+    "interactive": false
+  },
+  "box_B_002": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 25.562,
+      "y": -1.2527,
+      "z": 0.652
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.752
+    },
+    "label": "B-002",
+    "interactive": false
+  },
+  "box_B_005": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 23.646,
+      "y": -1.2527,
+      "z": 1.102
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.202
+    },
+    "label": "B-005",
+    "interactive": false
+  },
+  "box_B_007": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 22.679,
+      "y": -1.2527,
+      "z": 1.552
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.652
+    },
+    "label": "B-007",
+    "interactive": false
+  },
+  "box_B_008": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 21.712,
+      "y": -0.84271,
+      "z": 0.202
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "B-008",
+    "interactive": false
+  },
+  "box_B_011": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 21.712,
+      "y": -1.2527,
+      "z": 1.552
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.652
+    },
+    "label": "B-011",
+    "interactive": false
+  },
+  "box_B_013": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 20.763,
+      "y": -1.2527,
+      "z": 0.652
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.752
+    },
+    "label": "B-013",
+    "interactive": false
+  },
+  "box_B_017": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 28.559,
+      "y": 1.1473,
+      "z": 1.552
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.652
+    },
+    "label": "B-017",
+    "interactive": false
+  },
+  "box_B_022": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 26.634,
+      "y": 1.1473,
+      "z": 1.552
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.652
+    },
+    "label": "B-022",
+    "interactive": false
+  },
+  "box_B_023": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 26.634,
+      "y": 1.1473,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-023",
+    "interactive": false
+  },
+  "box_B_024": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 26.634,
+      "y": 1.5573,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-024",
+    "interactive": false
+  },
+  "box_B_028": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 24.691,
+      "y": 1.5573,
+      "z": 0.652
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.752
+    },
+    "label": "B-028",
+    "interactive": false
+  },
+  "box_B_030": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 24.691,
+      "y": 1.5573,
+      "z": 1.102
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.202
+    },
+    "label": "B-030",
+    "interactive": false
+  },
+  "box_B_032": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 24.691,
+      "y": 1.5573,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-032",
+    "interactive": false
+  },
+  "box_B_033": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 23.72,
+      "y": 1.1473,
+      "z": 1.552
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.652
+    },
+    "label": "B-033",
+    "interactive": false
+  },
+  "box_B_034": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 22.766,
+      "y": 1.1473,
+      "z": 1.102
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.202
+    },
+    "label": "B-034",
+    "interactive": false
+  },
+  "box_B_039": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.805,
+      "y": 1.1473,
+      "z": 0.202
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "B-039",
+    "interactive": false
+  },
+  "box_B_042": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 15.891,
+      "y": 1.1473,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-042",
+    "interactive": false
+  },
+  "box_B_045": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 14.92,
+      "y": 1.1473,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-045",
+    "interactive": false
+  },
+  "box_B_048": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.966,
+      "y": 1.1473,
+      "z": 1.552
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.652
+    },
+    "label": "B-048",
+    "interactive": false
+  },
+  "box_B_054": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 26.634,
+      "y": 3.9573,
+      "z": 1.102
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.202
+    },
+    "label": "B-054",
+    "interactive": false
+  },
+  "box_B_056": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 26.634,
+      "y": 3.5473,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-056",
+    "interactive": false
+  },
+  "box_B_059": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 24.691,
+      "y": 3.5473,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-059",
+    "interactive": false
+  },
+  "box_B_061": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 23.72,
+      "y": 3.5473,
+      "z": 0.652
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.752
+    },
+    "label": "B-061",
+    "interactive": false
+  },
+  "box_B_063": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 23.72,
+      "y": 3.5473,
+      "z": 1.102
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.202
+    },
+    "label": "B-063",
+    "interactive": false
+  },
+  "box_B_064": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 23.72,
+      "y": 3.5473,
+      "z": 1.552
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.652
+    },
+    "label": "B-064",
+    "interactive": false
+  },
+  "box_B_067": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 22.766,
+      "y": 3.5473,
+      "z": 1.552
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.652
+    },
+    "label": "B-067",
+    "interactive": false
+  },
+  "box_B_068": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 19.759,
+      "y": 3.9573,
+      "z": 0.202
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "B-068",
+    "interactive": false
+  },
+  "box_B_070": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 19.759,
+      "y": 3.5473,
+      "z": 1.552
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.652
+    },
+    "label": "B-070",
+    "interactive": false
+  },
+  "box_B_071": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.805,
+      "y": 3.5473,
+      "z": 0.652
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.752
+    },
+    "label": "B-071",
+    "interactive": false
+  },
+  "box_B_072": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.805,
+      "y": 3.9573,
+      "z": 0.652
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.752
+    },
+    "label": "B-072",
+    "interactive": false
+  },
+  "box_B_078": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 15.891,
+      "y": 3.9573,
+      "z": 0.652
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.752
+    },
+    "label": "B-078",
+    "interactive": false
+  },
+  "box_B_081": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 14.92,
+      "y": 3.5473,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-081",
+    "interactive": false
+  },
+  "box_B_086": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.966,
+      "y": 3.9573,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-086",
+    "interactive": false
+  },
+  "box_B_088": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 27.605,
+      "y": 5.9473,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-088",
+    "interactive": false
+  },
+  "box_B_089": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 26.634,
+      "y": 5.9473,
+      "z": 0.202
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "B-089",
+    "interactive": false
+  },
+  "box_B_090": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 26.634,
+      "y": 5.9473,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-090",
+    "interactive": false
+  },
+  "box_B_092": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 23.72,
+      "y": 5.9473,
+      "z": 0.202
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "B-092",
+    "interactive": false
+  },
+  "box_B_094": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 23.72,
+      "y": 6.3573,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-094",
+    "interactive": false
+  },
+  "box_B_095": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 22.766,
+      "y": 5.9473,
+      "z": 0.202
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "B-095",
+    "interactive": false
+  },
+  "box_B_098": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 19.759,
+      "y": 5.9473,
+      "z": 1.102
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.202
+    },
+    "label": "B-098",
+    "interactive": false
+  },
+  "box_B_100": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 19.759,
+      "y": 5.9473,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-100",
+    "interactive": false
+  },
+  "box_B_101": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 19.759,
+      "y": 6.3573,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-101",
+    "interactive": false
+  },
+  "box_B_105": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 17.834,
+      "y": 6.3573,
+      "z": 1.552
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.652
+    },
+    "label": "B-105",
+    "interactive": false
+  },
+  "box_B_107": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 15.891,
+      "y": 5.9473,
+      "z": 0.652
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.752
+    },
+    "label": "B-107",
+    "interactive": false
+  },
+  "box_B_108": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 15.891,
+      "y": 6.3573,
+      "z": 0.652
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.752
+    },
+    "label": "B-108",
+    "interactive": false
+  },
+  "box_B_109": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 15.891,
+      "y": 6.3573,
+      "z": 1.102
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.202
+    },
+    "label": "B-109",
+    "interactive": false
+  },
+  "box_B_115": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.966,
+      "y": 6.3573,
+      "z": 0.652
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.752
+    },
+    "label": "B-115",
+    "interactive": false
+  },
+  "box_B_116": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.966,
+      "y": 5.9473,
+      "z": 1.102
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.202
+    },
+    "label": "B-116",
+    "interactive": false
+  },
+  "box_B_118": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.966,
+      "y": 6.3573,
+      "z": 1.552
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.652
+    },
+    "label": "B-118",
+    "interactive": false
+  },
+  "box_B_119": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 28.559,
+      "y": 8.3473,
+      "z": 0.652
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.752
+    },
+    "label": "B-119",
+    "interactive": false
+  },
+  "box_B_120": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 28.559,
+      "y": 8.3473,
+      "z": 1.102
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.202
+    },
+    "label": "B-120",
+    "interactive": false
+  },
+  "box_B_124": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 26.634,
+      "y": 8.3473,
+      "z": 1.552
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.652
+    },
+    "label": "B-124",
+    "interactive": false
+  },
+  "box_B_125": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 25.662,
+      "y": 8.7573,
+      "z": 0.652
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.752
+    },
+    "label": "B-125",
+    "interactive": false
+  },
+  "box_B_127": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 25.662,
+      "y": 8.3473,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-127",
+    "interactive": false
+  },
+  "box_B_128": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 24.691,
+      "y": 8.3473,
+      "z": 0.202
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "B-128",
+    "interactive": false
+  },
+  "box_B_130": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 23.72,
+      "y": 8.3473,
+      "z": 0.202
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "B-130",
+    "interactive": false
+  },
+  "box_B_132": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 23.72,
+      "y": 8.7573,
+      "z": 0.652
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.752
+    },
+    "label": "B-132",
+    "interactive": false
+  },
+  "box_B_133": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 23.72,
+      "y": 8.3473,
+      "z": 1.102
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.202
+    },
+    "label": "B-133",
+    "interactive": false
+  },
+  "box_B_134": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 23.72,
+      "y": 8.7573,
+      "z": 1.102
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.202
+    },
+    "label": "B-134",
+    "interactive": false
+  },
+  "box_B_137": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.805,
+      "y": 8.7573,
+      "z": 0.202
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "B-137",
+    "interactive": false
+  },
+  "box_B_140": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 17.834,
+      "y": 8.7573,
+      "z": 0.202
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "B-140",
+    "interactive": false
+  },
+  "box_B_142": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 17.834,
+      "y": 8.7573,
+      "z": 1.552
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.452,
+      "box_top_z": 1.652
+    },
+    "label": "B-142",
+    "interactive": false
+  },
+  "box_B_144": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 15.891,
+      "y": 8.3473,
+      "z": 0.652
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.552,
+      "box_top_z": 0.752
+    },
+    "label": "B-144",
+    "interactive": false
+  },
+  "box_B_145": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 14.92,
+      "y": 8.7573,
+      "z": 0.202
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "B-145",
+    "interactive": false
+  },
+  "box_B_147": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 14.92,
+      "y": 8.3473,
+      "z": 1.102
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.202
+    },
+    "label": "B-147",
+    "interactive": false
+  },
+  "box_B_148": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 14.92,
+      "y": 8.7573,
+      "z": 1.102
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.002,
+      "box_top_z": 1.202
+    },
+    "label": "B-148",
+    "interactive": false
+  },
+  "box_B_149": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.966,
+      "y": 8.3473,
+      "z": 0.202
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "B-149",
+    "interactive": false
+  },
+  "box_B_150": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.966,
+      "y": 8.7573,
+      "z": 2.002
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.902,
+      "box_top_z": 2.102
+    },
+    "label": "B-150",
+    "interactive": false
+  },
+  "box_B_152": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.304,
+      "y": -1.7958,
+      "z": 0.4292
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.5292
+    },
+    "label": "B-152",
+    "interactive": false
+  },
+  "box_B_153": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 14.184,
+      "y": -1.2958,
+      "z": 0.4292
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.5292
+    },
+    "label": "B-153",
+    "interactive": false
+  },
+  "box_B_154": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.304,
+      "y": -1.2958,
+      "z": 0.4292
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.5292
+    },
+    "label": "B-154",
+    "interactive": false
+  },
+  "box_B_155": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 14.184,
+      "y": -0.79577,
+      "z": 0.4292
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.5292
+    },
+    "label": "B-155",
+    "interactive": false
+  },
+  "box_B_157": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 14.184,
+      "y": -0.29577,
+      "z": 0.4292
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.5292
+    },
+    "label": "B-157",
+    "interactive": false
+  },
+  "box_B_158": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.304,
+      "y": -0.29577,
+      "z": 0.4292
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.5292
+    },
+    "label": "B-158",
+    "interactive": false
+  },
+  "box_B_159": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.586,
+      "y": -5.9944,
+      "z": 0.4292
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.5292
+    },
+    "label": "B-159",
+    "interactive": false
+  },
+  "box_B_162": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 17.706,
+      "y": -5.4944,
+      "z": 0.4292
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.5292
+    },
+    "label": "B-162",
+    "interactive": false
+  },
+  "box_B_163": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.586,
+      "y": -4.9944,
+      "z": 0.4292
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.5292
+    },
+    "label": "B-163",
+    "interactive": false
+  },
+  "box_B_164": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 17.706,
+      "y": -4.9944,
+      "z": 0.4292
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.5292
+    },
+    "label": "B-164",
+    "interactive": false
+  },
+  "box_C_002": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 21.162,
+      "y": 25.654,
+      "z": 1.487
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.712
+    },
+    "label": "C-002",
+    "interactive": false
+  },
+  "box_C_008": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 21.162,
+      "y": 22.772,
+      "z": 0.327
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.552
+    },
+    "label": "C-008",
+    "interactive": false
+  },
+  "box_C_011": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.762,
+      "y": 28.652,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-011",
+    "interactive": false
+  },
+  "box_C_012": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.762,
+      "y": 27.698,
+      "z": 0.907
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "C-012",
+    "interactive": false
+  },
+  "box_C_016": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.762,
+      "y": 26.726,
+      "z": 1.487
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.712
+    },
+    "label": "C-016",
+    "interactive": false
+  },
+  "box_C_017": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.762,
+      "y": 25.755,
+      "z": 0.907
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "C-017",
+    "interactive": false
+  },
+  "box_C_022": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.762,
+      "y": 23.812,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-022",
+    "interactive": false
+  },
+  "box_C_023": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.762,
+      "y": 22.858,
+      "z": 0.327
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.552
+    },
+    "label": "C-023",
+    "interactive": false
+  },
+  "box_C_024": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.762,
+      "y": 22.858,
+      "z": 0.907
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "C-024",
+    "interactive": false
+  },
+  "box_C_032": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.762,
+      "y": 15.012,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-032",
+    "interactive": false
+  },
+  "box_C_033": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.762,
+      "y": 14.058,
+      "z": 0.327
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.552
+    },
+    "label": "C-033",
+    "interactive": false
+  },
+  "box_C_035": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 18.762,
+      "y": 14.058,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-035",
+    "interactive": false
+  },
+  "box_C_038": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 26.726,
+      "z": 0.327
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.552
+    },
+    "label": "C-038",
+    "interactive": false
+  },
+  "box_C_041": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 25.755,
+      "z": 0.327
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.552
+    },
+    "label": "C-041",
+    "interactive": false
+  },
+  "box_C_042": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 25.755,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-042",
+    "interactive": false
+  },
+  "box_C_044": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 22.858,
+      "z": 0.907
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "C-044",
+    "interactive": false
+  },
+  "box_C_045": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 22.858,
+      "z": 1.487
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.712
+    },
+    "label": "C-045",
+    "interactive": false
+  },
+  "box_C_046": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 19.852,
+      "z": 0.327
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.552
+    },
+    "label": "C-046",
+    "interactive": false
+  },
+  "box_C_047": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 19.852,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-047",
+    "interactive": false
+  },
+  "box_C_048": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 18.898,
+      "z": 0.907
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "C-048",
+    "interactive": false
+  },
+  "box_C_049": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 18.898,
+      "z": 1.487
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.712
+    },
+    "label": "C-049",
+    "interactive": false
+  },
+  "box_C_050": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 18.898,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-050",
+    "interactive": false
+  },
+  "box_C_051": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 17.926,
+      "z": 0.907
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "C-051",
+    "interactive": false
+  },
+  "box_C_053": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 17.926,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-053",
+    "interactive": false
+  },
+  "box_C_054": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 16.955,
+      "z": 1.487
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.712
+    },
+    "label": "C-054",
+    "interactive": false
+  },
+  "box_C_055": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 16.955,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-055",
+    "interactive": false
+  },
+  "box_C_056": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 16.362,
+      "y": 15.012,
+      "z": 0.907
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "C-056",
+    "interactive": false
+  },
+  "box_C_059": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 28.652,
+      "z": 0.907
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "C-059",
+    "interactive": false
+  },
+  "box_C_060": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 28.652,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-060",
+    "interactive": false
+  },
+  "box_C_061": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 26.726,
+      "z": 0.907
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "C-061",
+    "interactive": false
+  },
+  "box_C_062": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 26.726,
+      "z": 1.487
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.712
+    },
+    "label": "C-062",
+    "interactive": false
+  },
+  "box_C_063": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 25.755,
+      "z": 0.907
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "C-063",
+    "interactive": false
+  },
+  "box_C_065": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 24.783,
+      "z": 1.487
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.712
+    },
+    "label": "C-065",
+    "interactive": false
+  },
+  "box_C_066": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 23.812,
+      "z": 0.327
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.552
+    },
+    "label": "C-066",
+    "interactive": false
+  },
+  "box_C_067": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 23.812,
+      "z": 0.907
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "C-067",
+    "interactive": false
+  },
+  "box_C_068": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 23.812,
+      "z": 1.487
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.712
+    },
+    "label": "C-068",
+    "interactive": false
+  },
+  "box_C_071": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 19.852,
+      "z": 0.907
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "C-071",
+    "interactive": false
+  },
+  "box_C_072": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 19.852,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-072",
+    "interactive": false
+  },
+  "box_C_074": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 18.898,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-074",
+    "interactive": false
+  },
+  "box_C_076": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 17.926,
+      "z": 0.907
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "C-076",
+    "interactive": false
+  },
+  "box_C_078": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 15.983,
+      "z": 1.487
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.712
+    },
+    "label": "C-078",
+    "interactive": false
+  },
+  "box_C_079": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 15.983,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-079",
+    "interactive": false
+  },
+  "box_C_080": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 13.962,
+      "y": 15.012,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-080",
+    "interactive": false
+  },
+  "box_C_082": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 11.562,
+      "y": 26.726,
+      "z": 0.907
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "C-082",
+    "interactive": false
+  },
+  "box_C_092": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 11.562,
+      "y": 22.858,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-092",
+    "interactive": false
+  },
+  "box_C_094": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 11.562,
+      "y": 19.852,
+      "z": 1.487
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.712
+    },
+    "label": "C-094",
+    "interactive": false
+  },
+  "box_C_095": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 11.562,
+      "y": 18.898,
+      "z": 0.327
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.552
+    },
+    "label": "C-095",
+    "interactive": false
+  },
+  "box_C_098": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 11.562,
+      "y": 18.898,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-098",
+    "interactive": false
+  },
+  "box_C_100": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 11.562,
+      "y": 17.926,
+      "z": 2.067
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "C-100",
+    "interactive": false
+  },
+  "box_C_102": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 11.562,
+      "y": 15.983,
+      "z": 1.487
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.712
+    },
+    "label": "C-102",
+    "interactive": false
+  },
+  "box_C_105": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 11.562,
+      "y": 14.058,
+      "z": 1.487
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.712
+    },
+    "label": "C-105",
+    "interactive": false
+  },
+  "box_C_107": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 21.661,
+      "y": 14.236,
+      "z": 0.5542
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.7792
+    },
+    "label": "C-107",
+    "interactive": false
+  },
+  "box_C_108": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 21.661,
+      "y": 13.436,
+      "z": 0.5542
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.7792
+    },
+    "label": "C-108",
+    "interactive": false
+  },
+  "box_C_110": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 20.661,
+      "y": 13.436,
+      "z": 0.5542
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.7792
+    },
+    "label": "C-110",
+    "interactive": false
+  },
+  "box_C_113": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 24.859,
+      "y": 18.638,
+      "z": 0.5542
+    },
+    "rotation_yaw": 3.1416,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.3292,
+      "box_top_z": 0.7792
+    },
+    "label": "C-113",
+    "interactive": false
+  },
+  "box_D_002": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -4.5901,
+      "y": 21.255,
+      "z": 0.327
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.552
+    },
+    "label": "D-002",
+    "interactive": true
+  },
+  "box_D_003": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -4.5901,
+      "y": 21.255,
+      "z": 0.907
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "D-003",
+    "interactive": true
+  },
+  "box_D_004": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -4.5901,
+      "y": 21.05,
+      "z": 1.362
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.462
+    },
+    "label": "D-004",
+    "interactive": true
+  },
+  "box_D_006": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -2.6568,
+      "y": 21.46,
+      "z": 0.832
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.982
+    },
+    "label": "D-006",
+    "interactive": true
+  },
+  "box_D_013": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -8.5369,
+      "y": 18.65,
+      "z": 1.992
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.142
+    },
+    "label": "D-013",
+    "interactive": true
+  },
+  "box_D_015": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -7.583,
+      "y": 19.06,
+      "z": 1.362
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.462
+    },
+    "label": "D-015",
+    "interactive": true
+  },
+  "box_D_016": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -7.583,
+      "y": 18.855,
+      "z": 2.067
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "D-016",
+    "interactive": true
+  },
+  "box_D_017": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -6.6115,
+      "y": 18.65,
+      "z": 0.252
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "D-017",
+    "interactive": true
+  },
+  "box_D_021": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -4.6687,
+      "y": 18.65,
+      "z": 0.782
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.882
+    },
+    "label": "D-021",
+    "interactive": true
+  },
+  "box_D_023": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -4.6687,
+      "y": 18.65,
+      "z": 1.362
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.462
+    },
+    "label": "D-023",
+    "interactive": true
+  },
+  "box_D_025": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -3.6972,
+      "y": 19.06,
+      "z": 0.782
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.882
+    },
+    "label": "D-025",
+    "interactive": true
+  },
+  "box_D_027": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -2.7433,
+      "y": 18.855,
+      "z": 0.327
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.552
+    },
+    "label": "D-027",
+    "interactive": true
+  },
+  "box_D_028": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -2.7433,
+      "y": 18.65,
+      "z": 0.782
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.882
+    },
+    "label": "D-028",
+    "interactive": true
+  },
+  "box_D_029": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -2.7433,
+      "y": 18.65,
+      "z": 1.412
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.562
+    },
+    "label": "D-029",
+    "interactive": true
+  },
+  "box_D_030": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -2.7433,
+      "y": 19.06,
+      "z": 1.942
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.042
+    },
+    "label": "D-030",
+    "interactive": true
+  },
+  "box_D_031": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 0.26311,
+      "y": 18.65,
+      "z": 1.362
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.462
+    },
+    "label": "D-031",
+    "interactive": true
+  },
+  "box_D_032": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.217,
+      "y": 18.855,
+      "z": 2.067
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "D-032",
+    "interactive": true
+  },
+  "box_D_033": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 2.1885,
+      "y": 18.65,
+      "z": 0.252
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "D-033",
+    "interactive": true
+  },
+  "box_D_035": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 2.1885,
+      "y": 18.65,
+      "z": 1.412
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.562
+    },
+    "label": "D-035",
+    "interactive": true
+  },
+  "box_D_036": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.1599,
+      "y": 19.06,
+      "z": 0.252
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "D-036",
+    "interactive": true
+  },
+  "box_D_038": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.1599,
+      "y": 19.06,
+      "z": 0.832
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.982
+    },
+    "label": "D-038",
+    "interactive": true
+  },
+  "box_D_041": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 5.1028,
+      "y": 18.855,
+      "z": 1.487
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.712
+    },
+    "label": "D-041",
+    "interactive": true
+  },
+  "box_D_042": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 5.1028,
+      "y": 19.06,
+      "z": 1.942
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.042
+    },
+    "label": "D-042",
+    "interactive": true
+  },
+  "box_D_043": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 6.0567,
+      "y": 19.06,
+      "z": 0.782
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.882
+    },
+    "label": "D-043",
+    "interactive": true
+  },
+  "box_D_044": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 6.0567,
+      "y": 18.65,
+      "z": 1.412
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.562
+    },
+    "label": "D-044",
+    "interactive": true
+  },
+  "box_D_052": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -3.6972,
+      "y": 16.66,
+      "z": 0.252
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "D-052",
+    "interactive": false
+  },
+  "box_D_060": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.1599,
+      "y": 16.25,
+      "z": 0.252
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "D-060",
+    "interactive": false
+  },
+  "box_D_061": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 3.1599,
+      "y": 16.25,
+      "z": 0.782
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.882
+    },
+    "label": "D-061",
+    "interactive": false
+  },
+  "box_D_062": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 4.1313,
+      "y": 16.455,
+      "z": 0.327
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.552
+    },
+    "label": "D-062",
+    "interactive": false
+  },
+  "box_D_065": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 5.1028,
+      "y": 16.66,
+      "z": 1.992
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.142
+    },
+    "label": "D-065",
+    "interactive": false
+  },
+  "box_D_067": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -8.5369,
+      "y": 14.055,
+      "z": 1.487
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.712
+    },
+    "label": "D-067",
+    "interactive": false
+  },
+  "box_D_070": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -6.6115,
+      "y": 14.055,
+      "z": 0.327
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.552
+    },
+    "label": "D-070",
+    "interactive": false
+  },
+  "box_D_071": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -6.6115,
+      "y": 14.26,
+      "z": 1.362
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.462
+    },
+    "label": "D-071",
+    "interactive": false
+  },
+  "box_D_072": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -6.6115,
+      "y": 13.85,
+      "z": 1.412
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.562
+    },
+    "label": "D-072",
+    "interactive": false
+  },
+  "box_D_074": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -5.6401,
+      "y": 13.85,
+      "z": 0.202
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "D-074",
+    "interactive": false
+  },
+  "box_D_075": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -5.6401,
+      "y": 13.85,
+      "z": 0.782
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.882
+    },
+    "label": "D-075",
+    "interactive": false
+  },
+  "box_D_078": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -4.6687,
+      "y": 14.26,
+      "z": 0.832
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.982
+    },
+    "label": "D-078",
+    "interactive": false
+  },
+  "box_D_079": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -4.6687,
+      "y": 14.055,
+      "z": 2.067
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "D-079",
+    "interactive": false
+  },
+  "box_D_080": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -3.6972,
+      "y": 13.85,
+      "z": 0.832
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.982
+    },
+    "label": "D-080",
+    "interactive": false
+  },
+  "box_D_085": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 0.26311,
+      "y": 13.85,
+      "z": 0.782
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.882
+    },
+    "label": "D-085",
+    "interactive": false
+  },
+  "box_D_086": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 0.26311,
+      "y": 14.055,
+      "z": 2.067
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "D-086",
+    "interactive": false
+  },
+  "box_D_093": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 2.1885,
+      "y": 13.85,
+      "z": 1.362
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.262,
+      "box_top_z": 1.462
+    },
+    "label": "D-093",
+    "interactive": false
+  },
+  "box_D_095": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 4.1313,
+      "y": 14.26,
+      "z": 0.202
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "D-095",
+    "interactive": false
+  },
+  "box_D_098": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 5.1028,
+      "y": 14.26,
+      "z": 0.832
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.982
+    },
+    "label": "D-098",
+    "interactive": false
+  },
+  "box_D_099": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 5.1028,
+      "y": 13.85,
+      "z": 0.782
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.882
+    },
+    "label": "D-099",
+    "interactive": false
+  },
+  "box_D_100": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 6.0567,
+      "y": 13.85,
+      "z": 0.252
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "D-100",
+    "interactive": false
+  },
+  "box_D_101": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -8.5369,
+      "y": 11.45,
+      "z": 0.202
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.302
+    },
+    "label": "D-101",
+    "interactive": false
+  },
+  "box_D_103": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -7.583,
+      "y": 11.655,
+      "z": 0.327
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.552
+    },
+    "label": "D-103",
+    "interactive": false
+  },
+  "box_D_105": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -5.6401,
+      "y": 11.655,
+      "z": 0.907
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "D-105",
+    "interactive": false
+  },
+  "box_D_106": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -5.6401,
+      "y": 11.86,
+      "z": 1.942
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.042
+    },
+    "label": "D-106",
+    "interactive": false
+  },
+  "box_D_109": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -2.7433,
+      "y": 11.86,
+      "z": 1.992
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.142
+    },
+    "label": "D-109",
+    "interactive": false
+  },
+  "box_D_110": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": -2.7433,
+      "y": 11.45,
+      "z": 1.992
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.142
+    },
+    "label": "D-110",
+    "interactive": false
+  },
+  "box_D_112": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 0.26311,
+      "y": 11.655,
+      "z": 0.907
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "D-112",
+    "interactive": false
+  },
+  "box_D_114": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 1.217,
+      "y": 11.45,
+      "z": 0.832
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.982
+    },
+    "label": "D-114",
+    "interactive": false
+  },
+  "box_D_116": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 2.1885,
+      "y": 11.86,
+      "z": 0.252
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "D-116",
+    "interactive": false
+  },
+  "box_D_117": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 2.1885,
+      "y": 11.655,
+      "z": 0.907
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 1.132
+    },
+    "label": "D-117",
+    "interactive": false
+  },
+  "box_D_119": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 2.1885,
+      "y": 11.86,
+      "z": 1.992
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.142
+    },
+    "label": "D-119",
+    "interactive": false
+  },
+  "box_D_123": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 4.1313,
+      "y": 11.655,
+      "z": 2.067
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.78,
+      "length_y": 0.6,
+      "height_z": 0.45
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.292
+    },
+    "label": "D-123",
+    "interactive": false
+  },
+  "box_D_124": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 5.1028,
+      "y": 11.86,
+      "z": 0.252
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.102,
+      "box_top_z": 0.402
+    },
+    "label": "D-124",
+    "interactive": false
+  },
+  "box_D_126": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 5.1028,
+      "y": 11.86,
+      "z": 0.832
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.5,
+      "height_z": 0.3
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.982
+    },
+    "label": "D-126",
+    "interactive": false
+  },
+  "box_D_127": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 5.1028,
+      "y": 11.45,
+      "z": 1.942
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 1.842,
+      "box_top_z": 2.042
+    },
+    "label": "D-127",
+    "interactive": false
+  },
+  "box_D_130": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 6.0567,
+      "y": 11.86,
+      "z": 0.782
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.882
+    },
+    "label": "D-130",
+    "interactive": false
+  },
+  "box_D_131": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "labeled_box",
+    "frame_id": "world",
+    "position": {
+      "x": 6.0567,
+      "y": 11.45,
+      "z": 0.782
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 0.4,
+      "length_y": 0.85,
+      "height_z": 0.2
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": 0.682,
+      "box_top_z": 0.882
+    },
+    "label": "D-131",
+    "interactive": false
+  },
+  "workcell_SW": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "our_workcell",
+    "frame_id": "world",
+    "position": {
+      "x": -0.040107,
+      "y": 0.052292,
+      "z": 0.0
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 22.1222,
+      "length_y": 21.4763,
+      "height_z": 7.6654
+    },
+    "dimension_source": "visual_dae"
+  },
+  "workcell_SE": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "our_workcell",
+    "frame_id": "world",
+    "position": {
+      "x": 20.0625,
+      "y": 0.052292,
+      "z": 0.0
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 22.1222,
+      "length_y": 21.4763,
+      "height_z": 7.6654
+    },
+    "dimension_source": "visual_dae"
+  },
+  "workcell_NE": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "our_workcell",
+    "frame_id": "world",
+    "position": {
+      "x": 20.0625,
+      "y": 20.1549,
+      "z": 0.0
+    },
+    "rotation_yaw": 3.14159,
+    "physical_dimensions": {
+      "width_x": 22.1222,
+      "length_y": 21.4763,
+      "height_z": 7.6654
+    },
+    "dimension_source": "visual_dae"
+  },
+  "workcell_NW": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "our_workcell",
+    "frame_id": "world",
+    "position": {
+      "x": -0.040107,
+      "y": 20.1549,
+      "z": 0.0
+    },
+    "rotation_yaw": -1.5708,
+    "physical_dimensions": {
+      "width_x": 22.1222,
+      "length_y": 21.4763,
+      "height_z": 7.6654
+    },
+    "dimension_source": "visual_dae"
+  },
+  "wall_filler_0": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "wall_filler",
+    "frame_id": "world",
+    "position": {
+      "x": -9.68011,
+      "y": 9.14529,
+      "z": 3.48855
+    },
+    "rotation_yaw": 0.0,
+    "physical_dimensions": {
+      "width_x": 1.5,
+      "length_y": 1.9,
+      "height_z": 6.9777
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": -0.0003,
+      "box_top_z": 6.9774
+    }
+  },
+  "wall_filler_1": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "wall_filler",
+    "frame_id": "world",
+    "position": {
+      "x": 10.9695,
+      "y": -9.58771,
+      "z": 3.48855
+    },
+    "rotation_yaw": 1.5708,
+    "physical_dimensions": {
+      "width_x": 1.5,
+      "length_y": 1.9,
+      "height_z": 6.9777
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": -0.0003,
+      "box_top_z": 6.9774
+    }
+  },
+  "wall_filler_2": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "wall_filler",
+    "frame_id": "world",
+    "position": {
+      "x": 29.7025,
+      "y": 11.0619,
+      "z": 3.48855
+    },
+    "rotation_yaw": 3.14159,
+    "physical_dimensions": {
+      "width_x": 1.5,
+      "length_y": 1.9,
+      "height_z": 6.9777
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": -0.0003,
+      "box_top_z": 6.9774
+    }
+  },
+  "wall_filler_3": {
+    "source_world": "Our_Structured_Warehouse.world",
+    "model_type": "wall_filler",
+    "frame_id": "world",
+    "position": {
+      "x": 9.05289,
+      "y": 29.7949,
+      "z": 3.48855
+    },
+    "rotation_yaw": 4.71239,
+    "physical_dimensions": {
+      "width_x": 1.5,
+      "length_y": 1.9,
+      "height_z": 6.9777
+    },
+    "dimension_source": "primitive_box",
+    "elevation": {
+      "shelf_bottom_z": -0.0003,
+      "box_top_z": 6.9774
+    }
+  }
+}
