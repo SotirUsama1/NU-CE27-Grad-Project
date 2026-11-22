@@ -40,9 +40,20 @@ if [ "$1" = "--rebuild" ]; then
     shift
 fi
 
+# Stale forklift_robot develop-install (from stashed WIP) poisons PYTHONPATH/ament
+# even though the source package is not on this branch.
+if [ -d "${SIM_DIR}/ros2_ws/install/forklift_robot" ] || \
+   [ -d "${SIM_DIR}/ros2_ws/build/forklift_robot" ]; then
+    echo "[INFO] Removing stale forklift_robot install/build (not on this branch)"
+    rm -rf "${SIM_DIR}/ros2_ws/install/forklift_robot" \
+           "${SIM_DIR}/ros2_ws/build/forklift_robot"
+fi
+
 NEED_MIR=0
+HETERO_LAUNCH="${SIM_DIR}/ros2_ws/install/mir_ur_warehouse/share/mir_ur_warehouse/launch/hetero_warehouse.launch.py"
 if [ ! -f "${SIM_DIR}/ros2_ws/install/setup.bash" ] || \
-   [ ! -d "${SIM_DIR}/ros2_ws/install/mir_ur_warehouse" ]; then
+   [ ! -d "${SIM_DIR}/ros2_ws/install/mir_ur_warehouse" ] || \
+   [ ! -f "${HETERO_LAUNCH}" ]; then
     NEED_MIR=1
 fi
 if [ "${NEED_MIR}" = "1" ]; then
@@ -86,13 +97,22 @@ for name in hetero_warehouse_sim mir_ur_sim; do
     fi
 done
 
+# Host-network Gazebo masters left from a crashed run make the next gzserver
+# die with "Header is empty" / vector::_M_default_append. Match runMirUrWarehouse
+# (no --net=host) and clear leftovers on the host.
+if pgrep -a gzserver >/dev/null 2>&1 || pgrep -a gzclient >/dev/null 2>&1; then
+    echo "[WARNING] Killing leftover host Gazebo processes"
+    pkill -9 gzserver 2>/dev/null || true
+    pkill -9 gzclient 2>/dev/null || true
+    sleep 1
+fi
+
 echo "[INFO] Launching hetero warehouse (2x MiR suction + shared Husky/Jackal world)"
 echo "[INFO] Container: hetero_warehouse_sim"
 
 docker run -it --rm \
     --name hetero_warehouse_sim \
     --ulimit "nofile=${NOFILE_LIMIT}:${NOFILE_LIMIT}" \
-    --net=host \
     "${GPU_ARGS[@]}" \
     --env="DISPLAY=${DISPLAY}" \
     --env="QT_X11_NO_MITSHM=1" \
