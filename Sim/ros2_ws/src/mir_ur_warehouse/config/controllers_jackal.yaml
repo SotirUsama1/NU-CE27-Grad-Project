@@ -1,0 +1,73 @@
+# Namespaced Jackal base + UR5e arm. Absolute keys so libmir_ur_ros2_control
+# keeps params off the process-wide context (stock gazebo_ros2_control would
+# overwrite Husky's root /controller_manager file).
+/jackal/controller_manager:
+  ros__parameters:
+    update_rate: 200
+    use_sim_time: true
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    jackal_velocity_controller:
+      type: diff_drive_controller/DiffDriveController
+
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+/jackal/jackal_velocity_controller:
+  ros__parameters:
+    left_wheel_names: ["front_left_wheel_joint", "rear_left_wheel_joint"]
+    right_wheel_names: ["front_right_wheel_joint", "rear_right_wheel_joint"]
+    wheel_separation: 0.36
+    wheels_per_side: 1
+    wheel_radius: 0.098
+    wheel_separation_multiplier: 1.5
+    left_wheel_radius_multiplier: 1.0
+    right_wheel_radius_multiplier: 1.0
+    publish_rate: 50.0
+    odom_frame_id: jackal_odom
+    base_frame_id: jackal_base_link
+    pose_covariance_diagonal: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 0.03]
+    twist_covariance_diagonal: [1000000.0, 1000000.0, 0.03, 1000000.0, 1000000.0, 0.03]
+    open_loop: false
+    enable_odom_tf: true
+    cmd_vel_timeout: 5.0
+    use_stamped_vel: false
+    linear.x.has_velocity_limits: true
+    linear.x.max_velocity: 1.0
+    linear.x.min_velocity: -1.0
+    linear.x.has_acceleration_limits: true
+    linear.x.max_acceleration: 1.0
+    angular.z.has_velocity_limits: true
+    angular.z.max_velocity: 1.5
+    angular.z.min_velocity: -1.5
+    angular.z.has_acceleration_limits: true
+    angular.z.max_acceleration: 2.0
+
+/jackal/joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - ur_shoulder_pan_joint
+      - ur_shoulder_lift_joint
+      - ur_elbow_joint
+      - ur_wrist_1_joint
+      - ur_wrist_2_joint
+      - ur_wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.2
+      goal_time: 0.0
+      ur_shoulder_pan_joint: {trajectory: 0.2, goal: 0.1}
+      ur_shoulder_lift_joint: {trajectory: 0.2, goal: 0.1}
+      ur_elbow_joint: {trajectory: 0.2, goal: 0.1}
+      ur_wrist_1_joint: {trajectory: 0.2, goal: 0.1}
+      ur_wrist_2_joint: {trajectory: 0.2, goal: 0.1}
+      ur_wrist_3_joint: {trajectory: 0.2, goal: 0.1}

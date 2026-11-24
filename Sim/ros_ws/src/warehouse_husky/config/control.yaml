@@ -6,7 +6,7 @@
 #                            odometry reported 152 deg for a real 96 deg turn in Gazebo)
 controller_manager:
   ros__parameters:
-    update_rate: 50  # Hz
+    update_rate: 100  # Hz — smoother UR arm with 2 ms physics step
     use_sim_time: true
 
     joint_state_broadcaster:
@@ -14,6 +14,9 @@ controller_manager:
 
     husky_velocity_controller:
       type: diff_drive_controller/DiffDriveController
+
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
 
 husky_velocity_controller:
   ros__parameters:
@@ -37,7 +40,7 @@ husky_velocity_controller:
     open_loop: false
     enable_odom_tf: false   # the EKF (config/ekf.yaml) publishes odom -> base_link
 
-    cmd_vel_timeout: 0.5
+    cmd_vel_timeout: 5.0
     use_stamped_vel: false
     preserve_turning_radius: true
     publish_cmd: true
@@ -58,3 +61,31 @@ husky_velocity_controller:
     angular.z.min_velocity: -1.0
     angular.z.max_acceleration: 1.0
     angular.z.min_acceleration: -1.0
+
+# UR10e arm on the top plate (husky_ur_suction.urdf.xacro extras).
+joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - ur_shoulder_pan_joint
+      - ur_shoulder_lift_joint
+      - ur_elbow_joint
+      - ur_wrist_1_joint
+      - ur_wrist_2_joint
+      - ur_wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.2
+      goal_time: 0.0
+      ur_shoulder_pan_joint: {trajectory: 0.2, goal: 0.1}
+      ur_shoulder_lift_joint: {trajectory: 0.2, goal: 0.1}
+      ur_elbow_joint: {trajectory: 0.2, goal: 0.1}
+      ur_wrist_1_joint: {trajectory: 0.2, goal: 0.1}
+      ur_wrist_2_joint: {trajectory: 0.2, goal: 0.1}
+      ur_wrist_3_joint: {trajectory: 0.2, goal: 0.1}

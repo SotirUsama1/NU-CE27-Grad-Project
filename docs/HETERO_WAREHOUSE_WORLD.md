@@ -8,25 +8,25 @@ were brought over — not the full `Feature/Warehouse_World` history.
 
 | Layer | Source |
 |-------|--------|
-| Husky / Jackal / `runGzClassic-Robots` / Nav maps in `warehouse_navigation` | `origin/devvv` (unchanged) |
+| Husky / Jackal / `runGzClassic-Robots` / Nav maps in `warehouse_navigation` | `origin/devvv` (extended with UR+suction) |
 | MiR 250 + UR + vacuum suction (`mir_ur_warehouse`) | from Warehouse World |
 | Edited warehouse world + `aisles.yaml` + `maps/our_structured_warehouse_*` | from Warehouse World |
 | Hetero bring-up (`Dockerfile.hetero`, dual namespaced MiRs) | this branch |
 
 ## Robots
 
-| Robot | Gripper / notes | Default spawn |
-|-------|-----------------|---------------|
-| `mir_ur` | Twelve-cup suction | dock west (−4.5, 23.2) |
-| `mir_light` | Six-cup suction | dock east (2.5, 24.6) |
-| Husky | Mobile base (`devvv` stack) | launch args (default 0,0) |
-| Jackal | Mobile base (`devvv` stack) | (4.0, 2.0) via spawn helper |
-
-MiRs use `/mir_ur` and `/mir_light` so Husky can keep `/controller_manager`.
+| Robot | Arm / gripper | Controllers | Default spawn |
+|-------|---------------|-------------|---------------|
+| `mir_ur` | UR10e + twelve-cup suction | `/mir_ur/controller_manager` | dock west (−4.5, 23.2) |
+| `mir_light` | UR10e + six-cup suction | `/mir_light/controller_manager` | dock east (2.5, 24.6) |
+| Husky | UR10e + twelve-cup suction | `/controller_manager` | (−1.5, 2.0) |
+| Jackal | UR5e + six-cup suction | `/jackal/controller_manager` | (0.0, 8.0) |
 
 ```bash
 ros2 service call /mir_ur/suction/set_vacuum std_srvs/srv/SetBool "{data: true}"
 ros2 service call /mir_light/suction/set_vacuum std_srvs/srv/SetBool "{data: true}"
+ros2 service call /suction/set_vacuum std_srvs/srv/SetBool "{data: true}"          # Husky (root)
+ros2 service call /jackal/suction/set_vacuum std_srvs/srv/SetBool "{data: true}"
 ```
 
 ## Run
@@ -37,24 +37,32 @@ docker build -f Sim/gzScripts/Dockerfile.hetero -t gzclassic-hetero:latest Sim/g
 ./Sim/gzScripts/runHeteroWarehouseWorld.sh
 ```
 
-Add Husky / Jackal into the same Gazebo:
-
-```bash
-docker exec -it hetero_warehouse_sim bash
-source /opt/ros/humble/setup.bash
-source /opt/ros2_robots/install/setup.bash
-source /main/ros_ws/install/setup.bash
-source /workspace/ros2_ws/install/setup.bash
-
-ros2 launch warehouse_husky husky.launch.py start_gazebo:=false
-ros2 launch warehouse_husky jackal_spawn.launch.py
-```
+Spawns Gazebo + both MiRs + Husky (−1.5, 2.0) + Jackal (0.0, 8.0). Override poses with
+`HUSKY_X` / `JACKAL_X` (etc.) env vars if needed.
 
 World only (no robots): `./Sim/gzScripts/runGzClassic-Robots`
 
 MiRs-only (original `/suction/...` topics): `./Sim/gzScripts/runMirUrWarehouse.sh`
 
-## Suction on Husky / Jackal
+## Conveyor demo (four robots)
 
-Husky and Jackal here are **bases without arms**. Reusable suction lives in
-`suction_gripper.xacro`; standalone UR + suction in `ur_with_suction.urdf.xacro`.
+After the sim is up:
+
+```bash
+./Sim/gzScripts/runHeteroBoxDemo.sh
+```
+
+Each robot picks a different carton size from the dock shelves and places it on the
+conveyor toward the truck (same flow as `runMirUrHeavyDemo.sh`, extended to Husky/Jackal).
+Jackal takes the low-shelf 4 kg long carton (`box_D_001`); Husky takes the mid-shelf 4 kg.
+
+Physics is 2 ms / 500 Hz (stable UR arms, better RTF than the old 1 ms / 1000 Hz).
+Restart the sim after world/controller changes.
+
+## URDF extras
+
+| File | Role |
+|------|------|
+| `mir_ur_warehouse/urdf/clearpath_arm_extras.xacro` | Shared UR + suction macro |
+| `mir_ur_warehouse/urdf/husky_ur_suction.urdf.xacro` | Husky `urdf_extras` (lidar + UR10e + large) |
+| `mir_ur_warehouse/urdf/jackal_ur_suction.urdf.xacro` | Jackal `JACKAL_URDF_EXTRAS` (UR5e + small) |

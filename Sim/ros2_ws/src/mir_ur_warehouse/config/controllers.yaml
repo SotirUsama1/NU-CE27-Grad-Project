@@ -3,7 +3,7 @@ controller_manager:
   ros__parameters:
     # Once per physics step (1 ms). Gazebo applies velocity commands only when they are written,
     # so at a lower rate the joints and wheels are free in between and loads push them around.
-    update_rate: 1000
+    update_rate: 200
     use_sim_time: true
 
     joint_broadcaster:

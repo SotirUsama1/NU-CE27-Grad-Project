@@ -1,16 +1,14 @@
-"""Husky in Gazebo Classic, ready for SLAM and Nav2.
+"""Husky + UR10e + large suction in Gazebo Classic.
 
 Compared with husky_gazebo/launch/gazebo.launch.py it:
-  * adds a 2D lidar from urdf/husky_lidar.urdf.xacro (topic /scan)
-  * publishes odom -> base_link from an EKF (config/ekf.yaml) that fuses the wheel speed with the IMU
-    gyroscope, because the skid-steer wheels misjudge turns; the upstream EKF is left out because it
-    listens on the wrong odometry topic and never publishes that transform
+  * mounts UR10e + 12-cup suction via mir_ur_warehouse/urdf/husky_ur_suction.urdf.xacro
+  * adds a 2D lidar (included in that extras file)
+  * publishes odom -> base_link from an EKF (config/ekf.yaml)
   * runs every node on simulation time
   * routes Nav2 (/cmd_vel_nav) through twist_mux, below keyboard teleop (/cmd_vel)
 
 Usage (inside the container):
   ros2 launch warehouse_husky husky.launch.py world_path:=Our_Structured_Warehouse/Our_Structured_Warehouse.world
-  ros2 launch warehouse_husky husky.launch.py world_path:=... gui:=false x:=2.0 y:=0.0 yaw:=0.0
   # Join an already-running hetero Gazebo (MiRs already spawned):
   ros2 launch warehouse_husky husky.launch.py start_gazebo:=false
 """
@@ -31,20 +29,20 @@ from launch_ros.parameter_descriptions import ParameterValue
 def generate_launch_description():
     description_share = get_package_share_directory('husky_description')
     pkg_share = get_package_share_directory('warehouse_husky')
+    mir_share = get_package_share_directory('mir_ur_warehouse')
     control_config = os.path.join(pkg_share, 'config', 'control.yaml')
     twist_mux_config = os.path.join(pkg_share, 'config', 'twist_mux.yaml')
     ekf_config = os.path.join(pkg_share, 'config', 'ekf.yaml')
+    arm_extras = os.path.join(mir_share, 'urdf', 'husky_ur_suction.urdf.xacro')
 
     robot_description = ParameterValue(Command([
         FindExecutable(name='xacro'), ' ',
         os.path.join(description_share, 'urdf', 'husky.urdf.xacro'),
         ' is_sim:=true',
-        ' urdf_extras:=', os.path.join(pkg_share, 'urdf', 'husky_lidar.urdf.xacro'),
+        ' urdf_extras:=', arm_extras,
         ' gazebo_controllers:=', control_config,
     ]), value_type=str)
 
-    # Lets Gazebo resolve model://husky_description/... meshes; without it, Gazebo
-    # tries to download them and stalls for about 100 s.
     gz_model_path = SetEnvironmentVariable('GAZEBO_MODEL_PATH', [
         EnvironmentVariable('GAZEBO_MODEL_PATH', default_value=''),
         ':/usr/share/gazebo-11/models/:',
@@ -96,8 +94,13 @@ def generate_launch_description():
         arguments=['husky_velocity_controller', '-c', '/controller_manager'],
         output='screen',
     )
+    spawn_arm_controller = Node(
+        package='controller_manager',
+        executable='spawner',
+        arguments=['joint_trajectory_controller', '-c', '/controller_manager'],
+        output='screen',
+    )
 
-    # cmd_vel sources (keyboard on /cmd_vel, Nav2 on /cmd_vel_nav) -> wheel controller
     twist_mux = Node(
         package='twist_mux',
         executable='twist_mux',
@@ -106,7 +109,6 @@ def generate_launch_description():
         output='screen',
     )
 
-    # wheels + gyroscope -> odom -> base_link and /odometry/filtered
     ekf = Node(
         package='robot_localization',
         executable='ekf_node',
@@ -133,6 +135,8 @@ def generate_launch_description():
         spawn_joint_state_broadcaster,
         RegisterEventHandler(OnProcessExit(target_action=spawn_joint_state_broadcaster,
                                            on_exit=[spawn_velocity_controller])),
+        RegisterEventHandler(OnProcessExit(target_action=spawn_velocity_controller,
+                                           on_exit=[spawn_arm_controller])),
         twist_mux,
         ekf,
     ])

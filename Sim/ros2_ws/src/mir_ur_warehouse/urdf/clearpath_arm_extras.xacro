@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!-- Shared UR + suction mount for Clearpath Husky / Jackal decks.
+     Include then call:
+       <xacro:clearpath_ur_suction parent="top_plate_link" ur_type="ur10e"
+           gripper="large" ros_namespace="" xyz="0 0 0.05" yaw="${pi/2}"/>
+-->
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
+  <xacro:include filename="$(find mir_ur_warehouse)/urdf/suction_gripper.xacro"/>
+
+  <xacro:macro name="clearpath_ur_suction"
+               params="parent ur_type gripper:=large ros_namespace:=''
+                       tf_prefix:=ur_ xyz:='0 0 0.05' yaw:='${pi/2}'
+                       joint_limits:=''">
+
+    <xacro:property name="initial_positions_file"
+                    value="$(find ur_description)/config/initial_positions.yaml"/>
+    <!-- Prefer caller-supplied limits (prefixed ur_* keys); else stock ur_description. -->
+    <xacro:unless value="${joint_limits == ''}">
+      <xacro:property name="_joint_limits" value="${joint_limits}"/>
+    </xacro:unless>
+    <xacro:if value="${joint_limits == ''}">
+      <xacro:property name="_joint_limits"
+                      value="$(find ur_description)/config/${ur_type}/joint_limits.yaml"/>
+    </xacro:if>
+    <xacro:property name="_kinematics"
+                    value="$(find ur_description)/config/${ur_type}/default_kinematics.yaml"/>
+    <xacro:property name="_physical"
+                    value="$(find ur_description)/config/${ur_type}/physical_parameters.yaml"/>
+    <xacro:property name="_visual"
+                    value="$(find ur_description)/config/${ur_type}/visual_parameters.yaml"/>
+
+    <xacro:ur_robot
+      name="ur"
+      tf_prefix="${tf_prefix}"
+      parent="${parent}"
+      joint_limits_parameters_file="${_joint_limits}"
+      kinematics_parameters_file="${_kinematics}"
+      physical_parameters_file="${_physical}"
+      visual_parameters_file="${_visual}"
+      transmission_hw_interface=""
+      safety_limits="false"
+      safety_pos_margin="0.15"
+      safety_k_position="20"
+      use_fake_hardware="false"
+      fake_sensor_commands="false"
+      sim_gazebo="true"
+      sim_ignition="false"
+      headless_mode="false"
+      initial_positions="${xacro.load_yaml(initial_positions_file)}"
+      use_tool_communication="false"
+      tool_voltage="0"
+      tool_parity="0"
+      tool_baud_rate="115200"
+      tool_stop_bits="1"
+      tool_rx_idle_chars="1.5"
+      tool_tx_idle_chars="3.5"
+      tool_device_name="/tmp/ttyUR"
+      tool_tcp_port="54321"
+      robot_ip="0.0.0.0"
+      script_filename=""
+      output_recipe_filename=""
+      input_recipe_filename=""
+      reverse_ip="0.0.0.0"
+      script_command_port="50004"
+      reverse_port="50001"
+      script_sender_port="50002"
+      trajectory_port="50003">
+      <origin xyz="${xyz}" rpy="0 0 ${yaw}"/>
+    </xacro:ur_robot>
+
+    <xacro:suction_gripper
+      parent="${tf_prefix}tool0"
+      prefix="${tf_prefix}"
+      gripper="${gripper}"
+      ros_namespace="${ros_namespace}"
+      pad_link="${tf_prefix}wrist_3_link"/>
+  </xacro:macro>
+</robot>

@@ -489,34 +489,20 @@ def build_zone_layout(zone, contents, zc):
     title = ZONE_TITLES[contents]
     sign_texture(tex / 'banner.jpg', 1024, 256, zc, [(f'ZONE {zone}', 110), (title, 60)])
     sign_texture(tex / 'floor.jpg', 1024, 320, zc, [(f'ZONE {zone}  -  {title}', 70)])
-    materials = {'yellow': (0.95, 0.75, 0.05), 'zone': tuple(c / 255 for c in zc),
-                 'banner': 'banner.jpg', 'floor': 'floor.jpg'}
+    # No yellow rack footprints / colored zone aisle borders on the floor —
+    # aisle names live in zone_*_aisles; keep only signs + zone floor decal.
+    materials = {'banner': 'banner.jpg', 'floor': 'floor.jpg'}
     m = Mesh()
-    z = 0.003
-    lw = 0.06
-
-    def line(x0, y0, x1, y1, mat):
-        m.plate(mat, ((x0 + x1) / 2, (y0 + y1) / 2, z), (1, 0, 0), (0, 1, 0),
-                abs(x1 - x0) + lw, abs(y1 - y0) + lw)
 
     for row, x, segs in ROWS:
         rn = f'{zone}{row}'
         sign_texture(tex / f'row_{rn}.jpg', 256, 128, zc, [(rn, 80)])
         materials[f'row_{rn}'] = f'row_{rn}.jpg'
         for yc, length, _ in segs:
-            x0, x1 = x - RACK_DEPTH / 2 - 0.12, x + RACK_DEPTH / 2 + 0.12
-            y0, y1 = yc - length / 2 - 0.12, yc + length / 2 + 0.12
-            line(x0, y0, x1, y0, 'yellow')
-            line(x0, y1, x1, y1, 'yellow')
-            line(x0, y0, x0, y1, 'yellow')
-            line(x1, y0, x1, y1, 'yellow')
             for end, s in ((yc - length / 2, -1), (yc + length / 2, 1)):
                 c = (x, end + s * 0.005, RACK_HEIGHT + 0.16)
                 m.plate(f'row_{rn}', c, (-s, 0, 0), (0, 0, 1), RACK_DEPTH, 0.32)
                 m.plate(f'row_{rn}', (x, end - s * 0.015, c[2]), (s, 0, 0), (0, 0, 1), RACK_DEPTH, 0.32)
-    # zone border along the main aisles shared with the neighbouring zones
-    line(9.35, -9.5, 9.35, 7.25, 'zone')
-    line(-2.0, 7.25, 9.35, 7.25, 'zone')
     m.plate('floor', (4.3, 8.6, 0.004), (1, 0, 0), (0, 1, 0), 5.0, 1.56)
     m.plate('banner', (4.6, SOUTH_WALL_Y + 0.03, 4.6), (-1, 0, 0), (0, 0, 1), 6.0, 1.5)
     m.write(d / 'meshes/mesh.dae', materials)
@@ -930,9 +916,10 @@ def update_world(conveyor_x):
 # Dock bays used by Sim/tools/demo_mir_ur_heavy_boxes.py (2 / 4 / 8 kg). Random fill is
 # overwritten so a rebuild cannot move those cartons.
 DEMO_BOXES = {
-    'box_D_006': ('small', 'D-006', -2.6568, 21.46, 1.992, -math.pi / 2),
-    'box_D_004': ('long', 'D-004', -1.690, 21.46, 1.362, -math.pi / 2),
-    'box_D_003': ('large', 'D-003', -3.6234, 21.27, 0.907, -math.pi / 2),
+    'box_D_006': ('small', 'D-006', -2.6568, 21.46, 1.992, -math.pi / 2),  # mir_light 2 kg
+    'box_D_008': ('small', 'D-008', -5.5393, 21.46, 0.782, -math.pi / 2),  # jackal 2 kg
+    'box_D_001': ('large', 'D-001', -5.5393, 21.27, 0.907, -math.pi / 2),  # husky 8 kg
+    'box_D_003': ('large', 'D-003', -3.6234, 21.27, 0.907, -math.pi / 2),  # mir_ur 8 kg
 }
 DEMO_CLEAR = ('box_D_002', 'box_D_005')  # same bays; would collide with the pinned cartons
 
@@ -990,4 +977,5 @@ if __name__ == '__main__':
     pin_demo_boxes()
     racks = sum(len(s) for _, _, s in ROWS) * len(ZONES)
     print(f'racks: {racks}, boxes: {count}, total boxes: {sum(count.values())}')
-    print('demo cartons pinned: 2 kg box_D_006, 4 kg box_D_004, 8 kg box_D_003')
+    print('demo cartons pinned: 2 kg box_D_006 / box_D_008, '
+          '8 kg box_D_001 / box_D_003')

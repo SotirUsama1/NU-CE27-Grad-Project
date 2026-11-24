@@ -7,6 +7,9 @@ material LabeledBox/A-001
       texture_unit
       {
         texture A-001.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -21,6 +24,9 @@ material LabeledBox/A-002
       texture_unit
       {
         texture A-002.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -35,6 +41,9 @@ material LabeledBox/A-003
       texture_unit
       {
         texture A-003.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -49,6 +58,9 @@ material LabeledBox/A-004
       texture_unit
       {
         texture A-004.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -63,6 +75,9 @@ material LabeledBox/A-005
       texture_unit
       {
         texture A-005.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -77,6 +92,9 @@ material LabeledBox/A-006
       texture_unit
       {
         texture A-006.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -91,6 +109,9 @@ material LabeledBox/A-007
       texture_unit
       {
         texture A-007.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -105,6 +126,9 @@ material LabeledBox/A-008
       texture_unit
       {
         texture A-008.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -119,6 +143,9 @@ material LabeledBox/A-009
       texture_unit
       {
         texture A-009.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -133,6 +160,9 @@ material LabeledBox/A-010
       texture_unit
       {
         texture A-010.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -147,6 +177,9 @@ material LabeledBox/A-011
       texture_unit
       {
         texture A-011.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -161,6 +194,9 @@ material LabeledBox/A-012
       texture_unit
       {
         texture A-012.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -175,6 +211,9 @@ material LabeledBox/A-013
       texture_unit
       {
         texture A-013.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -189,6 +228,9 @@ material LabeledBox/A-014
       texture_unit
       {
         texture A-014.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -203,6 +245,9 @@ material LabeledBox/A-015
       texture_unit
       {
         texture A-015.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -217,6 +262,9 @@ material LabeledBox/A-016
       texture_unit
       {
         texture A-016.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -231,6 +279,9 @@ material LabeledBox/A-017
       texture_unit
       {
         texture A-017.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -245,6 +296,9 @@ material LabeledBox/A-018
       texture_unit
       {
         texture A-018.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -259,6 +313,9 @@ material LabeledBox/A-019
       texture_unit
       {
         texture A-019.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -273,6 +330,9 @@ material LabeledBox/A-020
       texture_unit
       {
         texture A-020.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -287,6 +347,9 @@ material LabeledBox/A-021
       texture_unit
       {
         texture A-021.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -301,6 +364,9 @@ material LabeledBox/A-022
       texture_unit
       {
         texture A-022.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -315,6 +381,9 @@ material LabeledBox/A-023
       texture_unit
       {
         texture A-023.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -329,6 +398,9 @@ material LabeledBox/A-024
       texture_unit
       {
         texture A-024.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -343,6 +415,9 @@ material LabeledBox/A-025
       texture_unit
       {
         texture A-025.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -357,6 +432,9 @@ material LabeledBox/A-026
       texture_unit
       {
         texture A-026.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -371,6 +449,9 @@ material LabeledBox/A-027
       texture_unit
       {
         texture A-027.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -385,6 +466,9 @@ material LabeledBox/A-028
       texture_unit
       {
         texture A-028.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -399,6 +483,9 @@ material LabeledBox/A-029
       texture_unit
       {
         texture A-029.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -413,6 +500,9 @@ material LabeledBox/A-030
       texture_unit
       {
         texture A-030.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -427,6 +517,9 @@ material LabeledBox/A-031
       texture_unit
       {
         texture A-031.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -441,6 +534,9 @@ material LabeledBox/A-032
       texture_unit
       {
         texture A-032.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -455,6 +551,9 @@ material LabeledBox/A-033
       texture_unit
       {
         texture A-033.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -469,6 +568,9 @@ material LabeledBox/A-034
       texture_unit
       {
         texture A-034.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -483,6 +585,9 @@ material LabeledBox/A-035
       texture_unit
       {
         texture A-035.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -497,6 +602,9 @@ material LabeledBox/A-036
       texture_unit
       {
         texture A-036.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -511,6 +619,9 @@ material LabeledBox/A-037
       texture_unit
       {
         texture A-037.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -525,6 +636,9 @@ material LabeledBox/A-038
       texture_unit
       {
         texture A-038.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -539,6 +653,9 @@ material LabeledBox/A-039
       texture_unit
       {
         texture A-039.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -553,6 +670,9 @@ material LabeledBox/A-040
       texture_unit
       {
         texture A-040.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -567,6 +687,9 @@ material LabeledBox/A-041
       texture_unit
       {
         texture A-041.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -581,6 +704,9 @@ material LabeledBox/A-042
       texture_unit
       {
         texture A-042.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -595,6 +721,9 @@ material LabeledBox/A-043
       texture_unit
       {
         texture A-043.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -609,6 +738,9 @@ material LabeledBox/A-044
       texture_unit
       {
         texture A-044.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -623,6 +755,9 @@ material LabeledBox/A-045
       texture_unit
       {
         texture A-045.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -637,6 +772,9 @@ material LabeledBox/A-046
       texture_unit
       {
         texture A-046.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -651,6 +789,9 @@ material LabeledBox/A-047
       texture_unit
       {
         texture A-047.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -665,6 +806,9 @@ material LabeledBox/A-048
       texture_unit
       {
         texture A-048.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -679,6 +823,9 @@ material LabeledBox/A-049
       texture_unit
       {
         texture A-049.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -693,6 +840,9 @@ material LabeledBox/A-050
       texture_unit
       {
         texture A-050.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -707,6 +857,9 @@ material LabeledBox/A-051
       texture_unit
       {
         texture A-051.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -721,6 +874,9 @@ material LabeledBox/A-052
       texture_unit
       {
         texture A-052.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -735,6 +891,9 @@ material LabeledBox/A-053
       texture_unit
       {
         texture A-053.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -749,6 +908,9 @@ material LabeledBox/A-054
       texture_unit
       {
         texture A-054.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -763,6 +925,9 @@ material LabeledBox/A-055
       texture_unit
       {
         texture A-055.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -777,6 +942,9 @@ material LabeledBox/A-056
       texture_unit
       {
         texture A-056.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -791,6 +959,9 @@ material LabeledBox/A-057
       texture_unit
       {
         texture A-057.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -805,6 +976,9 @@ material LabeledBox/A-058
       texture_unit
       {
         texture A-058.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -819,6 +993,9 @@ material LabeledBox/A-059
       texture_unit
       {
         texture A-059.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -833,6 +1010,9 @@ material LabeledBox/A-060
       texture_unit
       {
         texture A-060.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -847,6 +1027,9 @@ material LabeledBox/A-061
       texture_unit
       {
         texture A-061.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -861,6 +1044,9 @@ material LabeledBox/A-062
       texture_unit
       {
         texture A-062.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -875,6 +1061,9 @@ material LabeledBox/A-063
       texture_unit
       {
         texture A-063.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -889,6 +1078,9 @@ material LabeledBox/A-064
       texture_unit
       {
         texture A-064.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -903,6 +1095,9 @@ material LabeledBox/A-065
       texture_unit
       {
         texture A-065.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -917,6 +1112,9 @@ material LabeledBox/A-066
       texture_unit
       {
         texture A-066.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -931,6 +1129,9 @@ material LabeledBox/A-067
       texture_unit
       {
         texture A-067.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -945,6 +1146,9 @@ material LabeledBox/A-068
       texture_unit
       {
         texture A-068.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -959,6 +1163,9 @@ material LabeledBox/A-069
       texture_unit
       {
         texture A-069.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -973,6 +1180,9 @@ material LabeledBox/A-070
       texture_unit
       {
         texture A-070.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -987,6 +1197,9 @@ material LabeledBox/A-071
       texture_unit
       {
         texture A-071.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1001,6 +1214,9 @@ material LabeledBox/A-072
       texture_unit
       {
         texture A-072.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1015,6 +1231,9 @@ material LabeledBox/A-073
       texture_unit
       {
         texture A-073.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1029,6 +1248,9 @@ material LabeledBox/A-074
       texture_unit
       {
         texture A-074.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1043,6 +1265,9 @@ material LabeledBox/A-075
       texture_unit
       {
         texture A-075.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1057,6 +1282,9 @@ material LabeledBox/A-076
       texture_unit
       {
         texture A-076.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1071,6 +1299,9 @@ material LabeledBox/A-077
       texture_unit
       {
         texture A-077.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1085,6 +1316,9 @@ material LabeledBox/A-078
       texture_unit
       {
         texture A-078.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1099,6 +1333,9 @@ material LabeledBox/A-079
       texture_unit
       {
         texture A-079.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1113,6 +1350,9 @@ material LabeledBox/A-080
       texture_unit
       {
         texture A-080.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1127,6 +1367,9 @@ material LabeledBox/B-001
       texture_unit
       {
         texture B-001.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1141,6 +1384,9 @@ material LabeledBox/B-002
       texture_unit
       {
         texture B-002.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1155,6 +1401,9 @@ material LabeledBox/B-003
       texture_unit
       {
         texture B-003.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1169,6 +1418,9 @@ material LabeledBox/B-004
       texture_unit
       {
         texture B-004.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1183,6 +1435,9 @@ material LabeledBox/B-005
       texture_unit
       {
         texture B-005.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1197,6 +1452,9 @@ material LabeledBox/B-006
       texture_unit
       {
         texture B-006.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1211,6 +1469,9 @@ material LabeledBox/B-007
       texture_unit
       {
         texture B-007.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1225,6 +1486,9 @@ material LabeledBox/B-008
       texture_unit
       {
         texture B-008.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1239,6 +1503,9 @@ material LabeledBox/B-009
       texture_unit
       {
         texture B-009.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1253,6 +1520,9 @@ material LabeledBox/B-010
       texture_unit
       {
         texture B-010.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1267,6 +1537,9 @@ material LabeledBox/B-011
       texture_unit
       {
         texture B-011.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1281,6 +1554,9 @@ material LabeledBox/B-012
       texture_unit
       {
         texture B-012.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1295,6 +1571,9 @@ material LabeledBox/B-013
       texture_unit
       {
         texture B-013.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1309,6 +1588,9 @@ material LabeledBox/B-014
       texture_unit
       {
         texture B-014.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1323,6 +1605,9 @@ material LabeledBox/B-015
       texture_unit
       {
         texture B-015.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1337,6 +1622,9 @@ material LabeledBox/B-016
       texture_unit
       {
         texture B-016.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1351,6 +1639,9 @@ material LabeledBox/B-017
       texture_unit
       {
         texture B-017.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1365,6 +1656,9 @@ material LabeledBox/B-018
       texture_unit
       {
         texture B-018.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1379,6 +1673,9 @@ material LabeledBox/B-019
       texture_unit
       {
         texture B-019.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1393,6 +1690,9 @@ material LabeledBox/B-020
       texture_unit
       {
         texture B-020.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1407,6 +1707,9 @@ material LabeledBox/B-021
       texture_unit
       {
         texture B-021.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1421,6 +1724,9 @@ material LabeledBox/B-022
       texture_unit
       {
         texture B-022.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1435,6 +1741,9 @@ material LabeledBox/B-023
       texture_unit
       {
         texture B-023.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1449,6 +1758,9 @@ material LabeledBox/B-024
       texture_unit
       {
         texture B-024.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1463,6 +1775,9 @@ material LabeledBox/B-025
       texture_unit
       {
         texture B-025.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1477,6 +1792,9 @@ material LabeledBox/B-026
       texture_unit
       {
         texture B-026.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1491,6 +1809,9 @@ material LabeledBox/B-027
       texture_unit
       {
         texture B-027.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1505,6 +1826,9 @@ material LabeledBox/B-028
       texture_unit
       {
         texture B-028.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1519,6 +1843,9 @@ material LabeledBox/B-029
       texture_unit
       {
         texture B-029.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1533,6 +1860,9 @@ material LabeledBox/B-030
       texture_unit
       {
         texture B-030.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1547,6 +1877,9 @@ material LabeledBox/B-031
       texture_unit
       {
         texture B-031.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1561,6 +1894,9 @@ material LabeledBox/B-032
       texture_unit
       {
         texture B-032.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1575,6 +1911,9 @@ material LabeledBox/B-033
       texture_unit
       {
         texture B-033.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1589,6 +1928,9 @@ material LabeledBox/B-034
       texture_unit
       {
         texture B-034.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1603,6 +1945,9 @@ material LabeledBox/B-035
       texture_unit
       {
         texture B-035.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1617,6 +1962,9 @@ material LabeledBox/B-036
       texture_unit
       {
         texture B-036.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1631,6 +1979,9 @@ material LabeledBox/B-037
       texture_unit
       {
         texture B-037.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1645,6 +1996,9 @@ material LabeledBox/B-038
       texture_unit
       {
         texture B-038.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1659,6 +2013,9 @@ material LabeledBox/B-039
       texture_unit
       {
         texture B-039.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1673,6 +2030,9 @@ material LabeledBox/B-040
       texture_unit
       {
         texture B-040.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1687,6 +2047,9 @@ material LabeledBox/B-041
       texture_unit
       {
         texture B-041.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1701,6 +2064,9 @@ material LabeledBox/B-042
       texture_unit
       {
         texture B-042.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1715,6 +2081,9 @@ material LabeledBox/B-043
       texture_unit
       {
         texture B-043.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1729,6 +2098,9 @@ material LabeledBox/B-044
       texture_unit
       {
         texture B-044.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1743,6 +2115,9 @@ material LabeledBox/B-045
       texture_unit
       {
         texture B-045.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1757,6 +2132,9 @@ material LabeledBox/B-046
       texture_unit
       {
         texture B-046.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1771,6 +2149,9 @@ material LabeledBox/B-047
       texture_unit
       {
         texture B-047.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1785,6 +2166,9 @@ material LabeledBox/B-048
       texture_unit
       {
         texture B-048.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1799,6 +2183,9 @@ material LabeledBox/B-049
       texture_unit
       {
         texture B-049.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1813,6 +2200,9 @@ material LabeledBox/B-050
       texture_unit
       {
         texture B-050.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1827,6 +2217,9 @@ material LabeledBox/B-051
       texture_unit
       {
         texture B-051.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1841,6 +2234,9 @@ material LabeledBox/B-052
       texture_unit
       {
         texture B-052.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1855,6 +2251,9 @@ material LabeledBox/B-053
       texture_unit
       {
         texture B-053.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1869,6 +2268,9 @@ material LabeledBox/B-054
       texture_unit
       {
         texture B-054.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1883,6 +2285,9 @@ material LabeledBox/B-055
       texture_unit
       {
         texture B-055.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1897,6 +2302,9 @@ material LabeledBox/B-056
       texture_unit
       {
         texture B-056.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1911,6 +2319,9 @@ material LabeledBox/B-057
       texture_unit
       {
         texture B-057.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1925,6 +2336,9 @@ material LabeledBox/B-058
       texture_unit
       {
         texture B-058.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1939,6 +2353,9 @@ material LabeledBox/B-059
       texture_unit
       {
         texture B-059.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1953,6 +2370,9 @@ material LabeledBox/B-060
       texture_unit
       {
         texture B-060.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1967,6 +2387,9 @@ material LabeledBox/B-061
       texture_unit
       {
         texture B-061.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1981,6 +2404,9 @@ material LabeledBox/B-062
       texture_unit
       {
         texture B-062.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -1995,6 +2421,9 @@ material LabeledBox/B-063
       texture_unit
       {
         texture B-063.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2009,6 +2438,9 @@ material LabeledBox/B-064
       texture_unit
       {
         texture B-064.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2023,6 +2455,9 @@ material LabeledBox/B-065
       texture_unit
       {
         texture B-065.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2037,6 +2472,9 @@ material LabeledBox/B-066
       texture_unit
       {
         texture B-066.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2051,6 +2489,9 @@ material LabeledBox/B-067
       texture_unit
       {
         texture B-067.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2065,6 +2506,9 @@ material LabeledBox/B-068
       texture_unit
       {
         texture B-068.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2079,6 +2523,9 @@ material LabeledBox/B-069
       texture_unit
       {
         texture B-069.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2093,6 +2540,9 @@ material LabeledBox/B-070
       texture_unit
       {
         texture B-070.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2107,6 +2557,9 @@ material LabeledBox/B-071
       texture_unit
       {
         texture B-071.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2121,6 +2574,9 @@ material LabeledBox/B-072
       texture_unit
       {
         texture B-072.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2135,6 +2591,9 @@ material LabeledBox/B-073
       texture_unit
       {
         texture B-073.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2149,6 +2608,9 @@ material LabeledBox/B-074
       texture_unit
       {
         texture B-074.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2163,6 +2625,9 @@ material LabeledBox/B-075
       texture_unit
       {
         texture B-075.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2177,6 +2642,9 @@ material LabeledBox/B-076
       texture_unit
       {
         texture B-076.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2191,6 +2659,9 @@ material LabeledBox/B-077
       texture_unit
       {
         texture B-077.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2205,6 +2676,9 @@ material LabeledBox/B-078
       texture_unit
       {
         texture B-078.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2219,6 +2693,9 @@ material LabeledBox/B-079
       texture_unit
       {
         texture B-079.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2233,6 +2710,9 @@ material LabeledBox/B-080
       texture_unit
       {
         texture B-080.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2247,6 +2727,9 @@ material LabeledBox/B-081
       texture_unit
       {
         texture B-081.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2261,6 +2744,9 @@ material LabeledBox/B-082
       texture_unit
       {
         texture B-082.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2275,6 +2761,9 @@ material LabeledBox/B-083
       texture_unit
       {
         texture B-083.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2289,6 +2778,9 @@ material LabeledBox/B-084
       texture_unit
       {
         texture B-084.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2303,6 +2795,9 @@ material LabeledBox/B-085
       texture_unit
       {
         texture B-085.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2317,6 +2812,9 @@ material LabeledBox/B-086
       texture_unit
       {
         texture B-086.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2331,6 +2829,9 @@ material LabeledBox/B-087
       texture_unit
       {
         texture B-087.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2345,6 +2846,9 @@ material LabeledBox/B-088
       texture_unit
       {
         texture B-088.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2359,6 +2863,9 @@ material LabeledBox/C-001
       texture_unit
       {
         texture C-001.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2373,6 +2880,9 @@ material LabeledBox/C-002
       texture_unit
       {
         texture C-002.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2387,6 +2897,9 @@ material LabeledBox/C-003
       texture_unit
       {
         texture C-003.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2401,6 +2914,9 @@ material LabeledBox/C-004
       texture_unit
       {
         texture C-004.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2415,6 +2931,9 @@ material LabeledBox/C-005
       texture_unit
       {
         texture C-005.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2429,6 +2948,9 @@ material LabeledBox/C-006
       texture_unit
       {
         texture C-006.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2443,6 +2965,9 @@ material LabeledBox/C-007
       texture_unit
       {
         texture C-007.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2457,6 +2982,9 @@ material LabeledBox/C-008
       texture_unit
       {
         texture C-008.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2471,6 +2999,9 @@ material LabeledBox/C-009
       texture_unit
       {
         texture C-009.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2485,6 +3016,9 @@ material LabeledBox/C-010
       texture_unit
       {
         texture C-010.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2499,6 +3033,9 @@ material LabeledBox/C-011
       texture_unit
       {
         texture C-011.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2513,6 +3050,9 @@ material LabeledBox/C-012
       texture_unit
       {
         texture C-012.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2527,6 +3067,9 @@ material LabeledBox/C-013
       texture_unit
       {
         texture C-013.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2541,6 +3084,9 @@ material LabeledBox/C-014
       texture_unit
       {
         texture C-014.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2555,6 +3101,9 @@ material LabeledBox/C-015
       texture_unit
       {
         texture C-015.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2569,6 +3118,9 @@ material LabeledBox/C-016
       texture_unit
       {
         texture C-016.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2583,6 +3135,9 @@ material LabeledBox/C-017
       texture_unit
       {
         texture C-017.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2597,6 +3152,9 @@ material LabeledBox/C-018
       texture_unit
       {
         texture C-018.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2611,6 +3169,9 @@ material LabeledBox/C-019
       texture_unit
       {
         texture C-019.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2625,6 +3186,9 @@ material LabeledBox/C-020
       texture_unit
       {
         texture C-020.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2639,6 +3203,9 @@ material LabeledBox/C-021
       texture_unit
       {
         texture C-021.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2653,6 +3220,9 @@ material LabeledBox/C-022
       texture_unit
       {
         texture C-022.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2667,6 +3237,9 @@ material LabeledBox/C-023
       texture_unit
       {
         texture C-023.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2681,6 +3254,9 @@ material LabeledBox/C-024
       texture_unit
       {
         texture C-024.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2695,6 +3271,9 @@ material LabeledBox/C-025
       texture_unit
       {
         texture C-025.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2709,6 +3288,9 @@ material LabeledBox/C-026
       texture_unit
       {
         texture C-026.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2723,6 +3305,9 @@ material LabeledBox/C-027
       texture_unit
       {
         texture C-027.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2737,6 +3322,9 @@ material LabeledBox/C-028
       texture_unit
       {
         texture C-028.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2751,6 +3339,9 @@ material LabeledBox/C-029
       texture_unit
       {
         texture C-029.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2765,6 +3356,9 @@ material LabeledBox/C-030
       texture_unit
       {
         texture C-030.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2779,6 +3373,9 @@ material LabeledBox/C-031
       texture_unit
       {
         texture C-031.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2793,6 +3390,9 @@ material LabeledBox/C-032
       texture_unit
       {
         texture C-032.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2807,6 +3407,9 @@ material LabeledBox/C-033
       texture_unit
       {
         texture C-033.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2821,6 +3424,9 @@ material LabeledBox/C-034
       texture_unit
       {
         texture C-034.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2835,6 +3441,9 @@ material LabeledBox/C-035
       texture_unit
       {
         texture C-035.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2849,6 +3458,9 @@ material LabeledBox/C-036
       texture_unit
       {
         texture C-036.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2863,6 +3475,9 @@ material LabeledBox/C-037
       texture_unit
       {
         texture C-037.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2877,6 +3492,9 @@ material LabeledBox/C-038
       texture_unit
       {
         texture C-038.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2891,6 +3509,9 @@ material LabeledBox/C-039
       texture_unit
       {
         texture C-039.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2905,6 +3526,9 @@ material LabeledBox/C-040
       texture_unit
       {
         texture C-040.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2919,6 +3543,9 @@ material LabeledBox/C-041
       texture_unit
       {
         texture C-041.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2933,6 +3560,9 @@ material LabeledBox/C-042
       texture_unit
       {
         texture C-042.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2947,6 +3577,9 @@ material LabeledBox/C-043
       texture_unit
       {
         texture C-043.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2961,6 +3594,9 @@ material LabeledBox/C-044
       texture_unit
       {
         texture C-044.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2975,6 +3611,9 @@ material LabeledBox/C-045
       texture_unit
       {
         texture C-045.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -2989,6 +3628,9 @@ material LabeledBox/C-046
       texture_unit
       {
         texture C-046.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3003,6 +3645,9 @@ material LabeledBox/C-047
       texture_unit
       {
         texture C-047.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3017,6 +3662,9 @@ material LabeledBox/C-048
       texture_unit
       {
         texture C-048.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3031,6 +3679,9 @@ material LabeledBox/C-049
       texture_unit
       {
         texture C-049.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3045,6 +3696,9 @@ material LabeledBox/C-050
       texture_unit
       {
         texture C-050.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3059,6 +3713,9 @@ material LabeledBox/C-051
       texture_unit
       {
         texture C-051.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3073,6 +3730,9 @@ material LabeledBox/C-052
       texture_unit
       {
         texture C-052.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3087,6 +3747,9 @@ material LabeledBox/C-053
       texture_unit
       {
         texture C-053.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3101,6 +3764,9 @@ material LabeledBox/C-054
       texture_unit
       {
         texture C-054.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3115,6 +3781,9 @@ material LabeledBox/C-055
       texture_unit
       {
         texture C-055.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3129,6 +3798,9 @@ material LabeledBox/C-056
       texture_unit
       {
         texture C-056.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3143,6 +3815,9 @@ material LabeledBox/C-057
       texture_unit
       {
         texture C-057.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3157,6 +3832,9 @@ material LabeledBox/C-058
       texture_unit
       {
         texture C-058.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3171,6 +3849,9 @@ material LabeledBox/C-059
       texture_unit
       {
         texture C-059.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3185,6 +3866,9 @@ material LabeledBox/C-060
       texture_unit
       {
         texture C-060.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3199,6 +3883,9 @@ material LabeledBox/C-061
       texture_unit
       {
         texture C-061.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3213,6 +3900,9 @@ material LabeledBox/C-062
       texture_unit
       {
         texture C-062.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3227,6 +3917,9 @@ material LabeledBox/C-063
       texture_unit
       {
         texture C-063.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3241,6 +3934,7 @@ material LabeledBox/D-001
       texture_unit
       {
         texture D-001.jpg
+        filtering none
       }
     }
   }
@@ -3255,6 +3949,9 @@ material LabeledBox/D-002
       texture_unit
       {
         texture D-002.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3269,6 +3966,9 @@ material LabeledBox/D-003
       texture_unit
       {
         texture D-003.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3283,6 +3983,9 @@ material LabeledBox/D-004
       texture_unit
       {
         texture D-004.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3297,6 +4000,9 @@ material LabeledBox/D-005
       texture_unit
       {
         texture D-005.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3311,6 +4017,9 @@ material LabeledBox/D-006
       texture_unit
       {
         texture D-006.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3325,6 +4034,9 @@ material LabeledBox/D-007
       texture_unit
       {
         texture D-007.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3339,6 +4051,9 @@ material LabeledBox/D-008
       texture_unit
       {
         texture D-008.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3353,6 +4068,9 @@ material LabeledBox/D-009
       texture_unit
       {
         texture D-009.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3367,6 +4085,9 @@ material LabeledBox/D-010
       texture_unit
       {
         texture D-010.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3381,6 +4102,9 @@ material LabeledBox/D-011
       texture_unit
       {
         texture D-011.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3395,6 +4119,9 @@ material LabeledBox/D-012
       texture_unit
       {
         texture D-012.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3409,6 +4136,9 @@ material LabeledBox/D-013
       texture_unit
       {
         texture D-013.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3423,6 +4153,9 @@ material LabeledBox/D-014
       texture_unit
       {
         texture D-014.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3437,6 +4170,9 @@ material LabeledBox/D-015
       texture_unit
       {
         texture D-015.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3451,6 +4187,9 @@ material LabeledBox/D-016
       texture_unit
       {
         texture D-016.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3465,6 +4204,9 @@ material LabeledBox/D-017
       texture_unit
       {
         texture D-017.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3479,6 +4221,9 @@ material LabeledBox/D-018
       texture_unit
       {
         texture D-018.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3493,6 +4238,9 @@ material LabeledBox/D-019
       texture_unit
       {
         texture D-019.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3507,6 +4255,9 @@ material LabeledBox/D-020
       texture_unit
       {
         texture D-020.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3521,6 +4272,9 @@ material LabeledBox/D-021
       texture_unit
       {
         texture D-021.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3535,6 +4289,9 @@ material LabeledBox/D-022
       texture_unit
       {
         texture D-022.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3549,6 +4306,9 @@ material LabeledBox/D-023
       texture_unit
       {
         texture D-023.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3563,6 +4323,9 @@ material LabeledBox/D-024
       texture_unit
       {
         texture D-024.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3577,6 +4340,9 @@ material LabeledBox/D-025
       texture_unit
       {
         texture D-025.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3591,6 +4357,9 @@ material LabeledBox/D-026
       texture_unit
       {
         texture D-026.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3605,6 +4374,9 @@ material LabeledBox/D-027
       texture_unit
       {
         texture D-027.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3619,6 +4391,9 @@ material LabeledBox/D-028
       texture_unit
       {
         texture D-028.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3633,6 +4408,9 @@ material LabeledBox/D-029
       texture_unit
       {
         texture D-029.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3647,6 +4425,9 @@ material LabeledBox/D-030
       texture_unit
       {
         texture D-030.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3661,6 +4442,9 @@ material LabeledBox/D-031
       texture_unit
       {
         texture D-031.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3675,6 +4459,9 @@ material LabeledBox/D-032
       texture_unit
       {
         texture D-032.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3689,6 +4476,9 @@ material LabeledBox/D-033
       texture_unit
       {
         texture D-033.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3703,6 +4493,9 @@ material LabeledBox/D-034
       texture_unit
       {
         texture D-034.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3717,6 +4510,9 @@ material LabeledBox/D-035
       texture_unit
       {
         texture D-035.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3731,6 +4527,9 @@ material LabeledBox/D-036
       texture_unit
       {
         texture D-036.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3745,6 +4544,9 @@ material LabeledBox/D-037
       texture_unit
       {
         texture D-037.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3759,6 +4561,9 @@ material LabeledBox/D-038
       texture_unit
       {
         texture D-038.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3773,6 +4578,9 @@ material LabeledBox/D-039
       texture_unit
       {
         texture D-039.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3787,6 +4595,9 @@ material LabeledBox/D-040
       texture_unit
       {
         texture D-040.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3801,6 +4612,9 @@ material LabeledBox/D-041
       texture_unit
       {
         texture D-041.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3815,6 +4629,9 @@ material LabeledBox/D-042
       texture_unit
       {
         texture D-042.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3829,6 +4646,9 @@ material LabeledBox/D-043
       texture_unit
       {
         texture D-043.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3843,6 +4663,9 @@ material LabeledBox/D-044
       texture_unit
       {
         texture D-044.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3857,6 +4680,9 @@ material LabeledBox/D-045
       texture_unit
       {
         texture D-045.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3871,6 +4697,9 @@ material LabeledBox/D-046
       texture_unit
       {
         texture D-046.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3885,6 +4714,9 @@ material LabeledBox/D-047
       texture_unit
       {
         texture D-047.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3899,6 +4731,9 @@ material LabeledBox/D-048
       texture_unit
       {
         texture D-048.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3913,6 +4748,9 @@ material LabeledBox/D-049
       texture_unit
       {
         texture D-049.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3927,6 +4765,9 @@ material LabeledBox/D-050
       texture_unit
       {
         texture D-050.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3941,6 +4782,9 @@ material LabeledBox/D-051
       texture_unit
       {
         texture D-051.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3955,6 +4799,9 @@ material LabeledBox/D-052
       texture_unit
       {
         texture D-052.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3969,6 +4816,9 @@ material LabeledBox/D-053
       texture_unit
       {
         texture D-053.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3983,6 +4833,9 @@ material LabeledBox/D-054
       texture_unit
       {
         texture D-054.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -3997,6 +4850,9 @@ material LabeledBox/D-055
       texture_unit
       {
         texture D-055.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -4011,6 +4867,9 @@ material LabeledBox/D-056
       texture_unit
       {
         texture D-056.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -4025,6 +4884,9 @@ material LabeledBox/D-057
       texture_unit
       {
         texture D-057.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -4039,6 +4901,9 @@ material LabeledBox/D-058
       texture_unit
       {
         texture D-058.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -4053,6 +4918,9 @@ material LabeledBox/D-059
       texture_unit
       {
         texture D-059.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -4067,6 +4935,9 @@ material LabeledBox/D-060
       texture_unit
       {
         texture D-060.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -4081,6 +4952,9 @@ material LabeledBox/D-061
       texture_unit
       {
         texture D-061.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -4095,6 +4969,9 @@ material LabeledBox/D-062
       texture_unit
       {
         texture D-062.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -4109,6 +4986,9 @@ material LabeledBox/D-063
       texture_unit
       {
         texture D-063.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -4123,6 +5003,9 @@ material LabeledBox/D-064
       texture_unit
       {
         texture D-064.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -4137,6 +5020,9 @@ material LabeledBox/D-065
       texture_unit
       {
         texture D-065.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -4151,6 +5037,9 @@ material LabeledBox/D-066
       texture_unit
       {
         texture D-066.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -4165,6 +5054,9 @@ material LabeledBox/D-067
       texture_unit
       {
         texture D-067.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }
@@ -4179,6 +5071,9 @@ material LabeledBox/D-068
       texture_unit
       {
         texture D-068.jpg
+        filtering none
+        max_anisotropy 1
+        scale 1 1
       }
     }
   }

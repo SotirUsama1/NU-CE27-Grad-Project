@@ -2,7 +2,7 @@
 # Root /controller_manager is left free for warehouse_husky.
 /mir_ur/controller_manager:
   ros__parameters:
-    update_rate: 1000
+    update_rate: 200
     use_sim_time: true
 
     joint_broadcaster:

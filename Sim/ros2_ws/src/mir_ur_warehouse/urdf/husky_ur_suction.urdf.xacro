@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!-- urdf_extras for husky.urdf.xacro: lidar + UR10e + large suction on the top plate.
+     Launch with:
+       xacro husky.urdf.xacro is_sim:=true
+         urdf_extras:=$(find mir_ur_warehouse)/urdf/husky_ur_suction.urdf.xacro
+         gazebo_controllers:=$(find warehouse_husky)/config/control.yaml
+-->
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find warehouse_husky)/urdf/husky_lidar.urdf.xacro"/>
+  <xacro:include filename="$(find mir_ur_warehouse)/urdf/clearpath_arm_extras.xacro"/>
+
+  <!-- Deck mount: top_plate is ~0.36 m above the floor; sit the arm base on it. -->
+  <xacro:clearpath_ur_suction
+    parent="top_plate_link"
+    ur_type="ur10e"
+    gripper="large"
+    ros_namespace=""
+    tf_prefix="ur_"
+    xyz="0.0 0.0 0.05"
+    yaw="${pi/2}"
+    joint_limits="$(find mir_ur_warehouse)/config/ur10e_joint_limits.yaml"/>
+
+  <!-- World pose for open-loop demos (same topic pattern as MiR ground_truth). -->
+  <gazebo>
+    <plugin name="husky_ground_truth" filename="libgazebo_ros_p3d.so">
+      <ros>
+        <namespace>/husky</namespace>
+        <remapping>odom:=ground_truth</remapping>
+      </ros>
+      <body_name>base_link</body_name>
+      <frame_name>world</frame_name>
+      <update_rate>20</update_rate>
+    </plugin>
+  </gazebo>
+</robot>
+

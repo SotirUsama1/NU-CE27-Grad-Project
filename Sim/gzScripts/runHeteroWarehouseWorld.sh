@@ -1,24 +1,26 @@
 #!/usr/bin/env bash
 # Heterogeneous warehouse world (branch: hetero-warehouse-world)
-#   Our_Structured_Warehouse + 2x MiR/UR with suction grippers
-#   Same world Husky and Jackal already use on sotirusama/gzclassic:devvv
+#   Our_Structured_Warehouse + 2x MiR/UR + Husky/Jackal with UR+suction
 #
 # Build the image once:
 #   docker build -f Sim/gzScripts/Dockerfile.hetero -t gzclassic-hetero:latest Sim/gzScripts
 #
 # Usage:
 #   ./Sim/gzScripts/runHeteroWarehouseWorld.sh [--rebuild] [launch args...]
-#
-# Then in other terminals (same container):
-#   docker exec -it hetero_warehouse_sim bash
-#   ros2 launch warehouse_husky husky.launch.py start_gazebo:=false
-#   ros2 launch warehouse_husky jackal_spawn.launch.py
+# Spawns: Gazebo + 2x MiR (suction) + Husky (UR10e+large) + Jackal (UR5e+small).
 set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 SIM_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 REPO_DIR="$(cd "${SIM_DIR}/.." && pwd)"
 IMAGE=gzclassic-hetero:latest
 WORLD=/workspace/worlds/Our_Structured_Warehouse/Our_Structured_Warehouse.world
+# Open-floor poses — clear of zone-A racks (A1–A4 near x≈6,y≈0) and MiR docks.
+HUSKY_X="${HUSKY_X:--1.5}"
+HUSKY_Y="${HUSKY_Y:-2.0}"
+HUSKY_YAW="${HUSKY_YAW:-0.0}"
+JACKAL_X="${JACKAL_X:-0.0}"
+JACKAL_Y="${JACKAL_Y:-8.0}"
+JACKAL_YAW="${JACKAL_YAW:-0.0}"
 MIR_PACKAGES=(mir_ur_warehouse mir_description ur_description realsense2_description
               realsense_gazebo_plugin robotiq_description ira_laser_tools)
 
@@ -49,28 +51,22 @@ if [ -d "${SIM_DIR}/ros2_ws/install/forklift_robot" ] || \
            "${SIM_DIR}/ros2_ws/build/forklift_robot"
 fi
 
-NEED_MIR=0
-HETERO_LAUNCH="${SIM_DIR}/ros2_ws/install/mir_ur_warehouse/share/mir_ur_warehouse/launch/hetero_warehouse.launch.py"
-if [ ! -f "${SIM_DIR}/ros2_ws/install/setup.bash" ] || \
-   [ ! -d "${SIM_DIR}/ros2_ws/install/mir_ur_warehouse" ] || \
-   [ ! -f "${HETERO_LAUNCH}" ]; then
-    NEED_MIR=1
-fi
-if [ "${NEED_MIR}" = "1" ]; then
-    echo "[INFO] Building MiR workspace (Sim/ros2_ws)..."
-    docker run --rm --user "$(id -u):$(id -g)" --env HOME=/tmp \
-        --volume="${SIM_DIR}/ros2_ws:/workspace/ros2_ws:rw" \
-        "${IMAGE}" \
-        bash -c 'source /opt/ros/humble/setup.bash && cd /workspace/ros2_ws && \
-                 colcon build --symlink-install --packages-up-to '"${MIR_PACKAGES[*]}"
-fi
+# Always rebuild mir_ur_warehouse so new arm xacros / controller YAMLs are installed.
+echo "[INFO] Building MiR workspace (Sim/ros2_ws)..."
+docker run --rm --user "$(id -u):$(id -g)" --env HOME=/tmp \
+    --volume="${SIM_DIR}/ros2_ws:/workspace/ros2_ws:rw" \
+    "${IMAGE}" \
+    bash -c 'source /opt/ros/humble/setup.bash && cd /workspace/ros2_ws && \
+             colcon build --symlink-install --packages-up-to '"${MIR_PACKAGES[*]}"
 
 echo "[INFO] Building warehouse_husky (Sim/ros_ws)..."
 docker run --rm --user "$(id -u):$(id -g)" --env HOME=/tmp \
     --volume="${SIM_DIR}/ros_ws:/main/ros_ws:rw" \
+    --volume="${SIM_DIR}/ros2_ws:/workspace/ros2_ws:rw" \
     "${IMAGE}" \
     bash -c 'source /opt/ros/humble/setup.bash && \
              source /opt/ros2_robots/install/setup.bash && \
+             source /workspace/ros2_ws/install/setup.bash && \
              cd /main/ros_ws && colcon build --symlink-install --packages-select warehouse_husky'
 
 xhost +local:docker >/dev/null 2>&1
@@ -107,10 +103,16 @@ if pgrep -a gzserver >/dev/null 2>&1 || pgrep -a gzclient >/dev/null 2>&1; then
     sleep 1
 fi
 
-echo "[INFO] Launching hetero warehouse (2x MiR suction + shared Husky/Jackal world)"
+echo "[INFO] Launching hetero warehouse (2x MiR + Husky + Jackal)"
 echo "[INFO] Container: hetero_warehouse_sim"
 
-docker run -it --rm \
+# -it when a TTY is attached; plain -i otherwise (CI / agent / nohup).
+DOCKER_TTY=(-i)
+if [ -t 0 ] && [ -t 1 ]; then
+    DOCKER_TTY=(-it)
+fi
+
+docker run "${DOCKER_TTY[@]}" --rm \
     --name hetero_warehouse_sim \
     --ulimit "nofile=${NOFILE_LIMIT}:${NOFILE_LIMIT}" \
     "${GPU_ARGS[@]}" \
@@ -132,8 +134,42 @@ docker run -it --rm \
              source /opt/ros2_robots/install/setup.bash
              source /main/ros_ws/install/setup.bash
              source /workspace/ros2_ws/install/setup.bash
-             export GAZEBO_MODEL_PATH="$GAZEBO_MODEL_PATH:/workspace/models"
+             # model://husky_description|jackal_description needs the *share*
+             # parents on GAZEBO_MODEL_PATH before gzserver starts, or meshes
+             # resolve empty and the robots spawn invisible.
+             HUSKY_SHARE="$(ros2 pkg prefix husky_description)/share"
+             JACKAL_SHARE="$(ros2 pkg prefix jackal_description)/share"
+             UR_SHARE="$(ros2 pkg prefix ur_description)/share"
+             export GAZEBO_MODEL_PATH="$GAZEBO_MODEL_PATH:${HUSKY_SHARE}:${JACKAL_SHARE}:${UR_SHARE}:/workspace/models"
              export GAZEBO_RESOURCE_PATH="$GAZEBO_RESOURCE_PATH:/workspace"
              export GAZEBO_MODEL_DATABASE_URI=
-             exec ros2 launch mir_ur_warehouse hetero_warehouse.launch.py \
-               world:="'"${WORLD}"'" "$@"' -- "$@"
+
+             ros2 launch mir_ur_warehouse hetero_warehouse.launch.py \
+               world:="'"${WORLD}"'" "$@" &
+             MIR_PID=$!
+
+             # Wait until both MiR arms are up (second robot spawns after the first).
+             echo "[INFO] Waiting for MiR controllers before spawning Husky/Jackal..."
+             for i in $(seq 1 180); do
+               if ros2 control list_controllers --controller-manager /mir_light/controller_manager 2>/dev/null \
+                    | grep -q joint_trajectory_controller; then
+                 break
+               fi
+               sleep 1
+             done
+             sleep 5
+
+             echo "[INFO] Spawning Husky at ('"${HUSKY_X}"', '"${HUSKY_Y}"')"
+             ros2 launch warehouse_husky husky.launch.py start_gazebo:=false \
+               x:="'"${HUSKY_X}"'" y:="'"${HUSKY_Y}"'" yaw:="'"${HUSKY_YAW}"'" &
+             HUSKY_PID=$!
+
+             # Let Husky claim /controller_manager before Jackal appears.
+             sleep 8
+
+             echo "[INFO] Spawning Jackal at ('"${JACKAL_X}"', '"${JACKAL_Y}"')"
+             ros2 launch warehouse_husky jackal_spawn.launch.py \
+               x:="'"${JACKAL_X}"'" y:="'"${JACKAL_Y}"'" yaw:="'"${JACKAL_YAW}"'" &
+             JACKAL_PID=$!
+
+             wait $MIR_PID' -- "$@"

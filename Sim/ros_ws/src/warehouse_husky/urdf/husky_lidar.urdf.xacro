@@ -26,12 +26,12 @@
   <gazebo reference="laser_link">
     <sensor name="laser" type="ray">
       <always_on>true</always_on>
-      <update_rate>15</update_rate>
+      <update_rate>5</update_rate>
       <visualize>false</visualize>
       <ray>
         <scan>
           <horizontal>
-            <samples>720</samples>
+            <samples>180</samples>
             <resolution>1</resolution>
             <min_angle>-3.14159</min_angle>
             <max_angle>3.14159</max_angle>

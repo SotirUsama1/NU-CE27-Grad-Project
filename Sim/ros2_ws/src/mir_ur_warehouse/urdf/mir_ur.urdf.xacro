@@ -211,7 +211,7 @@
       </ros>
       <body_name>${prefix}base_footprint</body_name>
       <frame_name>world</frame_name>
-      <update_rate>50</update_rate>
+      <update_rate>20</update_rate>
     </plugin>
   </gazebo>
 

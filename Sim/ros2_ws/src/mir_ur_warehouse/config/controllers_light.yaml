@@ -3,7 +3,7 @@
 # Odometry tf is off so the two bases do not both publish odom -> base_footprint.
 /mir_light/controller_manager:
   ros__parameters:
-    update_rate: 1000
+    update_rate: 200
     use_sim_time: true
 
     joint_broadcaster:

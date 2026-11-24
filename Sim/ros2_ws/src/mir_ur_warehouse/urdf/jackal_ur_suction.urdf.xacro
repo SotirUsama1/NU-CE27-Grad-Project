@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!-- JACKAL_URDF_EXTRAS content: UR5e + small (6-cup) suction on mid_mount.
+     Also used by jackal_spawn.launch.py (sets JACKAL_URDF_EXTRAS to this file).
+-->
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+  <xacro:include filename="$(find mir_ur_warehouse)/urdf/clearpath_arm_extras.xacro"/>
+
+  <!-- mid_mount is at chassis_height (0.184 m) on chassis_link. -->
+  <xacro:clearpath_ur_suction
+    parent="mid_mount"
+    ur_type="ur5e"
+    gripper="small"
+    ros_namespace="jackal"
+    tf_prefix="ur_"
+    xyz="0.0 0.0 0.05"
+    yaw="${pi/2}"
+    joint_limits="$(find mir_ur_warehouse)/config/ur5e_joint_limits.yaml"/>
+
+  <!-- High-contrast body so the Jackal is obvious next to dark crates. -->
+  <gazebo reference="chassis_link">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+  <gazebo reference="front_fender_link">
+    <material>Gazebo/Yellow</material>
+  </gazebo>
+  <gazebo reference="rear_fender_link">
+    <material>Gazebo/Yellow</material>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="jackal_ground_truth" filename="libgazebo_ros_p3d.so">
+      <ros>
+        <namespace>/jackal</namespace>
+        <remapping>odom:=ground_truth</remapping>
+      </ros>
+      <body_name>base_link</body_name>
+      <frame_name>world</frame_name>
+      <update_rate>20</update_rate>
+    </plugin>
+  </gazebo>
+</robot>
